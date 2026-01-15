@@ -153,8 +153,6 @@ PlayerController.h / PlayerController.cpp
   - “生成・破棄” だけを意味する  
   - **Create に Load/Register を含めない（混在禁止）**
 
-> ※ユーザー原文の `Unkoad` `Destory` は誤字扱いとし、正式語彙は `Unload` `Destroy` に統一。
-
 ---
 
 ## 呼び出し順序（Application 例）
