@@ -1,18 +1,27 @@
 #pragma once
 
+#include <memory>
+
 #include "Engine/Core/IGame.h"
 #include "Engine/Resources/AssetManager.h"
 #include "Engine/Graphics/Mesh.h"
+#include "Engine/Graphics/RenderSystem.h"
 
 namespace Engine {
     class Application;
     class World;
+    class VertexShader;
+    class PixelShader;
+    class InputLayout;
 }
+
 
 namespace Game {
 
     class GameMain final : public Engine::IGame {
     public:
+        GameMain() = default;
+        ~GameMain() override = default;
 
         bool Initialize(Engine::Application& app) override;
         void Finalize() override;
@@ -32,6 +41,8 @@ namespace Game {
 		std::shared_ptr<Engine::InputLayout>    m_il;                   // 入力レイアウト
 
         Engine::Mesh                            m_mesh;
+
+        Engine::RenderItem                      m_triangleItem;
     };
 
 } // namespace Game

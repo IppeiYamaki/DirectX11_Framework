@@ -1,7 +1,7 @@
 #include "GameMain.h"
 
 #include <cstddef>
-#include <DirectXMath.h>
+#include <cstdint>
 
 #include "Engine/Core/Logger.h"
 #include "Engine/Core/Application.h"
@@ -9,13 +9,12 @@
 #include "Engine/Graphics/RenderSystem.h"
 #include "Engine/Scene/World.h"
 #include "Engine/Graphics/Shader.h"
+
 #include "Engine/Math/Vector2.h"
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Vector4.h"
 
 namespace Game {
-
-#include "Engine/Math/Vector2.h"
 
     struct VertexPosNormColorUv {
         Engine::Vector3 m_pos;
@@ -23,7 +22,6 @@ namespace Game {
         Engine::Vector4 m_color;
         Engine::Vector2 m_uv;
     };
-
 
     static Engine::VertexInputLayout CreatePosNormColorUvLayout() {
         Engine::VertexInputLayout layout;
@@ -35,7 +33,7 @@ namespace Game {
     }
 
     bool GameMain::Initialize(Engine::Application& app) {
-        Engine::Logger::Info("GameMain Initialize (Triangle)");
+        Engine::Logger::Info("GameMain Initialize (RenderQueue Triangle)");
 
         m_app = &app;
         m_world = app.GetWorld();
@@ -44,37 +42,52 @@ namespace Game {
         auto* gd = app.GetGraphicsDevice();
         if (gd == nullptr) return false;
 
-        // AssetManager 初期化
+        // Assets
         if (!m_assets.Initialize(gd->GetDevice())) return false;
         m_assets.SetBaseDirectory(L"Assets");
 
-        // Shader 読み込み（Assets/Shaders に cso がある想定）
+        // Shaders
         m_vs = m_assets.LoadVertexShader(L"Shaders/DefaultVS.cso");
         m_ps = m_assets.LoadPixelShader(L"Shaders/DefaultPS.cso");
         if (!m_vs || !m_ps) return false;
 
         // InputLayout
-        m_il = m_assets.CreateInputLayout(L"PosColor", CreatePosNormColorUvLayout(), *m_vs);
+        m_il = m_assets.CreateInputLayout(L"PosNormColorUv", CreatePosNormColorUvLayout(), *m_vs);
         if (!m_il) return false;
 
-        // 三角形（クリップ空間）
+        // Mesh (clip-space triangle)
         const VertexPosNormColorUv vertices[] = {
-            { Engine::Vector3(0.0f,  0.5f, 0.0f), Engine::Vector3(0,0,-1), Engine::Vector4(1,0,0,1), Engine::Vector2(0.5f, 0.0f) },
-            { Engine::Vector3(0.5f, -0.5f, 0.0f), Engine::Vector3(0,0,-1), Engine::Vector4(0,1,0,1), Engine::Vector2(1.0f, 1.0f) },
-            { Engine::Vector3(-0.5f, -0.5f, 0.0f), Engine::Vector3(0,0,-1), Engine::Vector4(0,0,1,1), Engine::Vector2(0.0f, 1.0f) },
+            { { 0.0f,  0.5f, 0.0f }, {0,0,-1}, {1,0,0,1}, {0.5f, 0.0f} },
+            { { 0.5f, -0.5f, 0.0f }, {0,0,-1}, {0,1,0,1}, {1.0f, 1.0f} },
+            { {-0.5f, -0.5f, 0.0f }, {0,0,-1}, {0,0,1,1}, {0.0f, 1.0f} },
         };
         const std::uint32_t indices[] = { 0, 1, 2 };
-
 
         if (!m_mesh.Create(gd->GetDevice(), vertices, sizeof(VertexPosNormColorUv), 3, indices, 3)) {
             return false;
         }
 
+        // RenderItem を組み立て（この後は毎フレーム AddRenderItem するだけ）
+        m_triangleItem = Engine::RenderItem{};
+        m_triangleItem.m_mesh = &m_mesh;
+        m_triangleItem.m_inputLayout = m_il->GetInputLayout();
+        m_triangleItem.m_vertexShader = m_vs->GetShader();
+        m_triangleItem.m_pixelShader = m_ps->GetShader();
+        m_triangleItem.m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+        // Material(b3)（Common.hlsl 仕様）
+        m_triangleItem.m_material = Engine::MaterialParams{};
+        m_triangleItem.m_material.m_baseColor = Engine::Vector4(1, 1, 1, 1);
+        m_triangleItem.m_material.m_flags = 0; // テクスチャ無し
+
+        // World は identity のまま（頂点がクリップ空間なのでOK）
+        // m_triangleItem.m_srv / m_triangleItem.m_sampler は無し
+
         return true;
     }
 
     void GameMain::Finalize() {
-        Engine::Logger::Info("GameMain Finalize (Triangle)");
+        Engine::Logger::Info("GameMain Finalize (RenderQueue Triangle)");
 
         m_mesh.Destroy();
         m_il.reset();
@@ -92,16 +105,11 @@ namespace Game {
     }
 
     void GameMain::Draw() {
-        // RenderSystem に “デバッグ描画データ” を渡す（今はここが橋渡し役）
         auto* rs = m_app->GetRenderSystem();
         if (!rs) return;
 
-        rs->SetDebugDraw(
-            &m_mesh,
-            m_il->GetInputLayout(),
-            m_vs->GetShader(),
-            m_ps->GetShader()
-        );
+        // 毎フレーム “描画要求” を積む
+        rs->AddRenderItem(m_triangleItem);
     }
 
 } // namespace Game

@@ -74,7 +74,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Assets;$(ProjectDir)Source;$(ProjectDir)Source\\ThirdParty\\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -98,7 +98,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Assets;$(ProjectDir)Source;$(ProjectDir)Source\\ThirdParty\\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -119,7 +119,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Assets;$(ProjectDir)Source;$(ProjectDir)Source\\ThirdParty\\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -143,7 +143,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Assets;$(ProjectDir)Source;$(ProjectDir)Source\\ThirdParty\\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -165,7 +165,10 @@
     <ClCompile Include="Source\Engine\Core\Logger.cpp" />
     <ClCompile Include="Source\Engine\Core\Time.cpp" />
     <ClCompile Include="Source\Engine\Graphics\GraphicsDevice.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\Material.cpp" />
     <ClCompile Include="Source\Engine\Graphics\Mesh.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\MeshFactory.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\MeshPrimitives.cpp" />
     <ClCompile Include="Source\Engine\Graphics\RenderSystem.cpp" />
     <ClCompile Include="Source\Engine\Graphics\Shader.cpp" />
     <ClCompile Include="Source\Engine\Graphics\ShaderLibrary.cpp" />
@@ -192,7 +195,10 @@
     <ClInclude Include="Source\Engine\Core\Time.h" />
     <ClInclude Include="Source\Engine\Graphics\ConstantBuffer.h" />
     <ClInclude Include="Source\Engine\Graphics\GraphicsDevice.h" />
+    <ClInclude Include="Source\Engine\Graphics\Material.h" />
     <ClInclude Include="Source\Engine\Graphics\Mesh.h" />
+    <ClInclude Include="Source\Engine\Graphics\MeshFactory.h" />
+    <ClInclude Include="Source\Engine\Graphics\MeshPrimitives.h" />
     <ClInclude Include="Source\Engine\Graphics\RenderSystem.h" />
     <ClInclude Include="Source\Engine\Graphics\Shader.h" />
     <ClInclude Include="Source\Engine\Graphics\ShaderConstants.h" />

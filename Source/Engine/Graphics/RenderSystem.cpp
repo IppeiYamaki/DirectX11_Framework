@@ -42,7 +42,6 @@ namespace Engine {
             return false;
         }
 
-        // 定数バッファ作成
         if (!m_worldCb.Create(device) ||
             !m_viewCb.Create(device) ||
             !m_projCb.Create(device) ||
@@ -53,26 +52,18 @@ namespace Engine {
             return false;
         }
 
-        // デフォルトSampler
         if (!CreateDefaultSampler(device, m_defaultSampler)) {
             Logger::Error("RenderSystem::Initialize failed: create default sampler failed.");
             Finalize();
             return false;
         }
 
-        // デフォルト定数（identity + 白）
-        m_worldData.g_world = MakeIdentityMatrix();
-        m_viewData.g_view = MakeIdentityMatrix();
-        m_projData.g_projection = MakeIdentityMatrix();
-
-        m_materialData.g_material = MaterialParams{};
-        m_materialData.g_material.m_baseColor = Vector4(1, 1, 1, 1);
-        m_materialData.g_material.m_ambient = Vector4(1, 1, 1, 1);
-        m_materialData.g_material.m_emissive = Vector4(0, 0, 0, 0);
-        m_materialData.g_material.m_flags = 0; // テクスチャ使わない
+        // Default frame constants = identity, light off
+        DirectX::XMStoreFloat4x4(&m_viewData.g_view, DirectX::XMMatrixIdentity());
+        DirectX::XMStoreFloat4x4(&m_projData.g_projection, DirectX::XMMatrixIdentity());
 
         m_lightData.g_light = DirectionalLight{};
-        m_lightData.g_light.m_flags = 0; // ライト無効（必要なら有効化）
+        m_lightData.g_light.m_flags = 0;
 
         m_isInitialized = true;
         Logger::Info("RenderSystem initialized.");
@@ -80,7 +71,7 @@ namespace Engine {
     }
 
     void RenderSystem::Finalize() {
-        ClearDebugDraw();
+        ClearRenderItems();
 
         m_defaultSampler.Reset();
 
@@ -95,101 +86,97 @@ namespace Engine {
     }
 
     void RenderSystem::Reset() {
-        // 将来：RenderQueueクリア等
+        ClearRenderItems();
     }
 
     bool RenderSystem::IsInitialized() const {
         return m_isInitialized;
     }
 
-    void RenderSystem::SetDebugDraw(
-        Mesh* mesh,
-        ID3D11InputLayout* inputLayout,
-        ID3D11VertexShader* vertexShader,
-        ID3D11PixelShader* pixelShader
-    ) {
-        m_debugMesh = mesh;
-        m_debugInputLayout = inputLayout;
-        m_debugVs = vertexShader;
-        m_debugPs = pixelShader;
+    //------------------------------------------------------------
+    // RenderQueue
+    //------------------------------------------------------------
+    void RenderSystem::AddRenderItem(const RenderItem& item) {
+        // 軽い検証：必要最低限が揃ってない場合は積まない
+        if (item.m_mesh == nullptr ||
+            item.m_inputLayout == nullptr ||
+            item.m_vertexShader == nullptr ||
+            item.m_pixelShader == nullptr) {
+            return;
+        }
+        m_renderItems.push_back(item);
     }
 
-    void RenderSystem::ClearDebugDraw() {
-        m_debugMesh = nullptr;
-        m_debugInputLayout = nullptr;
-        m_debugVs = nullptr;
-        m_debugPs = nullptr;
-
-        m_debugSrv = nullptr;
-        m_debugSamplerExternal = nullptr;
+    void RenderSystem::ClearRenderItems() {
+        m_renderItems.clear();
     }
 
-    void RenderSystem::SetDebugMatrices(const DirectX::XMFLOAT4X4& world, const DirectX::XMFLOAT4X4& view, const DirectX::XMFLOAT4X4& projection) {
-        m_worldData.g_world = world;
+    //------------------------------------------------------------
+    // Frame constants
+    //------------------------------------------------------------
+    void RenderSystem::SetViewMatrix(const DirectX::XMFLOAT4X4& view) {
         m_viewData.g_view = view;
+    }
+
+    void RenderSystem::SetProjectionMatrix(const DirectX::XMFLOAT4X4& projection) {
         m_projData.g_projection = projection;
     }
 
-    void RenderSystem::SetDebugMaterial(const MaterialParams& material) {
-        m_materialData.g_material = material;
-    }
-
-    void RenderSystem::SetDebugLight(const DirectionalLight& light) {
+    void RenderSystem::SetLight(const DirectionalLight& light) {
         m_lightData.g_light = light;
     }
 
-    void RenderSystem::SetDebugTexture(ID3D11ShaderResourceView* srv) {
-        m_debugSrv = srv;
-
-        // srvがあるならフラグも立てる運用が便利（嫌ならGame側でフラグ管理してOK）
-        if (srv) {
-            m_materialData.g_material.m_flags |= kMaterialFlagUseTexture;
-        }
-        else {
-            m_materialData.g_material.m_flags &= ~kMaterialFlagUseTexture;
-        }
-    }
-
-    void RenderSystem::SetDebugSampler(ID3D11SamplerState* sampler) {
-        m_debugSamplerExternal = sampler;
-    }
-
-    void RenderSystem::BindDebugConstantsAndResources(ID3D11DeviceContext* ctx) {
+    void RenderSystem::BindFrameConstants(ID3D11DeviceContext* ctx) {
         // Update
-        m_worldCb.Update(ctx, m_worldData);
         m_viewCb.Update(ctx, m_viewData);
         m_projCb.Update(ctx, m_projData);
-        m_materialCb.Update(ctx, m_materialData);
         m_lightCb.Update(ctx, m_lightData);
 
-        // Bind constant buffers (b0..b4)
-        ID3D11Buffer* b0 = m_worldCb.GetBuffer();
+        // Bind b1,b2,b4
         ID3D11Buffer* b1 = m_viewCb.GetBuffer();
         ID3D11Buffer* b2 = m_projCb.GetBuffer();
-        ID3D11Buffer* b3 = m_materialCb.GetBuffer();
         ID3D11Buffer* b4 = m_lightCb.GetBuffer();
 
-        // VS側：b0..b4（Lighting VS も想定して全部セット）
-        ctx->VSSetConstantBuffers(0, 1, &b0);
         ctx->VSSetConstantBuffers(1, 1, &b1);
         ctx->VSSetConstantBuffers(2, 1, &b2);
-        ctx->VSSetConstantBuffers(3, 1, &b3);
         ctx->VSSetConstantBuffers(4, 1, &b4);
 
-        // PS側：主に Material/Light（b3,b4）
-        ctx->PSSetConstantBuffers(3, 1, &b3);
         ctx->PSSetConstantBuffers(4, 1, &b4);
+    }
 
-        // Texture/Sampler（t0 / s0）
-        if (m_debugSrv) {
-            ID3D11ShaderResourceView* srv = m_debugSrv;
-            ctx->PSSetShaderResources(0, 1, &srv);
-        }
+    void RenderSystem::DrawItem(ID3D11DeviceContext* ctx, const RenderItem& item) {
+        // Per-item: World (b0)
+        WorldCB world{};
+        world.g_world = item.m_world;
+        m_worldCb.Update(ctx, world);
+        ID3D11Buffer* b0 = m_worldCb.GetBuffer();
+        ctx->VSSetConstantBuffers(0, 1, &b0);
 
-        ID3D11SamplerState* sampler = m_debugSamplerExternal ? m_debugSamplerExternal : m_defaultSampler.Get();
-        if (sampler) {
-            ctx->PSSetSamplers(0, 1, &sampler);
-        }
+        // Per-item: Material (b3)
+        MaterialCB mat{};
+        mat.g_material = item.m_material;
+        m_materialCb.Update(ctx, mat);
+        ID3D11Buffer* b3 = m_materialCb.GetBuffer();
+        ctx->VSSetConstantBuffers(3, 1, &b3);
+        ctx->PSSetConstantBuffers(3, 1, &b3);
+
+        // Pipeline
+        ctx->IASetInputLayout(item.m_inputLayout);
+        ctx->IASetPrimitiveTopology(item.m_topology);
+
+        item.m_mesh->Bind(ctx);
+
+        ctx->VSSetShader(item.m_vertexShader, nullptr, 0);
+        ctx->PSSetShader(item.m_pixelShader, nullptr, 0);
+
+        // Texture/Sampler (t0/s0)
+        ID3D11ShaderResourceView* srv = item.m_srv;
+        ctx->PSSetShaderResources(0, 1, &srv);
+
+        ID3D11SamplerState* sampler = item.m_sampler ? item.m_sampler : m_defaultSampler.Get();
+        ctx->PSSetSamplers(0, 1, &sampler);
+
+        item.m_mesh->Draw(ctx);
     }
 
     void RenderSystem::Draw(World& world) {
@@ -202,27 +189,21 @@ namespace Engine {
         ID3D11DeviceContext* ctx = m_graphicsDevice->GetContext();
         ASSERT(ctx != nullptr);
 
-        // 2) Debug draw（最小：三角形1枚）
-        if (m_debugMesh && m_debugMesh->IsValid() &&
-            m_debugInputLayout && m_debugVs && m_debugPs) {
+        // 2) Frame constants
+        BindFrameConstants(ctx);
 
-            // ★ここで定数/テクスチャを Bind（debug draw 直前）
-            BindDebugConstantsAndResources(ctx);
-
-            ctx->IASetInputLayout(m_debugInputLayout);
-            ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-            m_debugMesh->Bind(ctx);
-
-            ctx->VSSetShader(m_debugVs, nullptr, 0);
-            ctx->PSSetShader(m_debugPs, nullptr, 0);
-
-            m_debugMesh->Draw(ctx);
+        // 3) RenderQueue
+        for (const auto& item : m_renderItems) {
+            if (item.m_mesh == nullptr || !item.m_mesh->IsValid()) continue;
+            DrawItem(ctx, item);
         }
+
+        // 4) Queue clear (次フレームは再提出)
+        ClearRenderItems();
 
         (void)world;
 
-        // 3) Present
+        // 5) Present
         m_graphicsDevice->Present();
     }
 
