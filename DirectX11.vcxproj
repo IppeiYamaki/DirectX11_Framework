@@ -161,6 +161,8 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Assets\Materials\MaterialLibrary.cpp" />
+    <ClCompile Include="Assets\Materials\SampleCubeMaterial.cpp" />
     <ClCompile Include="Source\Engine\Core\Application.cpp" />
     <ClCompile Include="Source\Engine\Core\Logger.cpp" />
     <ClCompile Include="Source\Engine\Core\Time.cpp" />
@@ -176,17 +178,26 @@
     <ClCompile Include="Source\Engine\Math\Vector2.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector3.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector4.cpp" />
+    <ClCompile Include="Source\Engine\Platform\Input.cpp" />
     <ClCompile Include="Source\Engine\Platform\Window.cpp" />
     <ClCompile Include="Source\Engine\Resources\AssetManager.cpp" />
     <ClCompile Include="Source\Engine\Scene\Component.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Components\MeshRenderer.cpp" />
     <ClCompile Include="Source\Engine\Scene\Components\Transform.cpp" />
     <ClCompile Include="Source\Engine\Scene\Entity.cpp" />
     <ClCompile Include="Source\Engine\Scene\World.cpp" />
     <ClCompile Include="Source\Game\GameMain.cpp" />
-    <ClCompile Include="Source\Game\Scripts\MoveTestScript.cpp" />
+    <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp" />
+    <ClCompile Include="Source\Game\Rendering\DefaultLighting.cpp" />
+    <ClCompile Include="Source\Game\Scenes\SampleScene.cpp" />
+    <ClCompile Include="Source\Game\Scenes\SceneManager.cpp" />
+    <ClCompile Include="Source\Game\Scripts\SampleRotateComponent.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assets\Materials\MaterialBuildContext.h" />
+    <ClInclude Include="Assets\Materials\MaterialLibrary.h" />
+    <ClInclude Include="Assets\Materials\SampleCubeMaterial.h" />
     <ClInclude Include="Source\Engine\Core\Application.h" />
     <ClInclude Include="Source\Engine\Core\ApplicationSettings.h" />
     <ClInclude Include="Source\Engine\Core\Assert.h" />
@@ -210,15 +221,23 @@
     <ClInclude Include="Source\Engine\Math\Vector2.h" />
     <ClInclude Include="Source\Engine\Math\Vector3.h" />
     <ClInclude Include="Source\Engine\Math\Vector4.h" />
+    <ClInclude Include="Source\Engine\Platform\Input.h" />
     <ClInclude Include="Source\Engine\Platform\Window.h" />
     <ClInclude Include="Source\Engine\Resources\AssetManager.h" />
     <ClInclude Include="Source\Engine\Scene\Component.h" />
+    <ClInclude Include="Source\Engine\Scene\Components\MeshRenderer.h" />
     <ClInclude Include="Source\Engine\Scene\Components\ScriptComponent.h" />
     <ClInclude Include="Source\Engine\Scene\Components\Transform.h" />
     <ClInclude Include="Source\Engine\Scene\Entity.h" />
     <ClInclude Include="Source\Engine\Scene\World.h" />
     <ClInclude Include="Source\Game\GameMain.h" />
-    <ClInclude Include="Source\Game\Scripts\MoveTestScript.h" />
+    <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h" />
+    <ClInclude Include="Source\Game\Rendering\DefaultLighting.h" />
+    <ClInclude Include="Source\Game\Scenes\IScene.h" />
+    <ClInclude Include="Source\Game\Scenes\SampleScene.h" />
+    <ClInclude Include="Source\Game\Scenes\SceneContext.h" />
+    <ClInclude Include="Source\Game\Scenes\SceneManager.h" />
+    <ClInclude Include="Source\Game\Scripts\SampleRotateComponent.h" />
     <ClInclude Include="Source\ThirdParty\DirectXTex\DirectXTex.h" />
   </ItemGroup>
   <ItemGroup>

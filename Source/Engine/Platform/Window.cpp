@@ -5,6 +5,8 @@
 #include "Engine/Core/Logger.h"
 #include "Engine/Core/Assert.h"
 
+#include "Engine/Platform/Input.h"
+
 namespace Engine {
 
     Window::~Window() {
@@ -199,6 +201,13 @@ namespace Engine {
     }
 
     LRESULT Window::HandleMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+        // æ‚É Input ‚Ö’†Œpiˆ—Ï‚İ‚È‚ç‚±‚±‚ÅI—¹j
+        {
+            const auto inputResult = Input::HandleMessage(hwnd, msg, wParam, lParam);
+            if (inputResult.m_handled) {
+                return inputResult.m_result;
+            }
+        }
         switch (msg) {
         case WM_DESTROY:
             ::PostQuitMessage(0);

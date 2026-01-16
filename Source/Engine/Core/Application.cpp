@@ -6,6 +6,7 @@
 // ここは “実装側” で依存を持つ（Coreヘッダを軽く保つため）
 // ※ これらのファイルは次に Platform/Graphics/Scene 側で作成する想定です
 #include "Engine/Platform/Window.h"
+#include "Engine/Platform/Input.h"
 
 #include "Engine/Graphics/GraphicsDevice.h"
 #include "Engine/Graphics/RenderSystem.h"
@@ -49,6 +50,10 @@ namespace Engine {
             return false;
         }
 
+        // --- Input ---
+        Input::Initialize(m_window->GetHwnd());
+
+
         // --- GraphicsDevice ---
         // 想定: bool GraphicsDevice::Initialize(HWND hwnd, int w, int h, bool vsync);
         if (!m_graphicsDevice->Initialize(
@@ -90,6 +95,7 @@ namespace Engine {
             m_world.reset();
             m_renderSystem.reset();
             m_graphicsDevice.reset();
+            Input::Finalize();
             m_window.reset();
             m_time.Finalize();
             return;
@@ -142,6 +148,8 @@ namespace Engine {
 
         // メインループ
         while (!m_isQuitRequested) {
+            Input::BeginFrame();
+
             // 想定: bool Window::PumpMessages(); （false で終了）
             if (!m_window->PumpMessages()) {
                 break;

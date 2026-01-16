@@ -29,12 +29,14 @@ namespace Engine {
             return false;
         }
 
-        // デフォルト値
+        // Default params
         m_materialData.g_material = MaterialParams{};
         m_materialData.g_material.m_baseColor = Vector4(1, 1, 1, 1);
         m_materialData.g_material.m_ambient = Vector4(1, 1, 1, 1);
+        m_materialData.g_material.m_specular = Vector4(0, 0, 0, 0);
         m_materialData.g_material.m_emissive = Vector4(0, 0, 0, 0);
         m_materialData.g_material.m_flags = 0;
+        m_materialData.g_material.m_alphaCutoff = 0.5f;
 
         m_isInitialized = true;
         return true;
@@ -58,23 +60,14 @@ namespace Engine {
         return m_isInitialized;
     }
 
-    void Material::SetVertexShader(const std::shared_ptr<VertexShader>& vs) {
-        m_vs = vs;
-    }
-
-    void Material::SetPixelShader(const std::shared_ptr<PixelShader>& ps) {
-        m_ps = ps;
-    }
-
-    void Material::SetInputLayout(const std::shared_ptr<InputLayout>& inputLayout) {
-        m_inputLayout = inputLayout;
-    }
+    void Material::SetVertexShader(const std::shared_ptr<VertexShader>& vs) { m_vs = vs; }
+    void Material::SetPixelShader(const std::shared_ptr<PixelShader>& ps) { m_ps = ps; }
+    void Material::SetInputLayout(const std::shared_ptr<InputLayout>& il) { m_inputLayout = il; }
 
     void Material::SetTexture(const std::shared_ptr<Texture>& texture) {
         m_texture = texture;
 
-        // テクスチャが入ったらフラグを立てる（無ければ降ろす）
-        if (m_texture && m_texture->IsLoaded()) {
+        if (m_texture && m_texture->IsLoaded() && m_texture->GetShaderResourceView()) {
             m_materialData.g_material.m_flags |= kMaterialFlagUseTexture;
         }
         else {
@@ -86,21 +79,12 @@ namespace Engine {
         m_samplerExternal = sampler;
     }
 
-    MaterialParams& Material::GetParams() {
-        return m_materialData.g_material;
-    }
-
-    const MaterialParams& Material::GetParams() const {
-        return m_materialData.g_material;
-    }
+    MaterialParams& Material::GetParams() { return m_materialData.g_material; }
+    const MaterialParams& Material::GetParams() const { return m_materialData.g_material; }
 
     void Material::EnableTexture(bool isEnabled) {
-        if (isEnabled) {
-            m_materialData.g_material.m_flags |= kMaterialFlagUseTexture;
-        }
-        else {
-            m_materialData.g_material.m_flags &= ~kMaterialFlagUseTexture;
-        }
+        if (isEnabled) m_materialData.g_material.m_flags |= kMaterialFlagUseTexture;
+        else           m_materialData.g_material.m_flags &= ~kMaterialFlagUseTexture;
     }
 
     void Material::EnableAlphaTest(bool isEnabled, float alphaCutoff) {
@@ -114,45 +98,29 @@ namespace Engine {
     }
 
     void Material::Bind(ID3D11DeviceContext* ctx) {
-        if (!m_isInitialized) return;
-        if (ctx == nullptr) return;
+        if (!m_isInitialized || ctx == nullptr) return;
 
-        // シェーダ＆レイアウト
-        if (m_inputLayout) {
-            ctx->IASetInputLayout(m_inputLayout->GetInputLayout());
-        }
-        if (m_vs) {
-            ctx->VSSetShader(m_vs->GetShader(), nullptr, 0);
-        }
-        if (m_ps) {
-            ctx->PSSetShader(m_ps->GetShader(), nullptr, 0);
-        }
+        // Pipeline
+        if (m_inputLayout) ctx->IASetInputLayout(m_inputLayout->GetInputLayout());
+        if (m_vs) ctx->VSSetShader(m_vs->GetShader(), nullptr, 0);
+        if (m_ps) ctx->PSSetShader(m_ps->GetShader(), nullptr, 0);
 
-        // テクスチャフラグを実体に合わせて整合（事故防止）
-        const bool hasTexture = (m_texture && m_texture->IsLoaded() && m_texture->GetShaderResourceView() != nullptr);
-        if (hasTexture) {
-            m_materialData.g_material.m_flags |= kMaterialFlagUseTexture;
-        }
-        else {
-            m_materialData.g_material.m_flags &= ~kMaterialFlagUseTexture;
-        }
-
-        // b3 更新＆バインド（VS/PS両方に）
+        // b3
         m_materialCb.Update(ctx, m_materialData);
         ID3D11Buffer* b3 = m_materialCb.GetBuffer();
         ctx->VSSetConstantBuffers(3, 1, &b3);
         ctx->PSSetConstantBuffers(3, 1, &b3);
 
-        // t0 / s0
-        ID3D11ShaderResourceView* srv = hasTexture ? m_texture->GetShaderResourceView() : nullptr;
+        // t0
+        ID3D11ShaderResourceView* srv = nullptr;
+        if (m_texture && m_texture->IsLoaded()) {
+            srv = m_texture->GetShaderResourceView();
+        }
         ctx->PSSetShaderResources(0, 1, &srv);
 
+        // s0
         ID3D11SamplerState* sampler = m_samplerExternal ? m_samplerExternal : m_defaultSampler.Get();
         ctx->PSSetSamplers(0, 1, &sampler);
-    }
-
-    ID3D11InputLayout* Material::GetInputLayout() const {
-        return m_inputLayout ? m_inputLayout->GetInputLayout() : nullptr;
     }
 
     bool Material::CreateDefaultSampler(ID3D11Device* device) {

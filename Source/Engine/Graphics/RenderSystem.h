@@ -14,6 +14,7 @@ namespace Engine {
     class GraphicsDevice;
     class World;
     class Mesh;
+	class Material;
 
     /**
      * @brief RenderSystem へ渡す描画要求（RenderQueueの1要素）
@@ -23,18 +24,10 @@ namespace Engine {
      * - Texture(t0)/Sampler(s0) も必要ならここで指定
      */
     struct RenderItem final {
-        Mesh* m_mesh = nullptr;            // non-owning
-        ID3D11InputLayout* m_inputLayout = nullptr;     // non-owning
-        ID3D11VertexShader* m_vertexShader = nullptr;    // non-owning
-        ID3D11PixelShader* m_pixelShader = nullptr;     // non-owning
-
-        // Per-item constants
-        DirectX::XMFLOAT4X4 m_world{};
-        MaterialParams      m_material{};
-        ID3D11ShaderResourceView* m_srv = nullptr;       // non-owning (t0)
-        ID3D11SamplerState* m_sampler = nullptr;   // non-owning (s0). nullなら内部デフォルト
-
-        D3D11_PRIMITIVE_TOPOLOGY m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+        Mesh*                       m_mesh      = nullptr;           // non-owning
+        Material*                   m_material  = nullptr;   // non-owning
+        DirectX::XMFLOAT4X4         m_world{};
+        D3D11_PRIMITIVE_TOPOLOGY    m_topology  = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
         RenderItem() {
             DirectX::XMStoreFloat4x4(&m_world, DirectX::XMMatrixIdentity());
@@ -94,13 +87,12 @@ namespace Engine {
         bool                            m_isInitialized         = false;
 
         // Queue
-        std::vector<RenderItem>         m_renderItems;
+        std::vector<RenderItem>         m_items;
 
         // Debug constant buffers
         ConstantBuffer<WorldCB>         m_worldCb;          // b0 (per item)
 		ConstantBuffer<ViewCB>          m_viewCb;           // b1 (per frame)
         ConstantBuffer<ProjectionCB>    m_projCb;           // b2 (per frame)
-        ConstantBuffer<MaterialCB>      m_materialCb;       // b3 (per item)
         ConstantBuffer<LightCB>         m_lightCb;          // b4 (per frame)
 
         // constant data
@@ -108,8 +100,6 @@ namespace Engine {
         ProjectionCB                    m_projData{};
         LightCB                         m_lightData{};
 
-        // Internal default sampler (owning)
-        Microsoft::WRL::ComPtr<ID3D11SamplerState> m_defaultSampler;
 
     private:
         static constexpr float kDefaultClearColor[4] = { 0.10f, 0.10f, 0.18f, 1.0f };

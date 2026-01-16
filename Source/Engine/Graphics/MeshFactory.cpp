@@ -1,3 +1,4 @@
+#define NOMINMAX
 #include "MeshFactory.h"
 
 #include "Engine/Graphics/MeshPrimitives.h"
@@ -5,28 +6,14 @@
 namespace Engine {
 
     bool MeshFactory::Create(ID3D11Device* device, Mesh& outMesh, MeshType type) {
-        // デフォルト値は “Unityのプリミティブ生成” に寄せる
         switch (type) {
-        case MeshType::Quad:
-            return MeshPrimitives::CreateQuad(device, outMesh, 1.0f, 1.0f);
-
-        case MeshType::Cube:
-            return MeshPrimitives::CreateCube(device, outMesh, 1.0f, 1.0f, 1.0f);
-
-        case MeshType::Plane:
-            return MeshPrimitives::CreatePlaneGrid(device, outMesh, 10.0f, 10.0f, 10, 10);
-
-        case MeshType::Sphere:
-            // Sphere はまず UV sphere を標準に（Unityっぽい）
-            return MeshPrimitives::CreateSphereUv(device, outMesh, 0.5f, 32, 16);
-
-        case MeshType::Capsule:
-            return MeshPrimitives::CreateCapsule(device, outMesh, 0.5f, 2.0f, 32, 8, 4);
-
-        default:
-            break;
+        case MeshType::Quad:    return MeshPrimitives::CreateQuad(device, outMesh, 1.0f, 1.0f);
+        case MeshType::Cube:    return MeshPrimitives::CreateCube(device, outMesh, 1.0f, 1.0f, 1.0f);
+        case MeshType::Plane:   return MeshPrimitives::CreatePlaneGrid(device, outMesh, 10.0f, 10.0f, 10, 10);
+        case MeshType::Sphere:  return MeshPrimitives::CreateSphereUv(device, outMesh, 0.5f, 32, 16);
+        case MeshType::Capsule: return MeshPrimitives::CreateCapsule(device, outMesh, 0.5f, 2.0f, 32, 8, 4);
+        default: break;
         }
-
         return false;
     }
 
@@ -36,32 +23,23 @@ namespace Engine {
             return MeshPrimitives::CreateQuad(device, outMesh, desc.m_width, desc.m_height);
 
         case MeshType::Cube:
-            // Cubeは width/height/depth を使う（sizeX/Y/Z）
             return MeshPrimitives::CreateCube(device, outMesh, desc.m_width, desc.m_height, desc.m_depth);
 
         case MeshType::Plane:
             return MeshPrimitives::CreatePlaneGrid(device, outMesh, desc.m_width, desc.m_depth, desc.m_gridX, desc.m_gridZ);
 
         case MeshType::Sphere:
-            if (desc.m_sphereKind == MeshCreateDesc::SphereKind::Ico) {
+            if (desc.m_sphereKind == MeshCreateDesc::SphereKind::Ico)
                 return MeshPrimitives::CreateSphereIco(device, outMesh, desc.m_radius, desc.m_subdivisions);
-            }
             return MeshPrimitives::CreateSphereUv(device, outMesh, desc.m_radius, desc.m_slices, desc.m_stacks);
 
         case MeshType::Capsule:
-            return MeshPrimitives::CreateCapsule(
-                device, outMesh,
-                desc.m_radius,
-                desc.m_capsuleHeight,
-                desc.m_slices,
-                desc.m_stacksHemisphere,
-                desc.m_stacksCylinder
-            );
+            return MeshPrimitives::CreateCapsule(device, outMesh, desc.m_radius, desc.m_capsuleHeight,
+                desc.m_slices, desc.m_stacksHemisphere, desc.m_stacksCylinder);
 
         default:
             break;
         }
-
         return false;
     }
 

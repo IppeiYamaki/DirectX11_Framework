@@ -55,6 +55,21 @@
     <Filter Include="Assets\Shaders\Common">
       <UniqueIdentifier>{596dcf62-2d2b-4c42-b86e-0d2d7791897e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Materials">
+      <UniqueIdentifier>{e3ec30db-8447-4d0c-a325-3d85bde7fc93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Prefabs">
+      <UniqueIdentifier>{a1739fff-bfd9-4a7e-84de-4704b07bbc1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Scenes\Base">
+      <UniqueIdentifier>{6c414585-dff1-40d8-94aa-38f8e58c824f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Materials\Base">
+      <UniqueIdentifier>{171ef8b8-d9a9-4927-ac17-b2a7695f44c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Rendering">
+      <UniqueIdentifier>{ed196f9c-3869-41d5-80fc-a1bc2555ac0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\Core\Logger.cpp">
@@ -89,9 +104,6 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Math\Vector3.cpp">
       <Filter>Source\Engine\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Scripts\MoveTestScript.cpp">
-      <Filter>Source\Game\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameMain.cpp">
       <Filter>Source\Game</Filter>
@@ -128,6 +140,33 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Graphics\MeshFactory.cpp">
       <Filter>Source\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\Components\MeshRenderer.cpp">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Scenes\SampleScene.cpp">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Materials\SampleCubeMaterial.cpp">
+      <Filter>Assets\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Scripts\SampleRotateComponent.cpp">
+      <Filter>Source\Game\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp">
+      <Filter>Source\Game\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Platform\Input.cpp">
+      <Filter>Source\Engine\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Scenes\SceneManager.cpp">
+      <Filter>Source\Game\Scenes\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Materials\MaterialLibrary.cpp">
+      <Filter>Assets\Materials\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Rendering\DefaultLighting.cpp">
+      <Filter>Source\Game\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +214,6 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Scene\Components\ScriptComponent.h">
       <Filter>Source\Engine\Scene\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Scripts\MoveTestScript.h">
-      <Filter>Source\Game\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameMain.h">
       <Filter>Source\Game</Filter>
@@ -229,6 +265,42 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Graphics\MeshFactory.h">
       <Filter>Source\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\Components\MeshRenderer.h">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\SampleScene.h">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Materials\SampleCubeMaterial.h">
+      <Filter>Assets\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scripts\SampleRotateComponent.h">
+      <Filter>Source\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h">
+      <Filter>Source\Game\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Platform\Input.h">
+      <Filter>Source\Engine\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\IScene.h">
+      <Filter>Source\Game\Scenes\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\SceneContext.h">
+      <Filter>Source\Game\Scenes\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\SceneManager.h">
+      <Filter>Source\Game\Scenes\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Materials\MaterialBuildContext.h">
+      <Filter>Assets\Materials\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Materials\MaterialLibrary.h">
+      <Filter>Assets\Materials\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Rendering\DefaultLighting.h">
+      <Filter>Source\Game\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
