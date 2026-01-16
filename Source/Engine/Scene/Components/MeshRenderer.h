@@ -6,21 +6,15 @@
 #include "Engine/Scene/Component.h"
 #include "Engine/Graphics/Mesh.h"
 #include "Engine/Graphics/MeshFactory.h"
+#include "Engine/Graphics/RenderLayer.h"
 
 namespace Engine {
 
     class RenderSystem;
     class Material;
 
-    /**
-     * @brief Unity風 MeshRenderer
-     * - MeshType / MeshCreateDesc を保持
-     * - 初回だけ Mesh を生成
-     * - 毎フレーム RenderItem を RenderSystem に積む
-     */
     class MeshRenderer final : public Component {
     public:
-        // ★AddComponent から渡す引数と一致させる
         MeshRenderer(ID3D11Device* device, RenderSystem* renderSystem);
         ~MeshRenderer() override = default;
 
@@ -33,6 +27,16 @@ namespace Engine {
 
         void SetMaterial(const std::shared_ptr<Material>& material);
         Material* GetMaterial() const;
+
+        // ★Unity風：描画レイヤー
+        void SetRenderLayer(RenderLayer layer);
+        RenderLayer GetRenderLayer() const;
+
+        void SetOrderInLayer(int orderInLayer);
+        int GetOrderInLayer() const;
+
+        void SetRenderStateFlags(std::uint32_t flags);
+        std::uint32_t GetRenderStateFlags() const;
 
     private:
         void CreateMeshIfNeeded();
@@ -48,6 +52,11 @@ namespace Engine {
         bool m_isMeshReady = false;
 
         Mesh m_mesh; // owning
+
+        // ★描画順/ステート
+        RenderLayer  m_renderLayer = RenderLayer::Opaque;
+        int          m_orderInLayer = 0;
+        std::uint32_t m_stateFlags = kRenderStateNone;
     };
 
 } // namespace Engine

@@ -6,13 +6,6 @@
 
 namespace Engine {
 
-    /**
-     * @brief 頂点/インデックスバッファの薄いラッパ
-     *
-     * - Create() でGPUバッファ生成
-     * - Bind() でIAへセット
-     * - Draw() で描画
-     */
     class Mesh final {
     public:
         Mesh() = default;
@@ -35,6 +28,14 @@ namespace Engine {
         void Bind(ID3D11DeviceContext* context) const;
         void Draw(ID3D11DeviceContext* context) const;
 
+        // Subset描画用
+        void DrawRange(
+            ID3D11DeviceContext* context,
+            std::uint32_t indexCount,
+            std::uint32_t startIndex = 0,
+            std::int32_t baseVertex = 0
+        ) const;
+
         bool IsValid() const;
 
         std::uint32_t GetVertexCount() const;
@@ -42,12 +43,12 @@ namespace Engine {
         std::uint32_t GetVertexStride() const;
 
     private:
-        std::uint32_t                           m_vertexStride  = 0;    // バイト単位
-        std::uint32_t                           m_vertexCount   = 0;    // 頂点数
-        std::uint32_t                           m_indexCount    = 0;    // インデックス数
+        std::uint32_t m_vertexStride = 0;
+        std::uint32_t m_vertexCount = 0;
+        std::uint32_t m_indexCount = 0;
 
-		Microsoft::WRL::ComPtr<ID3D11Buffer>    m_vertexBuffer;         // 頂点バッファ
-		Microsoft::WRL::ComPtr<ID3D11Buffer>    m_indexBuffer;          // インデックスバッファ
+        Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
+        Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
     };
 
 } // namespace Engine

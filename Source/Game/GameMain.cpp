@@ -14,7 +14,7 @@
 #include "Game/Scenes/SceneContext.h"
 #include "Game/Scenes/SampleScene.h"
 
-// Material資産（あなたの配置に合わせて include パスは調整してOK）
+// Material資産
 #include "Materials/MaterialBuildContext.h"
 #include "Materials/SampleCubeMaterial.h"
 

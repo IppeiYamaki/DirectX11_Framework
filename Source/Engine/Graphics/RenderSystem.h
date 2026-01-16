@@ -5,49 +5,40 @@
 #include <DirectXMath.h>
 
 #include <vector>
+#include <cstdint>
 
 #include "Engine/Graphics/ConstantBuffer.h"
 #include "Engine/Graphics/ShaderConstants.h"
+#include "Engine/Graphics/RenderLayer.h"
 
 namespace Engine {
 
     class GraphicsDevice;
     class World;
     class Mesh;
-	class Material;
+    class Material;
 
     /**
-     * @brief RenderSystem へ渡す描画要求（RenderQueueの1要素）
-     *
-     * - Mesh + (InputLayout/VS/PS)
-     * - World(b0) と Material(b3) と Light(b4) を使う想定（Common.hlsl）
-     * - Texture(t0)/Sampler(s0) も必要ならここで指定
+     * @brief 描画要求（RenderQueueの1要素）
      */
     struct RenderItem final {
-        Mesh*                       m_mesh      = nullptr;           // non-owning
-        Material*                   m_material  = nullptr;   // non-owning
+        Mesh* m_mesh = nullptr;      // non-owning
+        Material* m_material = nullptr;  // non-owning
         DirectX::XMFLOAT4X4         m_world{};
-        D3D11_PRIMITIVE_TOPOLOGY    m_topology  = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+        D3D11_PRIMITIVE_TOPOLOGY    m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+        // ★Unityっぽい描画順
+        RenderLayer                 m_layer = RenderLayer::Opaque;
+        int                         m_orderInLayer = 0;
+
+        // ★最低限の描画ステート
+        std::uint32_t               m_stateFlags = kRenderStateNone;
 
         RenderItem() {
             DirectX::XMStoreFloat4x4(&m_world, DirectX::XMMatrixIdentity());
         }
     };
 
-    /**
-     * @brief 1フレームの描画手順を統括（Debug専用を廃止した版）
-     *
-     * - Game/World などから AddRenderItem で描画要求を積む
-     * - Draw() で Clear → RenderQueue処理 → Present
-     */
-
-    /**
-     * @brief 1フレームの描画手順を統括するクラス
-     *
-     * - Clear →（DebugDraw）→ Present
-     * - DebugDraw 直前で World/View/Proj/Light を Update→Bind
-     * - Material版 DebugDraw では、b3/t0/s0 は Material が Bind する
-     */
     class RenderSystem final {
     public:
         RenderSystem() = default;
@@ -64,7 +55,6 @@ namespace Engine {
 
         bool IsInitialized() const;
 
-
         //============================================================
         // RenderQueue
         //============================================================
@@ -80,26 +70,35 @@ namespace Engine {
 
     private:
         void BindFrameConstants(ID3D11DeviceContext* context); // b1,b2,b4
+        void ApplyRenderStates(ID3D11DeviceContext* context, const RenderItem& item);
         void DrawItem(ID3D11DeviceContext* context, const RenderItem& item);
 
     private:
-        GraphicsDevice*                 m_graphicsDevice        = nullptr; 
-        bool                            m_isInitialized         = false;
+        GraphicsDevice* m_graphicsDevice = nullptr;
+        bool m_isInitialized = false;
 
-        // Queue
-        std::vector<RenderItem>         m_items;
+        std::vector<RenderItem> m_items;
 
-        // Debug constant buffers
-        ConstantBuffer<WorldCB>         m_worldCb;          // b0 (per item)
-		ConstantBuffer<ViewCB>          m_viewCb;           // b1 (per frame)
-        ConstantBuffer<ProjectionCB>    m_projCb;           // b2 (per frame)
-        ConstantBuffer<LightCB>         m_lightCb;          // b4 (per frame)
+        ConstantBuffer<WorldCB>         m_worldCb; // b0
+        ConstantBuffer<ViewCB>          m_viewCb;  // b1
+        ConstantBuffer<ProjectionCB>    m_projCb;  // b2
+        ConstantBuffer<LightCB>         m_lightCb; // b4
 
-        // constant data
-        ViewCB                          m_viewData{};
-        ProjectionCB                    m_projData{};
-        LightCB                         m_lightData{};
+        ViewCB       m_viewData{};
+        ProjectionCB m_projData{};
+        LightCB      m_lightData{};
 
+        // ★RenderState（Skyなどのために最低限用意）
+        Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_dsDefault;
+        Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_dsDepthWriteOff;
+        Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_dsDepthOff;
+
+        Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_rsCullBack;
+        Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_rsCullFront;
+        Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_rsCullNone;
+
+        Microsoft::WRL::ComPtr<ID3D11BlendState> m_bsOpaque;
+        Microsoft::WRL::ComPtr<ID3D11BlendState> m_bsAlpha;
 
     private:
         static constexpr float kDefaultClearColor[4] = { 0.10f, 0.10f, 0.18f, 1.0f };

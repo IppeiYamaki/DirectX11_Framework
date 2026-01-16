@@ -8,17 +8,12 @@
 
 namespace Engine {
 
-    //============================================================
-    // Helpers
-    //============================================================
     static bool ReadFileBinary(const std::wstring& path, std::vector<std::uint8_t>& outData) {
         std::ifstream file(path, std::ios::binary);
         if (!file.is_open()) {
             Logger::Error("ReadFileBinary failed: file not found.");
-
             std::string s(path.begin(), path.end());
             Engine::Logger::Error(("Tried to open: " + s).c_str());
-
             return false;
         }
 
@@ -44,15 +39,24 @@ namespace Engine {
         return layout;
     }
 
-    //============================================================
-    // VertexShader
-    //============================================================
-    VertexShader::~VertexShader() {
-        Unload();
+    VertexInputLayout CreateSkinnedPosNormColorUvWeightsLayout() {
+        // 位置(12) 法線(12) 色(16) UV(8) = 48
+        // BoneIndices(uint4=16) -> 64
+        // BoneWeights(float4=16) -> 80
+        VertexInputLayout layout;
+        layout.push_back({ "POSITION",      0, DXGI_FORMAT_R32G32B32_FLOAT,       0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "NORMAL",        0, DXGI_FORMAT_R32G32B32_FLOAT,       0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "COLOR",         0, DXGI_FORMAT_R32G32B32A32_FLOAT,    0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "TEXCOORD",      0, DXGI_FORMAT_R32G32_FLOAT,          0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "BLENDINDICES",  0, DXGI_FORMAT_R32G32B32A32_UINT,     0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "BLENDWEIGHT",   0, DXGI_FORMAT_R32G32B32A32_FLOAT,    0, 64, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        return layout;
     }
 
+    VertexShader::~VertexShader() { Unload(); }
+
     bool VertexShader::LoadFromCSO(ID3D11Device* device, const std::wstring& csoPath) {
-        if (device == nullptr) {
+        if (!device) {
             Logger::Error("VertexShader::LoadFromCSO failed: device is null.");
             return false;
         }
@@ -88,35 +92,16 @@ namespace Engine {
         m_path.clear();
     }
 
-    bool VertexShader::IsLoaded() const {
-        return (m_shader != nullptr);
-    }
+    bool VertexShader::IsLoaded() const { return (m_shader != nullptr); }
+    ID3D11VertexShader* VertexShader::GetShader() const { return m_shader.Get(); }
+    const void* VertexShader::GetBytecodeData() const { return m_bytecode.empty() ? nullptr : m_bytecode.data(); }
+    size_t VertexShader::GetBytecodeSize() const { return m_bytecode.size(); }
+    const std::wstring& VertexShader::GetPath() const { return m_path; }
 
-    ID3D11VertexShader* VertexShader::GetShader() const {
-        return m_shader.Get();
-    }
-
-    const void* VertexShader::GetBytecodeData() const {
-        return m_bytecode.empty() ? nullptr : m_bytecode.data();
-    }
-
-    size_t VertexShader::GetBytecodeSize() const {
-        return m_bytecode.size();
-    }
-
-    const std::wstring& VertexShader::GetPath() const {
-        return m_path;
-    }
-
-    //============================================================
-    // PixelShader
-    //============================================================
-    PixelShader::~PixelShader() {
-        Unload();
-    }
+    PixelShader::~PixelShader() { Unload(); }
 
     bool PixelShader::LoadFromCSO(ID3D11Device* device, const std::wstring& csoPath) {
-        if (device == nullptr) {
+        if (!device) {
             Logger::Error("PixelShader::LoadFromCSO failed: device is null.");
             return false;
         }
@@ -152,24 +137,11 @@ namespace Engine {
         m_path.clear();
     }
 
-    bool PixelShader::IsLoaded() const {
-        return (m_shader != nullptr);
-    }
+    bool PixelShader::IsLoaded() const { return (m_shader != nullptr); }
+    ID3D11PixelShader* PixelShader::GetShader() const { return m_shader.Get(); }
+    const std::wstring& PixelShader::GetPath() const { return m_path; }
 
-    ID3D11PixelShader* PixelShader::GetShader() const {
-        return m_shader.Get();
-    }
-
-    const std::wstring& PixelShader::GetPath() const {
-        return m_path;
-    }
-
-    //============================================================
-    // InputLayout
-    //============================================================
-    InputLayout::~InputLayout() {
-        Unload();
-    }
+    InputLayout::~InputLayout() { Unload(); }
 
     bool InputLayout::Create(
         ID3D11Device* device,
@@ -177,18 +149,13 @@ namespace Engine {
         const void* vsBytecode,
         size_t vsBytecodeSize
     ) {
-        if (device == nullptr) {
-            Logger::Error("InputLayout::Create failed: device is null.");
-            return false;
-        }
-        if (vsBytecode == nullptr || vsBytecodeSize == 0) {
-            Logger::Error("InputLayout::Create failed: vs bytecode is invalid.");
+        if (!device || !vsBytecode || vsBytecodeSize == 0) {
+            Logger::Error("InputLayout::Create failed: invalid arguments.");
             return false;
         }
 
         Unload();
 
-        // D3D11_INPUT_ELEMENT_DESC を一時構築（SemanticNameの寿命を layout の string が保証）
         std::vector<D3D11_INPUT_ELEMENT_DESC> descs;
         descs.reserve(layout.size());
 
@@ -221,16 +188,8 @@ namespace Engine {
         return true;
     }
 
-    void InputLayout::Unload() {
-        m_inputLayout.Reset();
-    }
-
-    bool InputLayout::IsCreated() const {
-        return (m_inputLayout != nullptr);
-    }
-
-    ID3D11InputLayout* InputLayout::GetInputLayout() const {
-        return m_inputLayout.Get();
-    }
+    void InputLayout::Unload() { m_inputLayout.Reset(); }
+    bool InputLayout::IsCreated() const { return (m_inputLayout != nullptr); }
+    ID3D11InputLayout* InputLayout::GetInputLayout() const { return m_inputLayout.Get(); }
 
 } // namespace Engine

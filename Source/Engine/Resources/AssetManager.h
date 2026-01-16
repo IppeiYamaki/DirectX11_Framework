@@ -12,11 +12,13 @@
 
 namespace Engine {
 
+    class Model;
+
     /**
-     * @brief アセット読み込み入口の統一（キャッシュ付き）
+     * @brief アセット読み込み窓口の統一（キャッシュ付き）
      *
      * - 同一キー（パス + オプション）なら同一インスタンスを返す
-     * - Texture / Shader をここからロードする
+     * - Texture / Shader / Model をここからロードする
      */
     class AssetManager final {
     public:
@@ -49,50 +51,52 @@ namespace Engine {
             const TextureLoadOptions& options = {}
         );
 
-        // 使われなくなったTextureキャッシュを掃除（weak_ptrが切れてるものを消す）
         void PruneUnusedTextures();
 
         //============================================================
         // Shader
         //============================================================
-        // key と path を分けて渡したい版（あなたのShaderManagerに近い）
         std::shared_ptr<VertexShader> LoadVertexShader(const std::wstring& key, const std::wstring& csoPath);
         std::shared_ptr<PixelShader> LoadPixelShader(const std::wstring& key, const std::wstring& csoPath);
 
-        // path=key で簡単に呼べる版（おすすめ）
         std::shared_ptr<VertexShader> LoadVertexShader(const std::wstring& csoPath);
         std::shared_ptr<PixelShader> LoadPixelShader(const std::wstring& csoPath);
 
-        // InputLayout（layoutKeyでキャッシュ）
         std::shared_ptr<InputLayout> CreateInputLayout(
             const std::wstring& layoutKey,
             const VertexInputLayout& layout,
             const VertexShader& vertexShader
         );
 
-        // 低レベルに触りたいとき用
-              ShaderLibrary* GetShaderLibrary();
+        ShaderLibrary* GetShaderLibrary();
         const ShaderLibrary* GetShaderLibrary() const;
+
+        //============================================================
+        // Model（現状は OBJ のみ対応）
+        //============================================================
+        std::shared_ptr<Model> LoadModel(const std::wstring& path);
+        void PruneUnusedModels();
 
         ID3D11Device* GetDevice() const;
 
     private:
         std::wstring ResolvePath(const std::wstring& path) const;
         std::wstring MakeTextureCacheKey(const std::wstring& resolvedPath, const TextureLoadOptions& options) const;
+        std::wstring MakeModelCacheKey(const std::wstring& resolvedPath) const;
 
     private:
-		bool                                                        m_isInitialized = false;    // 初期化済みフラグ
+        bool m_isInitialized = false;
 
-        ID3D11Device*                                               m_device        = nullptr;  // D3D11デバイス（借用）
+        ID3D11Device* m_device = nullptr;
 
-		std::wstring                                                m_baseDirectory = L"";      // ベースディレクトリ
+        std::wstring m_baseDirectory = L"";
 
-		ShaderLibrary                                               m_shaderLibrary;            // Shaderライブラリ
+        ShaderLibrary m_shaderLibrary;
 
-        // Texture cache（オプション込みのキー → weak_ptr）
-		std::unordered_map<std::wstring, std::weak_ptr<Texture>>    m_textureCache;             // キャッシュ
+        std::unordered_map<std::wstring, std::weak_ptr<Texture>> m_textureCache;
+        std::unordered_map<std::wstring, std::weak_ptr<Model>>   m_modelCache;
 
-		mutable std::mutex                                          m_mutex;                    // スレッドセーフ用ミューテックス
+        mutable std::mutex m_mutex;
     };
 
 } // namespace Engine

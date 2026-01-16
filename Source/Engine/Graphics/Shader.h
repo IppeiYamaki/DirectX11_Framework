@@ -9,11 +9,8 @@
 
 namespace Engine {
 
-    //============================================================
-    // Vertex Input Layout (安全に保持できる表現)
-    //============================================================
     struct VertexInputElement final {
-        std::string m_semanticName;                 // "POSITION" etc
+        std::string m_semanticName;
         UINT m_semanticIndex = 0;
         DXGI_FORMAT m_format = DXGI_FORMAT_UNKNOWN;
         UINT m_inputSlot = 0;
@@ -24,12 +21,11 @@ namespace Engine {
 
     using VertexInputLayout = std::vector<VertexInputElement>;
 
-    // よく使うレイアウト（あなたの例に合わせた便利関数）
     VertexInputLayout CreateDefaultPosNormColorUvLayout();
 
-    //============================================================
-    // VertexShader
-    //============================================================
+    // ★スキニング用（Position/Normal/Color/UV + BoneIndices + BoneWeights）
+    VertexInputLayout CreateSkinnedPosNormColorUvWeightsLayout();
+
     class VertexShader final {
     public:
         VertexShader() = default;
@@ -45,20 +41,17 @@ namespace Engine {
 
         ID3D11VertexShader* GetShader() const;
 
-        const void*         GetBytecodeData() const;
-        size_t              GetBytecodeSize() const;
+        const void* GetBytecodeData() const;
+        size_t GetBytecodeSize() const;
 
         const std::wstring& GetPath() const;
 
     private:
-		std::wstring                                m_path{};   // CSOファイルパス
-		std::vector<std::uint8_t>                   m_bytecode; // バイトコード
-		Microsoft::WRL::ComPtr<ID3D11VertexShader>  m_shader;   // シェーダ
+        std::wstring m_path{};
+        std::vector<std::uint8_t> m_bytecode;
+        Microsoft::WRL::ComPtr<ID3D11VertexShader> m_shader;
     };
 
-    //============================================================
-    // PixelShader
-    //============================================================
     class PixelShader final {
     public:
         PixelShader() = default;
@@ -72,18 +65,15 @@ namespace Engine {
 
         bool IsLoaded() const;
 
-        ID3D11PixelShader*  GetShader() const;
+        ID3D11PixelShader* GetShader() const;
 
         const std::wstring& GetPath() const;
 
     private:
-		std::wstring                                m_path{};   // CSOファイルパス
-		Microsoft::WRL::ComPtr<ID3D11PixelShader>   m_shader;   // シェーダ
+        std::wstring m_path{};
+        Microsoft::WRL::ComPtr<ID3D11PixelShader> m_shader;
     };
 
-    //============================================================
-    // InputLayout
-    //============================================================
     class InputLayout final {
     public:
         InputLayout() = default;
@@ -105,7 +95,7 @@ namespace Engine {
         ID3D11InputLayout* GetInputLayout() const;
 
     private:
-		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;    // 入力レイアウト
+        Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
     };
 
 } // namespace Engine

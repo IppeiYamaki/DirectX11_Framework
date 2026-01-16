@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Game/Scenes/IScene.h"
+#include "Game/Scenes/PrefabSlot.h"
 
-namespace Engine { class Entity; }
 namespace Game { struct SceneContext; }
 
 namespace Game {
@@ -36,11 +36,23 @@ namespace Game {
 		/// @param ctx Sceneが使うコンテキスト情報
         void ApplySceneLighting(SceneContext& ctx);
 		/// @brief シーン内オブジェクトを生成・配置
+        /// @brief Sceneの開始時にPrefabを並べるだけ
 		/// @param ctx Sceneが使うコンテキスト情報
         void BuildScene(SceneContext& ctx);
 
     private:
-        Engine::Entity* m_mainEntity = nullptr;
+		// カメラEntity（シーン切り替え時に破棄するため保持しておく）
+        Engine::Entity* m_cameraEntity = nullptr;
+
+
+        // “後で触る対象”は Slot に入れて管理する
+        // PrefabSlot m_player;
+        // PrefabSlot m_cameraTarget; // 例：追従対象（playerと別でもOK）
+
+        // 大量に増えるなら vector で管理
+         std::vector<PrefabSlot> m_characters;
+
+
     };
 
 } // namespace Game

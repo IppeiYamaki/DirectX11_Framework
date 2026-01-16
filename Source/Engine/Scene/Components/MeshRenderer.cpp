@@ -5,7 +5,7 @@
 #include "Engine/Scene/Entity.h"
 #include "Engine/Scene/Components/Transform.h"
 
-#include "Engine/Graphics/RenderSystem.h" // RenderItem / AddRenderItem
+#include "Engine/Graphics/RenderSystem.h"
 #include "Engine/Graphics/Material.h"
 
 namespace Engine {
@@ -32,12 +32,16 @@ namespace Engine {
         auto* tr = owner->GetComponent<Engine::Transform>();
         if (!tr) return;
 
-        // RenderItem を積む（RenderSystemがキュー処理して描画）
         RenderItem item{};
         item.m_mesh = &m_mesh;
         item.m_material = m_material.get();
-        item.m_world = tr->GetWorldMatrix(); // copy
+        item.m_world = tr->GetWorldMatrix();
         item.m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+        // ★Unity風
+        item.m_layer = m_renderLayer;
+        item.m_orderInLayer = m_orderInLayer;
+        item.m_stateFlags = m_stateFlags;
 
         m_renderSystem->AddRenderItem(item);
     }
@@ -64,6 +68,30 @@ namespace Engine {
 
     Material* MeshRenderer::GetMaterial() const {
         return m_material.get();
+    }
+
+    void MeshRenderer::SetRenderLayer(RenderLayer layer) {
+        m_renderLayer = layer;
+    }
+
+    RenderLayer MeshRenderer::GetRenderLayer() const {
+        return m_renderLayer;
+    }
+
+    void MeshRenderer::SetOrderInLayer(int orderInLayer) {
+        m_orderInLayer = orderInLayer;
+    }
+
+    int MeshRenderer::GetOrderInLayer() const {
+        return m_orderInLayer;
+    }
+
+    void MeshRenderer::SetRenderStateFlags(std::uint32_t flags) {
+        m_stateFlags = flags;
+    }
+
+    std::uint32_t MeshRenderer::GetRenderStateFlags() const {
+        return m_stateFlags;
     }
 
     void MeshRenderer::CreateMeshIfNeeded() {

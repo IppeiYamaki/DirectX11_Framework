@@ -7,13 +7,6 @@
 
 namespace Engine {
 
-    /**
-     * @brief 位置・回転・拡縮を管理するComponent（Engine::Vector3版）
-     *
-     * - 値は private
-     * - 意図が分かるAPI（TeleportTo / MoveBy など）
-     * - ワールド行列は dirty + キャッシュ
-     */
     class Transform final : public Component {
     public:
         Transform() = default;
@@ -32,11 +25,16 @@ namespace Engine {
 
         //============================================================
         // Rotation (Euler degrees)
+        // x = pitch, y = yaw, z = roll
         //============================================================
         void SetRotationEulerDegrees(const Vector3& eulerDegrees);
         void RotateByEulerDegrees(const Vector3& deltaDegrees);
 
         const Vector3& GetRotationEulerDegrees() const;
+
+        // ★カメラ向け：Yaw/Pitch/Roll を分かりやすく指定
+        void SetYawPitchRollDegrees(float yawDegrees, float pitchDegrees, float rollDegrees = 0.0f);
+        void AddYawPitchRollDegrees(float yawDeltaDegrees, float pitchDeltaDegrees, float rollDeltaDegrees = 0.0f);
 
         //============================================================
         // Scale
@@ -62,12 +60,12 @@ namespace Engine {
         static DirectX::XMVECTOR MakeRotationQuaternion(const Vector3& eulerDegrees);
 
     private:
-        Vector3 m_position              { 0.0f, 0.0f, 0.0f };   // ワールド位置
-        Vector3 m_rotationEulerDegrees  { 0.0f, 0.0f, 0.0f };   // オイラー角（度数法）
-        Vector3 m_scale                 { 1.0f, 1.0f, 1.0f };   // ワールド拡縮
+        Vector3 m_position{ 0.0f, 0.0f, 0.0f };
+        Vector3 m_rotationEulerDegrees{ 0.0f, 0.0f, 0.0f }; // x=pitch, y=yaw, z=roll（度）
+        Vector3 m_scale{ 1.0f, 1.0f, 1.0f };
 
-        mutable bool                m_isDirty           = true; // ワールド行列再構築要否
-		mutable DirectX::XMFLOAT4X4 m_worldMatrix{};            // ワールド行列キャッシュ
+        mutable bool                m_isDirty = true;
+        mutable DirectX::XMFLOAT4X4 m_worldMatrix{};
     };
 
 } // namespace Engine

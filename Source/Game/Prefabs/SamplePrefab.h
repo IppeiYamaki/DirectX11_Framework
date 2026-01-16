@@ -6,7 +6,6 @@ namespace Engine { class Entity; }
 namespace Game { struct SceneContext; }
 
 namespace Game {
-    static Engine::Entity* Spawn(SceneContext& ctx, const SpawnDesc& desc);
 
     /**
      * @brief UnityのPrefab相当（コード版）
@@ -21,7 +20,7 @@ namespace Game {
 
             SpawnDesc() = default;
 
-            // ctx.Spawn<Prefab>(pos, scale, rot) 用
+            // ctx.Spawn<SamplePrefab>(pos, scale, rot) を可能にする
             SpawnDesc(const Engine::Vector3& position,
                 float uniformScale = 1.0f,
                 float rotateDegPerSec = 45.0f)

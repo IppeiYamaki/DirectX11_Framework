@@ -40,11 +40,14 @@
     <Filter Include="Source\Game\Scenes">
       <UniqueIdentifier>{6f1faaf9-cafa-495e-b105-4c0c2e37765d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\ThirdParty">
-      <UniqueIdentifier>{73e00c83-426b-4e96-bac5-3b5f1b737f86}</UniqueIdentifier>
+    <Filter Include="Source\Game\Prefabs">
+      <UniqueIdentifier>{a1739fff-bfd9-4a7e-84de-4704b07bbc1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\ThirdParty\DirectXTex">
-      <UniqueIdentifier>{5e051f36-0c08-4fda-a0f3-8272b5e09513}</UniqueIdentifier>
+    <Filter Include="Source\Game\Scenes\Base">
+      <UniqueIdentifier>{6c414585-dff1-40d8-94aa-38f8e58c824f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Rendering">
+      <UniqueIdentifier>{ed196f9c-3869-41d5-80fc-a1bc2555ac0f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>{c3c16424-06e6-450d-b8c1-af742b447f21}</UniqueIdentifier>
@@ -58,17 +61,14 @@
     <Filter Include="Assets\Materials">
       <UniqueIdentifier>{e3ec30db-8447-4d0c-a325-3d85bde7fc93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Game\Prefabs">
-      <UniqueIdentifier>{a1739fff-bfd9-4a7e-84de-4704b07bbc1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Game\Scenes\Base">
-      <UniqueIdentifier>{6c414585-dff1-40d8-94aa-38f8e58c824f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets\Materials\Base">
       <UniqueIdentifier>{171ef8b8-d9a9-4927-ac17-b2a7695f44c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Game\Rendering">
-      <UniqueIdentifier>{ed196f9c-3869-41d5-80fc-a1bc2555ac0f}</UniqueIdentifier>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{73e00c83-426b-4e96-bac5-3b5f1b737f86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\DirectXTex">
+      <UniqueIdentifier>{5e051f36-0c08-4fda-a0f3-8272b5e09513}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +129,6 @@
     <ClCompile Include="Source\Engine\Math\Vector4.cpp">
       <Filter>Source\Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Graphics\Material.cpp">
       <Filter>Source\Engine\Graphics</Filter>
     </ClCompile>
@@ -167,6 +164,37 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Rendering\DefaultLighting.cpp">
       <Filter>Source\Game\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\Components\StaticModelRenderer.cpp">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Graphics\Model.cpp">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Resources\ObjModelLoader.cpp">
+      <Filter>Source\Engine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\SkinnedModel.cpp">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Resources\SkinnedModelLoader.cpp">
+      <Filter>Source\Engine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\Components\AnimationModel.cpp">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\Components\Camera.cpp">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Prefabs\MainCameraPrefab.cpp">
+      <Filter>Source\Game\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Prefabs\SkyPrefab.cpp">
+      <Filter>Source\Game\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Materials\SkyMaterial.cpp">
+      <Filter>Assets\Materials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -219,7 +247,7 @@
       <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\ThirdParty\DirectXTex\DirectXTex.h">
-      <Filter>Source\ThirdParty\DirectXTex</Filter>
+      <Filter>ThirdParty\DirectXTex</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Graphics\Texture.h">
       <Filter>Source\Engine\Graphics</Filter>
@@ -302,12 +330,48 @@
     <ClInclude Include="Source\Game\Rendering\DefaultLighting.h">
       <Filter>Source\Game\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\PrefabSlot.h">
+      <Filter>Source\Game\Scenes\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\Components\StaticModelRenderer.h">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphics\Model.h">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Resources\ObjModelLoader.h">
+      <Filter>Source\Engine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphics\SkinnedModel.h">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Resources\SkinnedModelLoader.h">
+      <Filter>Source\Engine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\Components\AnimationModel.h">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\Components\Camera.h">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Prefabs\MainCameraPrefab.h">
+      <Filter>Source\Game\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Prefabs\SkyPrefab.h">
+      <Filter>Source\Game\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphics\RenderLayer.h">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Materials\SkyMaterial.h">
+      <Filter>Assets\Materials</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="Source\ThirdParty\DirectXTex\DirectXTex.inl">
-      <Filter>Source\ThirdParty\DirectXTex</Filter>
+      <Filter>ThirdParty\DirectXTex</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\Common\Common.hlsl">
@@ -317,6 +381,12 @@
       <Filter>Assets\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Assets\Shaders\DefaultVS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\SkinnedVS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\SkyPS.hlsl">
       <Filter>Assets\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

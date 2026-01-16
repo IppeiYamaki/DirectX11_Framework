@@ -4,7 +4,7 @@
 #include "Engine/Core/Assert.h"
 
 // DirectXTex は D3D11 ヘッダが先に必要
-#include "DirectXTex.h"
+#include "ThirdParty/DirectXTex/DirectXTex.h"
 
 #include <algorithm>
 
