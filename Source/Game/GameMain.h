@@ -4,25 +4,19 @@
 
 #include "Engine/Core/IGame.h"
 #include "Engine/Resources/AssetManager.h"
-#include "Engine/Graphics/Mesh.h"
-#include "Engine/Graphics/RenderSystem.h"
+#include "Game/Scenes/SceneManager.h"
+#include "Materials/MaterialLibrary.h"
 
 namespace Engine {
     class Application;
     class World;
-    class VertexShader;
-    class PixelShader;
-    class InputLayout;
+    class Material;
 }
-
 
 namespace Game {
 
     class GameMain final : public Engine::IGame {
     public:
-        GameMain() = default;
-        ~GameMain() override = default;
-
         bool Initialize(Engine::Application& app) override;
         void Finalize() override;
 
@@ -30,19 +24,18 @@ namespace Game {
         void Draw() override;
 
     private:
-		// Engine参照
-        Engine::Application*                    m_app       = nullptr;  //　アプリケーション（借用）
-        Engine::World*                          m_world     = nullptr;  // シーン管理（借用）
+        Engine::Application* m_app = nullptr; // non-owning
+        Engine::World* m_world = nullptr;     // non-owning
 
-		Engine::AssetManager                    m_assets;               // アセット管理
+        Engine::AssetManager m_assets;
 
-		std::shared_ptr<Engine::VertexShader>   m_vs;                   // バーテックスシェーダ
-		std::shared_ptr<Engine::PixelShader>    m_ps;                   // ピクセルシェーダ
-		std::shared_ptr<Engine::InputLayout>    m_il;                   // 入力レイアウト
+        // Material資産の管理
+        Game::MaterialLibrary m_materialLibrary;
 
-        Engine::Mesh                            m_mesh;
+        // 共有Material（SampleSceneで直接使いたい場合にも渡せる）
+        std::shared_ptr<Engine::Material> m_sharedMaterial;
 
-        Engine::RenderItem                      m_triangleItem;
+        SceneManager m_sceneManager;
     };
 
 } // namespace Game

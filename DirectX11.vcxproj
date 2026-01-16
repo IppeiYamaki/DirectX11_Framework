@@ -77,20 +77,24 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Assets;$(ProjectDir)Source;$(ProjectDir)Source\\ThirdParty\\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Assimp\include;$(ProjectDir)Assets;$(ProjectDir)Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;DirectXTex_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Source\\ThirdParty\\DirectXTex\\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;assimp-vc143-mt.lib;DirectXTex_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Source\\ThirdParty\\DirectXTex\\lib;$(ProjectDir)Source\\ThirdParty\Assimp;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
       <ObjectFileOutput>$(ProjectDir)Assets\Shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -101,19 +105,23 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Assets;$(ProjectDir)Source;$(ProjectDir)Source\\ThirdParty\\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Assimp\include;$(ProjectDir)Assets;$(ProjectDir)Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;DirectXTex_Release.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Source\\ThirdParty\\DirectXTex\\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;assimp-vc143-mt.lib;DirectXTex_Release.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Source\\ThirdParty\\DirectXTex\\lib;$(ProjectDir)Source\\ThirdParty\Assimp;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
       <ObjectFileOutput>$(ProjectDir)Assets\Shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -122,20 +130,24 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Assets;$(ProjectDir)Source;$(ProjectDir)Source\\ThirdParty\\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Assimp\include;$(ProjectDir)Assets;$(ProjectDir)Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;DirectXTex_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Source\\ThirdParty\\DirectXTex\\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;assimp-vc143-mt.lib;DirectXTex_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Source\\ThirdParty\\DirectXTex\\lib;$(ProjectDir)Source\\ThirdParty\Assimp;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
       <ObjectFileOutput>$(ProjectDir)Assets\Shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -146,21 +158,28 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Assets;$(ProjectDir)Source;$(ProjectDir)Source\\ThirdParty\\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\Assimp\include;$(ProjectDir)Assets;$(ProjectDir)Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxgi.lib;DirectXTex_Release.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Source\\ThirdParty\\DirectXTex\\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;assimp-vc143-mt.lib;DirectXTex_Release.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Source\\ThirdParty\\DirectXTex\\lib;$(ProjectDir)Source\\ThirdParty\Assimp;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
       <ObjectFileOutput>$(ProjectDir)Assets\Shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Assets\Materials\MaterialLibrary.cpp" />
+    <ClCompile Include="Assets\Materials\SampleCubeMaterial.cpp" />
+    <ClCompile Include="Assets\Materials\SkyMaterial.cpp" />
     <ClCompile Include="Source\Engine\Core\Application.cpp" />
     <ClCompile Include="Source\Engine\Core\Logger.cpp" />
     <ClCompile Include="Source\Engine\Core\Time.cpp" />
@@ -169,24 +188,43 @@
     <ClCompile Include="Source\Engine\Graphics\Mesh.cpp" />
     <ClCompile Include="Source\Engine\Graphics\MeshFactory.cpp" />
     <ClCompile Include="Source\Engine\Graphics\MeshPrimitives.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\Model.cpp" />
     <ClCompile Include="Source\Engine\Graphics\RenderSystem.cpp" />
     <ClCompile Include="Source\Engine\Graphics\Shader.cpp" />
     <ClCompile Include="Source\Engine\Graphics\ShaderLibrary.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\SkinnedModel.cpp" />
     <ClCompile Include="Source\Engine\Graphics\Texture.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector2.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector3.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector4.cpp" />
+    <ClCompile Include="Source\Engine\Platform\Input.cpp" />
     <ClCompile Include="Source\Engine\Platform\Window.cpp" />
     <ClCompile Include="Source\Engine\Resources\AssetManager.cpp" />
+    <ClCompile Include="Source\Engine\Resources\ObjModelLoader.cpp" />
+    <ClCompile Include="Source\Engine\Resources\SkinnedModelLoader.cpp" />
     <ClCompile Include="Source\Engine\Scene\Component.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Components\AnimationModel.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Components\Camera.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Components\MeshRenderer.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Components\StaticModelRenderer.cpp" />
     <ClCompile Include="Source\Engine\Scene\Components\Transform.cpp" />
     <ClCompile Include="Source\Engine\Scene\Entity.cpp" />
     <ClCompile Include="Source\Engine\Scene\World.cpp" />
     <ClCompile Include="Source\Game\GameMain.cpp" />
-    <ClCompile Include="Source\Game\Scripts\MoveTestScript.cpp" />
+    <ClCompile Include="Source\Game\Prefabs\MainCameraPrefab.cpp" />
+    <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp" />
+    <ClCompile Include="Source\Game\Prefabs\SkyPrefab.cpp" />
+    <ClCompile Include="Source\Game\Rendering\DefaultLighting.cpp" />
+    <ClCompile Include="Source\Game\Scenes\SampleScene.cpp" />
+    <ClCompile Include="Source\Game\Scenes\SceneManager.cpp" />
+    <ClCompile Include="Source\Game\Scripts\SampleRotateComponent.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assets\Materials\MaterialBuildContext.h" />
+    <ClInclude Include="Assets\Materials\MaterialLibrary.h" />
+    <ClInclude Include="Assets\Materials\SampleCubeMaterial.h" />
+    <ClInclude Include="Assets\Materials\SkyMaterial.h" />
     <ClInclude Include="Source\Engine\Core\Application.h" />
     <ClInclude Include="Source\Engine\Core\ApplicationSettings.h" />
     <ClInclude Include="Source\Engine\Core\Assert.h" />
@@ -199,10 +237,13 @@
     <ClInclude Include="Source\Engine\Graphics\Mesh.h" />
     <ClInclude Include="Source\Engine\Graphics\MeshFactory.h" />
     <ClInclude Include="Source\Engine\Graphics\MeshPrimitives.h" />
+    <ClInclude Include="Source\Engine\Graphics\Model.h" />
+    <ClInclude Include="Source\Engine\Graphics\RenderLayer.h" />
     <ClInclude Include="Source\Engine\Graphics\RenderSystem.h" />
     <ClInclude Include="Source\Engine\Graphics\Shader.h" />
     <ClInclude Include="Source\Engine\Graphics\ShaderConstants.h" />
     <ClInclude Include="Source\Engine\Graphics\ShaderLibrary.h" />
+    <ClInclude Include="Source\Engine\Graphics\SkinnedModel.h" />
     <ClInclude Include="Source\Engine\Graphics\Texture.h" />
     <ClInclude Include="Source\Engine\Math\Color.h" />
     <ClInclude Include="Source\Engine\Math\Easing.h" />
@@ -210,15 +251,31 @@
     <ClInclude Include="Source\Engine\Math\Vector2.h" />
     <ClInclude Include="Source\Engine\Math\Vector3.h" />
     <ClInclude Include="Source\Engine\Math\Vector4.h" />
+    <ClInclude Include="Source\Engine\Platform\Input.h" />
     <ClInclude Include="Source\Engine\Platform\Window.h" />
     <ClInclude Include="Source\Engine\Resources\AssetManager.h" />
+    <ClInclude Include="Source\Engine\Resources\ObjModelLoader.h" />
+    <ClInclude Include="Source\Engine\Resources\SkinnedModelLoader.h" />
     <ClInclude Include="Source\Engine\Scene\Component.h" />
+    <ClInclude Include="Source\Engine\Scene\Components\AnimationModel.h" />
+    <ClInclude Include="Source\Engine\Scene\Components\Camera.h" />
+    <ClInclude Include="Source\Engine\Scene\Components\MeshRenderer.h" />
     <ClInclude Include="Source\Engine\Scene\Components\ScriptComponent.h" />
+    <ClInclude Include="Source\Engine\Scene\Components\StaticModelRenderer.h" />
     <ClInclude Include="Source\Engine\Scene\Components\Transform.h" />
     <ClInclude Include="Source\Engine\Scene\Entity.h" />
     <ClInclude Include="Source\Engine\Scene\World.h" />
     <ClInclude Include="Source\Game\GameMain.h" />
-    <ClInclude Include="Source\Game\Scripts\MoveTestScript.h" />
+    <ClInclude Include="Source\Game\Prefabs\MainCameraPrefab.h" />
+    <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h" />
+    <ClInclude Include="Source\Game\Prefabs\SkyPrefab.h" />
+    <ClInclude Include="Source\Game\Rendering\DefaultLighting.h" />
+    <ClInclude Include="Source\Game\Scenes\IScene.h" />
+    <ClInclude Include="Source\Game\Scenes\PrefabSlot.h" />
+    <ClInclude Include="Source\Game\Scenes\SampleScene.h" />
+    <ClInclude Include="Source\Game\Scenes\SceneContext.h" />
+    <ClInclude Include="Source\Game\Scenes\SceneManager.h" />
+    <ClInclude Include="Source\Game\Scripts\SampleRotateComponent.h" />
     <ClInclude Include="Source\ThirdParty\DirectXTex\DirectXTex.h" />
   </ItemGroup>
   <ItemGroup>
@@ -251,6 +308,18 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\SkinnedVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\SkyPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,8 +1,10 @@
 #include "AssetManager.h"
 
 #include "Engine/Core/Logger.h"
+#include "Engine/Resources/ObjModelLoader.h"
 
 #include <cwctype>
+#include <filesystem>
 
 namespace Engine {
 
@@ -11,7 +13,6 @@ namespace Engine {
         bool IsAbsolutePath(const std::wstring& path) {
             if (path.empty()) return false;
 
-            // "C:\..." や "\\server\..." を雑に判定
             if (path.size() >= 2 && path[1] == L':') return true;
             if (path.size() >= 2 && path[0] == L'\\' && path[1] == L'\\') return true;
             if (path.size() >= 1 && (path[0] == L'/' || path[0] == L'\\')) return true;
@@ -63,6 +64,8 @@ namespace Engine {
         std::lock_guard<std::mutex> lock(m_mutex);
 
         m_textureCache.clear();
+        m_modelCache.clear();
+
         m_shaderLibrary.Finalize();
 
         m_device = nullptr;
@@ -73,6 +76,8 @@ namespace Engine {
         std::lock_guard<std::mutex> lock(m_mutex);
 
         m_textureCache.clear();
+        m_modelCache.clear();
+
         m_shaderLibrary.Reset();
     }
 
@@ -83,7 +88,6 @@ namespace Engine {
     void AssetManager::SetBaseDirectory(const std::wstring& baseDir) {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_baseDirectory = NormalizeSlashes(baseDir);
-        // 末尾に "/" が無いなら付ける（任意）
         if (!m_baseDirectory.empty() && m_baseDirectory.back() != L'/') {
             m_baseDirectory += L'/';
         }
@@ -104,7 +108,6 @@ namespace Engine {
 
         std::lock_guard<std::mutex> lock(m_mutex);
 
-        // 既にキャッシュが生きているなら返す
         {
             auto it = m_textureCache.find(key);
             if (it != m_textureCache.end()) {
@@ -114,7 +117,6 @@ namespace Engine {
             }
         }
 
-        // 新規ロード
         auto tex = std::make_shared<Texture>();
         if (!tex->LoadFromFile(m_device, resolved, options)) {
             Logger::Error("AssetManager::LoadTexture failed: Texture load failed.");
@@ -159,7 +161,6 @@ namespace Engine {
     }
 
     std::shared_ptr<VertexShader> AssetManager::LoadVertexShader(const std::wstring& csoPath) {
-        // path=key 方式：扱いやすい（path変更で別物になる）
         const std::wstring resolved = ResolvePath(csoPath);
         return LoadVertexShader(resolved, resolved);
     }
@@ -190,6 +191,66 @@ namespace Engine {
         return &m_shaderLibrary;
     }
 
+    std::shared_ptr<Model> AssetManager::LoadModel(const std::wstring& path) {
+        if (!m_isInitialized) {
+            Logger::Error("AssetManager::LoadModel failed: not initialized.");
+            return nullptr;
+        }
+
+        const std::wstring resolved = ResolvePath(path);
+        const std::wstring key = MakeModelCacheKey(resolved);
+
+        // 1) cache check（ここはロック）
+        {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            auto it = m_modelCache.find(key);
+            if (it != m_modelCache.end()) {
+                if (auto shared = it->second.lock()) {
+                    return shared;
+                }
+            }
+        }
+
+        // 2) load（ロック外：LoadTextureが内部ロックするのでデッドロック回避）
+        const std::filesystem::path p(resolved);
+        const std::wstring ext = ToLower(p.extension().wstring());
+
+        std::shared_ptr<Model> model;
+        if (ext == L".obj") {
+            model = LoadObjModel(m_device, *this, resolved);
+        }
+        else {
+            Logger::Error("AssetManager::LoadModel failed: unsupported extension (only .obj).");
+            return nullptr;
+        }
+
+        if (!model) {
+            Logger::Error("AssetManager::LoadModel failed: loader returned null.");
+            return nullptr;
+        }
+
+        // 3) store cache
+        {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            m_modelCache[key] = model;
+        }
+
+        return model;
+    }
+
+    void AssetManager::PruneUnusedModels() {
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        for (auto it = m_modelCache.begin(); it != m_modelCache.end(); ) {
+            if (it->second.expired()) {
+                it = m_modelCache.erase(it);
+            }
+            else {
+                ++it;
+            }
+        }
+    }
+
     ID3D11Device* AssetManager::GetDevice() const {
         return m_device;
     }
@@ -197,33 +258,25 @@ namespace Engine {
     std::wstring AssetManager::ResolvePath(const std::wstring& path) const {
         std::wstring p = NormalizeSlashes(path);
 
-        // 1) 絶対パスはそのまま
         if (IsAbsolutePath(p)) {
             return p;
         }
 
-        // 2) 既に "Assets/" から始まるなら、そのまま（baseDirを二重にしない）
-        //    ※ baseDir が "Assets/" の想定
         const std::wstring base = NormalizeSlashes(m_baseDirectory);
         if (!base.empty()) {
-            // base は SetBaseDirectory で末尾 "/" を付けている想定
-            if (p.rfind(base, 0) == 0) { // starts_with
+            if (p.rfind(base, 0) == 0) {
                 return p;
             }
         }
 
-        // 3) baseDir が空ならそのまま
         if (m_baseDirectory.empty()) {
             return p;
         }
 
-        // 4) base + relative
         return m_baseDirectory + p;
     }
 
-
     std::wstring AssetManager::MakeTextureCacheKey(const std::wstring& resolvedPath, const TextureLoadOptions& options) const {
-        // オプションが違うと別テクスチャ扱いにしたいので、キーへ含める
         std::wstring key = ToLower(NormalizeSlashes(resolvedPath));
 
         key += L"|mip=";
@@ -236,6 +289,11 @@ namespace Engine {
         key += (options.m_ignoreSRgb ? L"1" : L"0");
 
         return key;
+    }
+
+    std::wstring AssetManager::MakeModelCacheKey(const std::wstring& resolvedPath) const {
+        // 今はオプション無しなのでパスだけ
+        return ToLower(NormalizeSlashes(resolvedPath));
     }
 
 } // namespace Engine

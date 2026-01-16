@@ -45,6 +45,9 @@ namespace Engine {
         void SetPixelShader(const std::shared_ptr<PixelShader>& ps);
         void SetInputLayout(const std::shared_ptr<InputLayout>& inputLayout);
 
+        //============================================================
+        // Texture/Sampler
+        //============================================================
         void SetTexture(const std::shared_ptr<Texture>& texture);
         void SetSampler(ID3D11SamplerState* sampler); // 借用（nullptrなら内部デフォルト）
 
@@ -62,10 +65,6 @@ namespace Engine {
         //============================================================
         void Bind(ID3D11DeviceContext* context);
 
-        //============================================================
-        // Getters (borrow)
-        //============================================================
-        ID3D11InputLayout* GetInputLayout() const;
 
     private:
         bool CreateDefaultSampler(ID3D11Device* device);

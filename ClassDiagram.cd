@@ -1,115 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Engine::Application" Collapsed="true">
-    <Position X="5.25" Y="0.5" Width="1.5" />
+  <Class Name="Game::SampleCubeMaterial" Collapsed="true">
+    <Position X="2.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CRAAAAgAABAAHwAAAoAAAABAAAACkBAAAAAhhACACAI=</HashCode>
-      <FileName>Source\Engine\Core\Application.h</FileName>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Materials\SampleCubeMaterial.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Engine::IGame" Collapsed="true">
-    <Position X="0.5" Y="4.5" Width="1.5" />
+  <Class Name="Game::MaterialLibrary" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAACAwAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Source\Engine\Core\IGame.h</FileName>
+      <HashCode>AAAAAAAAAAQgAQAAAAAAAAAAAAAAgCAAAAJAAAAAAAA=</HashCode>
+      <FileName>Assets\Materials\MaterialLibrary.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Engine::Logger" Collapsed="true">
-    <Position X="5.25" Y="1.5" Width="1.5" />
+  <Class Name="Engine::Material" Collapsed="true">
+    <Position X="2.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAAIAAQAAAAAQAAABAAAAgBEAAAAAAEEAAAA=</HashCode>
-      <FileName>Source\Engine\Core\Logger.h</FileName>
+      <HashCode>AEgKgQAAAAAECQAAAIAABAAAACBIgAAAEAEgBQARABA=</HashCode>
+      <FileName>Source\Engine\Graphics\Material.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Engine::Time" Collapsed="true">
-    <Position X="8.75" Y="1.5" Width="1.5" />
+  <Class Name="Engine::AssetManager" Collapsed="true">
+    <Position X="0.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEgAAAAERBQAAIIAAGAAAAAAAgAAAAgAwBUAAQQA=</HashCode>
-      <FileName>Source\Engine\Core\Time.h</FileName>
+      <HashCode>EAAkCACQAAAABYAAgaAAAAAAAACAgAgCAAAgHAAICAA=</HashCode>
+      <FileName>Source\Engine\Resources\AssetManager.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Engine::Window" Collapsed="true">
-    <Position X="5.25" Y="2.5" Width="1.5" />
+  <Struct Name="Game::VertexPosNormColorUv" Collapsed="true">
+    <Position X="2.25" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAABEACIgBwAAA4QIAAAAAQAAgAQAAgAgTEQAAIU=</HashCode>
-      <FileName>Source\Engine\Platform\Window.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Engine::GraphicsDevice" Collapsed="true">
-    <Position X="8.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AACABAAQAiAEBxABAIAAAADQAIAEgIiAACAkDEFCABI=</HashCode>
-      <FileName>Source\Engine\Graphics\GraphicsDevice.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Engine::RenderSystem" Collapsed="true">
-    <Position X="7" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABwAAAIAAIAAAAAAAgAAAAAAiBAAACAI=</HashCode>
-      <FileName>Source\Engine\Graphics\RenderSystem.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Engine::Entity" Collapsed="true">
-    <Position X="7" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>EAAAABAAAAAIAAAAAAEADABAACCIAAAAAAhkAAAAAIg=</HashCode>
-      <FileName>Source\Engine\Scene\Entity.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Engine::Component" Collapsed="true">
-    <Position X="1.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQhABAIQIAAAgAAEAEAKAAAAAAAAAAAAABgAACAAAA=</HashCode>
-      <FileName>Source\Engine\Scene\Component.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Engine::World" Collapsed="true">
-    <Position X="7" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AASAAAAAABAABwAAAIAAIAAAAAACgQAAEAAgBAAAAAA=</HashCode>
-      <FileName>Source\Engine\Scene\World.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Engine::ScriptComponent" Collapsed="true">
-    <Position X="2.75" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>Source\Engine\Scene\Components\ScriptComponent.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Engine::Transform" Collapsed="true">
-    <Position X="0.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAACACMCAAAKCAAAAAIAwAgApAAABAIAAgAoAAIIA=</HashCode>
-      <FileName>Source\Engine\Scene\Components\Transform.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Game::GameMain" Collapsed="true">
-    <Position X="0.5" Y="5.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AARAAAAAACAACwIAAQAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Source\Game\GameMain.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Game::MoveTestScript" Collapsed="true">
-    <Position X="2.75" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAIAAAAAAAAEAAAAAAAAAAAEoAAAAAAAAAAAAA=</HashCode>
-      <FileName>Source\Game\Scripts\MoveTestScript.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Struct Name="Engine::ApplicationSettings" Collapsed="true">
-    <Position X="5.25" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAAABAAwAAAAAAIAAAACABAAAAAAAAAQ=</HashCode>
-      <FileName>Source\Engine\Core\ApplicationSettings.h</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAABAAAAAAAAAEgAAAA=</HashCode>
+      <FileName>Assets\Materials\SampleCubeMaterial.cpp</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="Engine::Vector3" Collapsed="true">
-    <Position X="7" Y="3.75" Width="1.5" />
+  <Struct Name="Game::MaterialBuildContext" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAKgEAAIAAAAAAggAgQQBACQAAAAAAgADgAQAAAIA=</HashCode>
-      <FileName>Source\Engine\Math\Vector3.h</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAACAAAAAA=</HashCode>
+      <FileName>Assets\Materials\MaterialBuildContext.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Font Name="Yu Gothic UI" Size="9" />

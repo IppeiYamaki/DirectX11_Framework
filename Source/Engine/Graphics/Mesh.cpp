@@ -17,11 +17,11 @@ namespace Engine {
         const std::uint32_t* indexData,
         std::uint32_t indexCount
     ) {
-        if (device == nullptr) {
+        if (!device) {
             Logger::Error("Mesh::Create failed: device is null.");
             return false;
         }
-        if (vertexData == nullptr || vertexStride == 0 || vertexCount == 0) {
+        if (!vertexData || vertexStride == 0 || vertexCount == 0) {
             Logger::Error("Mesh::Create failed: vertex is invalid.");
             return false;
         }
@@ -51,7 +51,7 @@ namespace Engine {
         }
 
         // IndexBufferi”CˆÓj
-        if (indexData != nullptr && indexCount > 0) {
+        if (indexData && indexCount > 0) {
             D3D11_BUFFER_DESC desc{};
             desc.Usage = D3D11_USAGE_IMMUTABLE;
             desc.ByteWidth = static_cast<UINT>(sizeof(std::uint32_t) * indexCount);
@@ -81,8 +81,7 @@ namespace Engine {
     }
 
     void Mesh::Bind(ID3D11DeviceContext* context) const {
-        if (context == nullptr) return;
-        if (!m_vertexBuffer) return;
+        if (!context || !m_vertexBuffer) return;
 
         const UINT stride = m_vertexStride;
         const UINT offset = 0;
@@ -95,8 +94,7 @@ namespace Engine {
     }
 
     void Mesh::Draw(ID3D11DeviceContext* context) const {
-        if (context == nullptr) return;
-        if (!m_vertexBuffer) return;
+        if (!context || !m_vertexBuffer) return;
 
         if (m_indexBuffer && m_indexCount > 0) {
             context->DrawIndexed(m_indexCount, 0, 0);
@@ -104,6 +102,32 @@ namespace Engine {
         else {
             context->Draw(m_vertexCount, 0);
         }
+    }
+
+    void Mesh::DrawRange(
+        ID3D11DeviceContext* context,
+        std::uint32_t indexCount,
+        std::uint32_t startIndex,
+        std::int32_t baseVertex
+    ) const {
+        if (!context || !m_vertexBuffer) return;
+
+        if (!m_indexBuffer || m_indexCount == 0) {
+            // ”ÍˆÍŽw’è‚Å‚«‚È‚¢‚Ì‚Å‘S•`‰æ‚Ö
+            context->Draw(m_vertexCount, 0);
+            return;
+        }
+
+        if (indexCount == 0) {
+            context->DrawIndexed(m_indexCount, 0, 0);
+            return;
+        }
+
+        const std::uint32_t maxCount = (startIndex < m_indexCount) ? (m_indexCount - startIndex) : 0;
+        const std::uint32_t clamped = (indexCount <= maxCount) ? indexCount : maxCount;
+        if (clamped == 0) return;
+
+        context->DrawIndexed(clamped, startIndex, baseVertex);
     }
 
     bool Mesh::IsValid() const {

@@ -5,7 +5,7 @@
 namespace Engine {
 
     namespace {
-        constexpr float kMinScale = 0.0001f; // 0スケール防止（不変条件）
+        constexpr float kMinScale = 0.0001f;
     }
 
     void Transform::TeleportTo(const Vector3& position) {
@@ -36,8 +36,23 @@ namespace Engine {
         return m_rotationEulerDegrees;
     }
 
+    // ★追加：Yaw/Pitch/Roll の分かりやすい指定
+    void Transform::SetYawPitchRollDegrees(float yawDegrees, float pitchDegrees, float rollDegrees) {
+        // 内部は x=pitch, y=yaw, z=roll
+        m_rotationEulerDegrees.x = pitchDegrees;
+        m_rotationEulerDegrees.y = yawDegrees;
+        m_rotationEulerDegrees.z = rollDegrees;
+        MarkDirty();
+    }
+
+    void Transform::AddYawPitchRollDegrees(float yawDeltaDegrees, float pitchDeltaDegrees, float rollDeltaDegrees) {
+        m_rotationEulerDegrees.x += pitchDeltaDegrees;
+        m_rotationEulerDegrees.y += yawDeltaDegrees;
+        m_rotationEulerDegrees.z += rollDeltaDegrees;
+        MarkDirty();
+    }
+
     void Transform::SetScale(const Vector3& scale) {
-        // 不変条件：0スケール禁止（最低値を確保）
         m_scale.x = std::max(scale.x, kMinScale);
         m_scale.y = std::max(scale.y, kMinScale);
         m_scale.z = std::max(scale.z, kMinScale);

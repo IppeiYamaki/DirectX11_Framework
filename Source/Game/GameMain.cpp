@@ -1,115 +1,118 @@
+#define NOMINMAX
 #include "GameMain.h"
-
-#include <cstddef>
-#include <cstdint>
 
 #include "Engine/Core/Logger.h"
 #include "Engine/Core/Application.h"
+
 #include "Engine/Graphics/GraphicsDevice.h"
 #include "Engine/Graphics/RenderSystem.h"
-#include "Engine/Scene/World.h"
-#include "Engine/Graphics/Shader.h"
+#include "Engine/Graphics/Material.h"
 
-#include "Engine/Math/Vector2.h"
-#include "Engine/Math/Vector3.h"
+#include "Engine/Scene/World.h"
 #include "Engine/Math/Vector4.h"
+
+#include "Game/Scenes/SceneContext.h"
+#include "Game/Scenes/SampleScene.h"
+
+// Material資産
+#include "Materials/MaterialBuildContext.h"
+#include "Materials/SampleCubeMaterial.h"
 
 namespace Game {
 
-    struct VertexPosNormColorUv {
-        Engine::Vector3 m_pos;
-        Engine::Vector3 m_normal;
-        Engine::Vector4 m_color;
-        Engine::Vector2 m_uv;
-    };
-
-    static Engine::VertexInputLayout CreatePosNormColorUvLayout() {
-        Engine::VertexInputLayout layout;
-        layout.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, (UINT)offsetof(VertexPosNormColorUv, m_pos),    D3D11_INPUT_PER_VERTEX_DATA, 0 });
-        layout.push_back({ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,    0, (UINT)offsetof(VertexPosNormColorUv, m_normal), D3D11_INPUT_PER_VERTEX_DATA, 0 });
-        layout.push_back({ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, (UINT)offsetof(VertexPosNormColorUv, m_color),  D3D11_INPUT_PER_VERTEX_DATA, 0 });
-        layout.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       0, (UINT)offsetof(VertexPosNormColorUv, m_uv),     D3D11_INPUT_PER_VERTEX_DATA, 0 });
-        return layout;
-    }
-
     bool GameMain::Initialize(Engine::Application& app) {
-        Engine::Logger::Info("GameMain Initialize (RenderQueue Triangle)");
+        Engine::Logger::Info("GameMain Initialize");
 
         m_app = &app;
         m_world = app.GetWorld();
-        if (m_world == nullptr) return false;
+        if (!m_world) return false;
 
         auto* gd = app.GetGraphicsDevice();
-        if (gd == nullptr) return false;
+        auto* rs = app.GetRenderSystem();
+        if (!gd || !rs) return false;
 
-        // Assets
+        //========================
+        // AssetManager
+        //========================
         if (!m_assets.Initialize(gd->GetDevice())) return false;
         m_assets.SetBaseDirectory(L"Assets");
 
-        // Shaders
-        m_vs = m_assets.LoadVertexShader(L"Shaders/DefaultVS.cso");
-        m_ps = m_assets.LoadPixelShader(L"Shaders/DefaultPS.cso");
-        if (!m_vs || !m_ps) return false;
+        //========================
+        // MaterialLibrary（Material側で Shader / InputLayout まで責務を持つ）
+        //========================
+        {
+            MaterialBuildContext mbc{};
+            mbc.m_device = gd->GetDevice();
+            mbc.m_assets = &m_assets;
 
-        // InputLayout
-        m_il = m_assets.CreateInputLayout(L"PosNormColorUv", CreatePosNormColorUvLayout(), *m_vs);
-        if (!m_il) return false;
+            m_materialLibrary.Initialize(mbc);
 
-        // Mesh (clip-space triangle)
-        const VertexPosNormColorUv vertices[] = {
-            { { 0.0f,  0.5f, 0.0f }, {0,0,-1}, {1,0,0,1}, {0.5f, 0.0f} },
-            { { 0.5f, -0.5f, 0.0f }, {0,0,-1}, {0,1,0,1}, {1.0f, 1.0f} },
-            { {-0.5f, -0.5f, 0.0f }, {0,0,-1}, {0,0,1,1}, {0.0f, 1.0f} },
-        };
-        const std::uint32_t indices[] = { 0, 1, 2 };
-
-        if (!m_mesh.Create(gd->GetDevice(), vertices, sizeof(VertexPosNormColorUv), 3, indices, 3)) {
-            return false;
+            // “Assetsで作ったMaterial” 相当をここで生成＆キャッシュ（プレウォーム）
+            m_sharedMaterial = m_materialLibrary.GetOrCreate<SampleCubeMaterial>();
+            if (!m_sharedMaterial) return false;
         }
 
-        // RenderItem を組み立て（この後は毎フレーム AddRenderItem するだけ）
-        m_triangleItem = Engine::RenderItem{};
-        m_triangleItem.m_mesh = &m_mesh;
-        m_triangleItem.m_inputLayout = m_il->GetInputLayout();
-        m_triangleItem.m_vertexShader = m_vs->GetShader();
-        m_triangleItem.m_pixelShader = m_ps->GetShader();
-        m_triangleItem.m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-        // Material(b3)（Common.hlsl 仕様）
-        m_triangleItem.m_material = Engine::MaterialParams{};
-        m_triangleItem.m_material.m_baseColor = Engine::Vector4(1, 1, 1, 1);
-        m_triangleItem.m_material.m_flags = 0; // テクスチャ無し
+        //========================
+        // SceneContext
+        //========================
+        SceneContext ctx{};
+        ctx.m_app = m_app;
+        ctx.m_world = m_world;
+        ctx.m_renderSystem = rs;
 
-        // World は identity のまま（頂点がクリップ空間なのでOK）
-        // m_triangleItem.m_srv / m_triangleItem.m_sampler は無し
+        // 薄い依存：生のD3Dデバイスだけ渡す
+        ctx.m_device = gd->GetDevice();
+
+        // 任意：Sceneが必要なら参照できるように渡す
+        ctx.m_assets = &m_assets;
+
+        // 共有Material（SampleSceneが直接使う場合）
+        ctx.m_sharedMaterial = m_sharedMaterial;
+
+        // Prefabが MaterialLibrary を使うために渡す
+        ctx.m_materials = &m_materialLibrary;
+
+        // 最初から SampleScene
+        m_sceneManager.Initialize(ctx, std::make_unique<SampleScene>());
 
         return true;
     }
 
     void GameMain::Finalize() {
-        Engine::Logger::Info("GameMain Finalize (RenderQueue Triangle)");
+        Engine::Logger::Info("GameMain Finalize");
 
-        m_mesh.Destroy();
-        m_il.reset();
-        m_ps.reset();
-        m_vs.reset();
 
+        m_sceneManager.Finalize();
+        m_sharedMaterial.reset();
+        m_materialLibrary.Finalize();
         m_assets.Finalize();
+
 
         m_world = nullptr;
         m_app = nullptr;
+
     }
 
     void GameMain::Update(float deltaTime) {
-        (void)deltaTime;
+        // Scene（状態）更新（遷移予約など）
+        m_sceneManager.Update(deltaTime);
+
+        // World更新（Component動作）
+        if (m_world) {
+            m_world->Update(deltaTime);
+            m_world->LateUpdate(deltaTime);
+        }
     }
 
     void GameMain::Draw() {
-        auto* rs = m_app->GetRenderSystem();
-        if (!rs) return;
+        // Scene固有UIなど
+        m_sceneManager.Draw();
 
-        // 毎フレーム “描画要求” を積む
-        rs->AddRenderItem(m_triangleItem);
+        // World::Draw -> MeshRenderer::Draw -> RenderSystem に RenderItem を積む
+        if (m_world) {
+            m_world->Draw();
+        }
     }
 
 } // namespace Game
