@@ -26,7 +26,7 @@ namespace Game {
 
         // Transform
         if (auto* tr = e->GetComponent<Engine::Transform>()) {
-            tr->TeleportTo(desc.m_position);
+            tr->SetPosition(desc.m_position);
             tr->SetUniformScale(desc.m_uniformScale);
         }
 

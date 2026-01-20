@@ -1,54 +1,104 @@
 #include "Transform.h"
 
 #include <algorithm> // std::max
+#include <cmath>
 
 namespace Engine {
 
     namespace {
+		// スケールの最小値（0以下を防ぐため）
         constexpr float kMinScale = 0.0001f;
     }
 
-    void Transform::TeleportTo(const Vector3& position) {
+
+    float Transform::NormalizeAngle(float angle){
+		// 0～360度の範囲に正規化
+		angle = std::fmodf(angle, 360.0f);
+		// 負の値の場合は360度を加算
+        if (angle < 0.0f) {
+            angle += 360.0f;
+        }
+		return angle;
+    }
+
+    Vector3 Transform::NormalizeAngle(const Vector3& angles){
+        return Vector3(
+            NormalizeAngle(angles.x),
+            NormalizeAngle(angles.y),
+            NormalizeAngle(angles.z)
+		);
+    }
+
+
+    void Transform::AddChild(Transform* child){
+		m_children.push_back(child);
+    }
+
+    void Transform::RemoveChild(Transform* child){
+		m_children.remove(child);
+    }
+
+
+    void Transform::SetPosition(const Vector3& position) {
         m_position = position;
         MarkDirty();
     }
 
-    void Transform::MoveBy(const Vector3& delta) {
+    void Transform::SetPosition(float x, float y, float z) {
+		SetPosition(Vector3(x, y, z));
+    }
+
+    void Transform::AddPosition(const Vector3& delta) {
         m_position += delta;
         MarkDirty();
+    }
+
+    void Transform::AddPosition(float deltaX, float deltaY, float deltaZ){
+		AddPosition(Vector3(deltaX, deltaY, deltaZ));
     }
 
     const Vector3& Transform::GetPosition() const {
         return m_position;
     }
 
+    void Transform::SetWorldPosition(const Vector3& worldPosition){
+        if(m_parent) return m_parent->T
+    }
+
+    void Transform::SetWorldPosition(float x, float y, float z)
+    {
+    }
+
+    void Transform::AddWorldPosition(const Vector3& deltaWorldPosition)
+    {
+    }
+
     void Transform::SetRotationEulerDegrees(const Vector3& eulerDegrees) {
-        m_rotationEulerDegrees = eulerDegrees;
+        m_rotation = eulerDegrees;
         MarkDirty();
     }
 
-    void Transform::RotateByEulerDegrees(const Vector3& deltaDegrees) {
-        m_rotationEulerDegrees += deltaDegrees;
+    void Transform::AddRotationEulerDegrees(const Vector3& deltaDegrees) {
+        m_rotation += deltaDegrees;
         MarkDirty();
     }
 
     const Vector3& Transform::GetRotationEulerDegrees() const {
-        return m_rotationEulerDegrees;
+        return m_rotation;
     }
 
-    // ★追加：Yaw/Pitch/Roll の分かりやすい指定
     void Transform::SetYawPitchRollDegrees(float yawDegrees, float pitchDegrees, float rollDegrees) {
         // 内部は x=pitch, y=yaw, z=roll
-        m_rotationEulerDegrees.x = pitchDegrees;
-        m_rotationEulerDegrees.y = yawDegrees;
-        m_rotationEulerDegrees.z = rollDegrees;
+        m_rotation.x = pitchDegrees;
+        m_rotation.y = yawDegrees;
+        m_rotation.z = rollDegrees;
         MarkDirty();
     }
 
     void Transform::AddYawPitchRollDegrees(float yawDeltaDegrees, float pitchDeltaDegrees, float rollDeltaDegrees) {
-        m_rotationEulerDegrees.x += pitchDeltaDegrees;
-        m_rotationEulerDegrees.y += yawDeltaDegrees;
-        m_rotationEulerDegrees.z += rollDeltaDegrees;
+        m_rotation.x += pitchDeltaDegrees;
+        m_rotation.y += yawDeltaDegrees;
+        m_rotation.z += rollDeltaDegrees;
         MarkDirty();
     }
 
@@ -65,32 +115,39 @@ namespace Engine {
         MarkDirty();
     }
 
+    void Transform::AddScale(const Vector3& deltaScale){
+		m_scale.x = std::max(m_scale.x + deltaScale.x, kMinScale);
+		m_scale.y = std::max(m_scale.y + deltaScale.y, kMinScale);
+		m_scale.z = std::max(m_scale.z + deltaScale.z, kMinScale);
+		MarkDirty();
+    }
+
     const Vector3& Transform::GetScale() const {
         return m_scale;
     }
 
     const DirectX::XMFLOAT4X4& Transform::GetWorldMatrix() const {
         RebuildWorldIfDirty();
-        return m_worldMatrix;
+        return m_localToWorldMatrix;
     }
 
     Vector3 Transform::GetRight() const {
         using namespace DirectX;
-        const XMVECTOR q = MakeRotationQuaternion(m_rotationEulerDegrees);
+        const XMVECTOR q = MakeRotationQuaternion(m_rotation);
         const XMVECTOR v = XMVector3Rotate(XMVectorSet(1, 0, 0, 0), q);
         return Vector3(v);
     }
 
     Vector3 Transform::GetUp() const {
         using namespace DirectX;
-        const XMVECTOR q = MakeRotationQuaternion(m_rotationEulerDegrees);
+        const XMVECTOR q = MakeRotationQuaternion(m_rotation);
         const XMVECTOR v = XMVector3Rotate(XMVectorSet(0, 1, 0, 0), q);
         return Vector3(v);
     }
 
     Vector3 Transform::GetForward() const {
         using namespace DirectX;
-        const XMVECTOR q = MakeRotationQuaternion(m_rotationEulerDegrees);
+        const XMVECTOR q = MakeRotationQuaternion(m_rotation);
         const XMVECTOR v = XMVector3Rotate(XMVectorSet(0, 0, 1, 0), q);
         return Vector3(v);
     }
@@ -115,12 +172,12 @@ namespace Engine {
         using namespace DirectX;
 
         const XMMATRIX s = XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
-        const XMVECTOR q = MakeRotationQuaternion(m_rotationEulerDegrees);
+        const XMVECTOR q = MakeRotationQuaternion(m_rotation);
         const XMMATRIX r = XMMatrixRotationQuaternion(q);
         const XMMATRIX t = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
 
         const XMMATRIX world = s * r * t;
-        XMStoreFloat4x4(&m_worldMatrix, world);
+        XMStoreFloat4x4(&m_localToWorldMatrix, world);
 
         m_isDirty = false;
     }

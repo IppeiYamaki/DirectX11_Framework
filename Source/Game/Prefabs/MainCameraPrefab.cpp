@@ -21,7 +21,7 @@ namespace Game {
 
         // Transform
         if (auto* tr = e->GetComponent<Engine::Transform>()) {
-            tr->TeleportTo(desc.m_position);
+            tr->SetPosition(desc.m_position);
             tr->SetYawPitchRollDegrees(desc.m_yawDeg, desc.m_pitchDeg, desc.m_rollDeg);
         }
 
