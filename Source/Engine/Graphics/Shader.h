@@ -38,6 +38,14 @@ namespace Engine {
     /// @return 頂点入力レイアウト
     VertexInputLayout CreateSkinnedPosNormColorUvWeightsLayout();
 
+    /// @brief  拡張頂点用（Pos/Normal/Tangent/Bitangent/UV）の入力レイアウトを生成
+    /// @return 頂点入力レイアウト
+    VertexInputLayout CreateExtendedPosNormTangentBitangentUvLayout();
+
+    /// @brief  拡張スキニング用（Tangent/Bitangent含む）の入力レイアウトを生成
+    /// @return 頂点入力レイアウト
+    VertexInputLayout CreateExtendedSkinnedLayout();
+
     /// @brief 頂点シェーダーのラッパ
     class VertexShader final {
     public:
