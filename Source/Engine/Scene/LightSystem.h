@@ -6,11 +6,11 @@
 #include <vector>
 
 #include "Engine/Math/Vector3.h"
+#include "Engine/Scene/Light.h"
 
 namespace Engine {
 
     class RenderSystem;
-    class Light;
     class DirectionalLightObject;
     class PointLightObject;
     class SpotLightObject;
