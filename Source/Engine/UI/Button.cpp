@@ -143,10 +143,10 @@ namespace Engine {
     //============================================================
 
     bool Button::ContainsPoint(float mouseX, float mouseY) const {
-        return mouseX >= m_position.m_x &&
-               mouseX <= m_position.m_x + m_size.m_x &&
-               mouseY >= m_position.m_y &&
-               mouseY <= m_position.m_y + m_size.m_y;
+        return mouseX >= m_position.x &&
+               mouseX <= m_position.x + m_size.x &&
+               mouseY >= m_position.y &&
+               mouseY <= m_position.y + m_size.y;
     }
 
     void Button::HandleMouseInput(float mouseX, float mouseY, bool isPressed) {

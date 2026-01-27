@@ -15,7 +15,7 @@
 
 namespace Game {
 
-    Engine::GameObject* SkyPrefab::Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc) {
+    Engine::GameObject* SkyPrefab::Spawn(Game::SceneContext& ctx, const SpawnDesc& desc) {
         if (!ctx.m_scene || !ctx.m_renderSystem || !ctx.m_device || !ctx.m_materials) {
             Engine::Logger::Error("SkyDomePrefab::Spawn failed: ctx invalid.");
             return nullptr;
