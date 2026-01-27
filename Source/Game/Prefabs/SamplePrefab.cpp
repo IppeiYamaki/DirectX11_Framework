@@ -14,7 +14,7 @@
 
 namespace Game {
 
-    Engine::GameObject* SamplePrefab::Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc) {
+    Engine::GameObject* SamplePrefab::Spawn(Game::SceneContext& ctx, const SpawnDesc& desc) {
         if (!ctx.m_scene || !ctx.m_renderSystem || !ctx.m_device) {
             Engine::Logger::Error("SamplePrefab::Spawn failed: ctx invalid.");
             return nullptr;

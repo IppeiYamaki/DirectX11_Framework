@@ -10,7 +10,7 @@
 
 namespace Game {
 
-    Engine::GameObject* MainCameraPrefab::Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc) {
+    Engine::GameObject* MainCameraPrefab::Spawn(Game::SceneContext& ctx, const SpawnDesc& desc) {
         if (!ctx.m_scene || !ctx.m_renderSystem) {
             Engine::Logger::Error("MainCameraPrefab::Spawn failed: ctx invalid.");
             return nullptr;

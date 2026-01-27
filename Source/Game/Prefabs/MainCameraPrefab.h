@@ -48,7 +48,7 @@ namespace Game {
             }
         };
 
-        static Engine::GameObject* Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc);
+        static Engine::GameObject* Spawn(Game::SceneContext& ctx, const SpawnDesc& desc);
     };
 
 } // namespace Game

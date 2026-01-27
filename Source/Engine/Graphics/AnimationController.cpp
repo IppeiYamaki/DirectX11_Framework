@@ -26,7 +26,7 @@ namespace Engine {
 
     void AnimationController::PlayAnimation(const std::string& clipName, float blendTime, bool looping) {
         if (!m_model) {
-            Logger::Warning("AnimationController::PlayAnimation: model is null.");
+            Logger::Warn("AnimationController::PlayAnimation: model is null.");
             return;
         }
 
@@ -37,7 +37,7 @@ namespace Engine {
 
         // クリップの存在確認
         if (!m_model->GetClip(clipName)) {
-            Logger::Warning("AnimationController::PlayAnimation: clip not found.");
+            Logger::Warn("AnimationController::PlayAnimation: clip not found.");
             return;
         }
 
