@@ -14,7 +14,7 @@ namespace Engine {
     GameObject::GameObject(const std::string& name)
         : m_id(EntityId::Generate())
         , m_name(name)
-        , m_tag("")
+        , m_tags()
         , m_isActive(true)
         , m_hasStarted(false)
         , m_transform(nullptr)
@@ -133,15 +133,44 @@ namespace Engine {
     }
 
     void GameObject::SetTag(const std::string& tag) {
-        m_tag = tag;
+        // 後方互換用：既存のタグをクリアして新しいタグを追加
+        m_tags.clear();
+        if (!tag.empty()) {
+            m_tags.insert(tag);
+        }
     }
 
     const std::string& GameObject::GetTag() const {
-        return m_tag;
+        // 後方互換用：最初のタグを返す（空の場合は静的な空文字列を返す）
+        static const std::string s_emptyTag;
+        if (m_tags.empty()) {
+            return s_emptyTag;
+        }
+        return *m_tags.begin();
     }
 
     bool GameObject::CompareTag(const std::string& tag) const {
-        return m_tag == tag;
+        return HasTag(tag);
+    }
+
+    void GameObject::AddTag(const Tag& tag) {
+        m_tags.insert(tag);
+    }
+
+    void GameObject::RemoveTag(const Tag& tag) {
+        m_tags.erase(tag);
+    }
+
+    bool GameObject::HasTag(const Tag& tag) const {
+        return m_tags.contains(tag);
+    }
+
+    void GameObject::ClearTags() {
+        m_tags.clear();
+    }
+
+    const TagSet& GameObject::GetTags() const {
+        return m_tags;
     }
 
     //============================================================

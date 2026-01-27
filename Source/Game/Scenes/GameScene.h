@@ -56,8 +56,8 @@ namespace Game {
         void HandleMouseInput(Engine::SceneContext& ctx);
 
     private:
-        // カメラEntity（シーン切替時に破棄するため保持）
-        Engine::Entity* m_cameraEntity = nullptr;
+        // カメラGameObject（シーン切替時に破棄するため保持）
+        Engine::GameObject* m_cameraObject = nullptr;
 
         // 選択中のオブジェクト
         Engine::GameObject* m_selectedObject = nullptr;

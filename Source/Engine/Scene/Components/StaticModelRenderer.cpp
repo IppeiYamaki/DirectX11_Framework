@@ -6,7 +6,7 @@
 #include "Engine/Graphics/RenderSystem.h"
 #include "Engine/Graphics/Model.h"
 
-#include "Engine/Scene/Entity.h"
+#include "Engine/Scene/GameObject.h"
 #include "Engine/Scene/Components/Transform.h"
 
 namespace Engine {
@@ -18,7 +18,7 @@ namespace Engine {
     }
 
     void StaticModelRenderer::OnStart() {
-        // ‰½‚à‚µ‚È‚¢iLoadModel/SetModel‚³‚ê‚½‚ç•`‰æ‚³‚ê‚éj
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½iLoadModel/SetModelï¿½ï¿½ï¿½ê‚½ï¿½ï¿½`ï¿½æ‚³ï¿½ï¿½ï¿½j
     }
 
     void StaticModelRenderer::Draw() {
@@ -43,9 +43,9 @@ namespace Engine {
             item.m_world = tr->GetWorldMatrix();
             item.m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-			item.m_layer = RenderLayer::Opaque; // TODO: ƒ}ƒeƒŠƒAƒ‹‚©‚çŽæ‚é
-			item.m_orderInLayer = 0;            // TODO: ƒ}ƒeƒŠƒAƒ‹‚©‚çŽæ‚é
-			item.m_stateFlags = 0;              // TODO: ƒ}ƒeƒŠƒAƒ‹‚©‚çŽæ‚é
+			item.m_layer = RenderLayer::Opaque; // TODO: ï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			item.m_orderInLayer = 0;            // TODO: ï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			item.m_stateFlags = 0;              // TODO: ï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
             m_renderSystem->AddRenderItem(item);
         }

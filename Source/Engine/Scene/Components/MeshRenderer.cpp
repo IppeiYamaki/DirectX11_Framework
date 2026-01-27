@@ -2,7 +2,7 @@
 
 #include "Engine/Core/Logger.h"
 
-#include "Engine/Scene/Entity.h"
+#include "Engine/Scene/GameObject.h"
 #include "Engine/Scene/Components/Transform.h"
 
 #include "Engine/Graphics/RenderSystem.h"
@@ -38,7 +38,7 @@ namespace Engine {
         item.m_world = tr->GetWorldMatrix();
         item.m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-        // šUnity•—
+        // ï¿½ï¿½Unityï¿½ï¿½
         item.m_layer = m_renderLayer;
         item.m_orderInLayer = m_orderInLayer;
         item.m_stateFlags = m_stateFlags;

@@ -2,15 +2,15 @@
 
 #include "Engine/Math/Vector3.h"
 
-namespace Engine { class Entity; }
+namespace Engine { class GameObject; }
 namespace Engine { struct SceneContext; }
 
 namespace Game {
 
     /**
-     * @brief Sky�h�[���i�w�i���C���[�j
-     * - Sphere �����剻���ē�����`���iCullFront�j
-     * - DepthWriteOff�i���ɂ���w�i�Ƃ��Ĉ����j
+     * @brief Skyドーム（背景レイヤー）
+     * - Sphere を大きく化して内側を描画（CullFront）
+     * - DepthWriteOff（常に一番背景として扱う）
      */
     class SkyPrefab final {
     public:
@@ -24,7 +24,7 @@ namespace Game {
             }
         };
 
-        static Engine::Entity* Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc);
+        static Engine::GameObject* Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc);
     };
 
 } // namespace Game

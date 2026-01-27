@@ -6,7 +6,6 @@
 
 namespace Engine {
     class Application;
-    class Entity;
     class GameObject;
     class Scene;
     class RenderSystem;
@@ -51,14 +50,14 @@ namespace Game {
         /// @brief Prefabを生成する（引数は Prefab::SpawnDesc のコンストラクタ引数に転送される）
         /// @tparam TPrefab Prefabクラス
         /// @param args Prefab::SpawnDescのコンストラクタ引数
-        /// @return 生成されたEntity
+        /// @return 生成されたGameObject
         template<class TPrefab, class... Args>
-        Engine::Entity* Spawn(Args&&... args) {
+        Engine::GameObject* Spawn(Args&&... args) {
             using Desc = typename TPrefab::SpawnDesc;
             return TPrefab::Spawn(*this, Desc{ std::forward<Args>(args)... });
         }
 
-        /// @brief GameObjectベースのPrefabを生成する
+        /// @brief GameObjectベースのPrefabを生成する（エイリアス）
         /// @tparam TPrefab GameObjectPrefabクラス
         /// @param args Prefab::SpawnDescのコンストラクタ引数
         /// @return 生成されたGameObject

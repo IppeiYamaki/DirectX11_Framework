@@ -39,9 +39,9 @@ namespace Game {
 
         // カメラ破棄（CameraSystemを使用している場合はCameraSystem経由で管理される）
         // 旧来のPrefab方式でカメラを作成した場合のみ、ここで破棄
-        if (m_cameraEntity && ctx.m_scene) {
-            ctx.m_scene->DestroyEntity(m_cameraEntity);
-            m_cameraEntity = nullptr;
+        if (m_cameraObject && ctx.m_scene) {
+            ctx.m_scene->DestroyObject(m_cameraObject);
+            m_cameraObject = nullptr;
         }
     }
 
@@ -118,7 +118,7 @@ namespace Game {
         }
         else {
             // フォールバック：旧来のPrefab方式
-            m_cameraEntity = ctx.Spawn<MainCameraPrefab>(Engine::Vector3(0, 3, -8), /*yaw*/0.0f, /*pitch*/-5.0f);
+            m_cameraObject = ctx.Spawn<MainCameraPrefab>(Engine::Vector3(0, 3, -8), /*yaw*/0.0f, /*pitch*/-5.0f);
         }
 
         //========================

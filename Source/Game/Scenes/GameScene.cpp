@@ -43,9 +43,9 @@ namespace Game {
         m_sceneObjects.clear();
 
         // カメラ破棄
-        if (m_cameraEntity && ctx.m_scene) {
-            ctx.m_scene->DestroyEntity(m_cameraEntity);
-            m_cameraEntity = nullptr;
+        if (m_cameraObject && ctx.m_scene) {
+            ctx.m_scene->DestroyObject(m_cameraObject);
+            m_cameraObject = nullptr;
         }
 
         m_selectedObject = nullptr;
@@ -89,7 +89,7 @@ namespace Game {
             ctx.m_cameraSystem->SetMainCamera(mainCamera);
         }
         else {
-            m_cameraEntity = ctx.Spawn<MainCameraPrefab>(Engine::Vector3(0, 5, -10), 0.0f, -15.0f);
+            m_cameraObject = ctx.Spawn<MainCameraPrefab>(Engine::Vector3(0, 5, -10), 0.0f, -15.0f);
         }
 
         //========================
