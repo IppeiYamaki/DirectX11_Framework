@@ -43,15 +43,26 @@ GraphicsDevice、RenderSystem、Shader関連機能の効率性向上とメモリ
 struct RenderSortKey {
     std::uint64_t key;
 
+    // ソートキーのビット配分定数
+    static constexpr std::uint64_t kLayerMask      = 0xFULL;
+    static constexpr std::uint64_t kLayerShift     = 60;
+    static constexpr std::uint64_t kShaderMask     = 0xFFFFULL;
+    static constexpr std::uint64_t kShaderShift    = 44;
+    static constexpr std::uint64_t kMaterialMask   = 0xFFFFULL;
+    static constexpr std::uint64_t kMaterialShift  = 28;
+    static constexpr std::uint64_t kOrderMask      = 0xFFFFULL;
+    static constexpr std::uint64_t kOrderShift     = 12;
+    static constexpr std::uint64_t kDepthMask      = 0xFFFULL;
+
     static RenderSortKey Create(const RenderItem& item) {
         RenderSortKey sortKey;
         // ビット配分: [Layer:4][Shader:16][Material:16][Order:16][Depth:12]
         sortKey.key = 0;
-        sortKey.key |= (static_cast<std::uint64_t>(item.m_layer) & 0xF) << 60;
-        sortKey.key |= (GetShaderId(item.m_material) & 0xFFFF) << 44;
-        sortKey.key |= (GetMaterialId(item.m_material) & 0xFFFF) << 28;
-        sortKey.key |= (static_cast<std::uint64_t>(item.m_orderInLayer) & 0xFFFF) << 12;
-        sortKey.key |= (CalculateDepth(item) & 0xFFF);
+        sortKey.key |= (static_cast<std::uint64_t>(item.m_layer) & kLayerMask) << kLayerShift;
+        sortKey.key |= (GetShaderId(item.m_material) & kShaderMask) << kShaderShift;
+        sortKey.key |= (GetMaterialId(item.m_material) & kMaterialMask) << kMaterialShift;
+        sortKey.key |= (static_cast<std::uint64_t>(item.m_orderInLayer) & kOrderMask) << kOrderShift;
+        sortKey.key |= (CalculateDepth(item) & kDepthMask);
         return sortKey;
     }
 
@@ -210,7 +221,12 @@ public:
     }
 
     /// @brief データを設定（変更があれば dirty フラグを立てる）
+    /// @note  POD型（Plain Old Data）を想定。浮動小数点やパディングを含む型の場合は
+    ///        operator== を使用するか、専用の比較機構を実装することを推奨
     void SetData(const T& data) {
+        // 注意: memcmpはパディングや浮動小数点の特殊値で問題が起きる可能性あり
+        // 本番コードでは以下のようにoperator==を使用することを推奨:
+        // if (!(m_data == data)) { ... }
         if (memcmp(&m_data, &data, sizeof(T)) != 0) {
             m_data = data;
             m_isDirty = true;

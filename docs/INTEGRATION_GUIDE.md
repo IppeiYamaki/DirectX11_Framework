@@ -2,7 +2,9 @@
 
 ## 概要
 
-[Sankou_00](https://github.com/IppeiYamaki/Sankou_00) と [Sankou_01](https://github.com/IppeiYamaki/Sankou_01) から DirectX11_Framework に統合可能な機能と、その統合方法を示します。
+[Sankou_00](https://github.com/IppeiYamaki/Sankou_00)（C++構造の参考リポジトリ、AudioSourceや各種ユーティリティを含む）と [Sankou_01](https://github.com/IppeiYamaki/Sankou_01)（HLSL/DirectX11実装の参考リポジトリ、ポストプロセスシェーダー集を含む）から DirectX11_Framework に統合可能な機能と、その統合方法を示します。
+
+> **注意:** これらのリポジトリへのアクセスには適切な権限が必要な場合があります。リンクが利用できない場合は、以下の説明を参考にしてください。
 
 ---
 

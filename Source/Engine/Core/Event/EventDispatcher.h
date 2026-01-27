@@ -51,7 +51,10 @@ namespace Engine {
             m_handlers[typeId].push_back({
                 id,
                 [handler](const std::any& event) {
-                    handler(std::any_cast<const T&>(event));
+                    // std::any_cast with pointer for safe casting
+                    if (const T* eventPtr = std::any_cast<T>(&event)) {
+                        handler(*eventPtr);
+                    }
                 }
             });
 
