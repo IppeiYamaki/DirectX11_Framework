@@ -34,9 +34,6 @@
     <Filter Include="Source\Game\Scripts">
       <UniqueIdentifier>{b7dccdd1-0f7d-4add-8b2f-b1b24069b367}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Game\Systems">
-      <UniqueIdentifier>{be06c1a0-c3f2-4240-9fe6-8a75047332f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Game\Worlds">
       <UniqueIdentifier>{6f1faaf9-cafa-495e-b105-4c0c2e37765d}</UniqueIdentifier>
     </Filter>
@@ -73,14 +70,17 @@
     <Filter Include="Source\Engine\AI">
       <UniqueIdentifier>{f86cd35d-dbbc-46fe-8d1c-aad322614aaa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Engine\Scene\Scripting">
-      <UniqueIdentifier>{a2eaf970-d1e6-43be-8f65-26b55f05f06b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Engine\UI">
       <UniqueIdentifier>{f7b8c4d9-2a1e-4b5c-9d8f-3e6a7b0c1d2e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Engine\Physics">
       <UniqueIdentifier>{a1b2c3d4-e5f6-7890-abcd-ef1234567890}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\GameObjects">
+      <UniqueIdentifier>{46740ec4-df63-490a-bcc6-e8d9d3f38eaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Scenes">
+      <UniqueIdentifier>{102ecf98-c8ed-4a24-a64c-cd41de25ef95}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -255,6 +255,18 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Scripts\SelectUI.cpp">
       <Filter>Source\Game\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\EnemyObject.cpp">
+      <Filter>Source\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\PlayerObject.cpp">
+      <Filter>Source\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Scenes\GameScene.cpp">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Scenes\SampleScene.cpp">
+      <Filter>Source\Game\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -494,6 +506,24 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Scripts\SelectUI.h">
       <Filter>Source\Game\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\EnemyObject.h">
+      <Filter>Source\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\PlayerObject.h">
+      <Filter>Source\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\GameObjectSlot.h">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\GameScene.h">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\PrefabSlot.h">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\SampleScene.h">
+      <Filter>Source\Game\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
