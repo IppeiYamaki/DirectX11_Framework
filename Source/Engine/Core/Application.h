@@ -13,16 +13,18 @@
 
 namespace Engine {
 
+    class Scene;
+
     /**
-     * @brief Engine ‚Ìi—ß“ƒi‰Šú‰»‡˜ + ƒƒCƒ“ƒ‹[ƒvŒÅ’èj
+     * @brief Engine ï¿½Ìiï¿½ß“ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ + ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½Å’ï¿½j
      *
-     * - Window / GraphicsDevice / RenderSystem / World / Time ‚ğŠ—L‚·‚é
-     * - ƒ‹[ƒv‚Í‚±‚±‚Å‰ñ‚·iWinMain ‚ğ”–‚­‚·‚éj
+     * - Window / GraphicsDevice / RenderSystem / World / Time ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½
+     * - ï¿½ï¿½ï¿½[ï¿½vï¿½Í‚ï¿½ï¿½ï¿½ï¿½Å‰ñ‚·iWinMain ï¿½ğ”–‚ï¿½ï¿½ï¿½ï¿½ï¿½j
      */
     class Application final {
     public:
         Application() = default;
-        ~Application(); // unique_ptr ‚Ì‚½‚ß cpp ‚Å’è‹`i‘O•ûéŒ¾Œ^‚ÌŠ®‘SŒ^‚ª•K—vj
+        ~Application(); // unique_ptr ï¿½Ì‚ï¿½ï¿½ï¿½ cpp ï¿½Å’ï¿½`ï¿½iï¿½Oï¿½ï¿½ï¿½éŒ¾ï¿½^ï¿½ÌŠï¿½ï¿½Sï¿½^ï¿½ï¿½ï¿½Kï¿½vï¿½j
 
         Application(const Application&) = delete;
         Application& operator=(const Application&) = delete;
@@ -47,7 +49,7 @@ namespace Engine {
         bool IsInitialized() const;
 
         //============================================================
-        // Gettersi”ñconstQÆGet‚ÍŒ´‘¥‹Ö~ ¨ ƒ|ƒCƒ“ƒ^‚Å•Ô‚·j
+        // Gettersï¿½iï¿½ï¿½constï¿½Qï¿½ï¿½Getï¿½ÍŒï¿½ï¿½ï¿½ï¿½Ö~ ï¿½ï¿½ ï¿½|ï¿½Cï¿½ï¿½ï¿½^ï¿½Å•Ô‚ï¿½ï¿½j
         //============================================================
         const ApplicationSettings& GetSettings() const;
 
@@ -56,7 +58,7 @@ namespace Engine {
               World* GetWorld();
         const World* GetWorld() const;
 
-        // Engine“à•”—piƒQ[ƒ€‚©‚ç‚ÍG‚ç‚È‚¢‘z’èB•K—v‚È‚çŒöŠJ”ÍˆÍ‚ğŒ©’¼‚·j
+        // Engineï¿½ï¿½ï¿½ï¿½ï¿½pï¿½iï¿½Qï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍGï¿½ï¿½È‚ï¿½ï¿½zï¿½ï¿½Bï¿½Kï¿½vï¿½È‚ï¿½ï¿½ï¿½Jï¿½ÍˆÍ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
               Window* GetWindow();
         const Window* GetWindow() const;
 
@@ -66,17 +68,20 @@ namespace Engine {
               RenderSystem* GetRenderSystem();
         const RenderSystem* GetRenderSystem() const;
 
+              Scene* GetScene();
+        const Scene* GetScene() const;
+
     private:
-		bool                            m_isInitialized     = false;    // ‰Šú‰»Ï‚İƒtƒ‰ƒO
-        bool                            m_isQuitRequested   = false;    // I—¹—v‹ƒtƒ‰ƒO
+		bool                            m_isInitialized     = false;    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï‚İƒtï¿½ï¿½ï¿½O
+        bool                            m_isQuitRequested   = false;    // ï¿½Iï¿½ï¿½ï¿½vï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
 
-		ApplicationSettings             m_settings{};                   // ƒAƒvƒŠƒP[ƒVƒ‡ƒ“İ’è
-		Time                            m_time{};                       // ŠÔŠÇ—
+		ApplicationSettings             m_settings{};                   // ï¿½Aï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½
+		Time                            m_time{};                       // ï¿½ï¿½ï¿½ÔŠÇ—ï¿½
 
-		std::unique_ptr<Window>         m_window;                       // ƒEƒBƒ“ƒhƒEŠÇ—
-		std::unique_ptr<GraphicsDevice> m_graphicsDevice;               // ƒOƒ‰ƒtƒBƒbƒNƒXƒfƒoƒCƒXŠÇ—
-		std::unique_ptr<RenderSystem>   m_renderSystem;                 // ƒŒƒ“ƒ_ƒŠƒ“ƒOŠÇ—
-		std::unique_ptr<World>          m_world;                        // ƒV[ƒ“ŠÇ—
+		std::unique_ptr<Window>         m_window;                       // ï¿½Eï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½Ç—ï¿½
+		std::unique_ptr<GraphicsDevice> m_graphicsDevice;               // ï¿½Oï¿½ï¿½ï¿½tï¿½Bï¿½bï¿½Nï¿½Xï¿½fï¿½oï¿½Cï¿½Xï¿½Ç—ï¿½
+		std::unique_ptr<RenderSystem>   m_renderSystem;                 // ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Ç—ï¿½
+		std::unique_ptr<World>          m_world;                        // ï¿½Vï¿½[ï¿½ï¿½ï¿½Ç—ï¿½
     };
 
 } // namespace Engine
