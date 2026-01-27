@@ -387,6 +387,12 @@
     <ClInclude Include="Source\Engine\Scene\EntityId.h">
       <Filter>Source\Engine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\Prefab.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\PrefabManager.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\ThirdParty\DirectXTex\DirectXTex.inl">

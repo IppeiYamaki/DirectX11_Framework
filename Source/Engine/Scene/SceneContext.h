@@ -14,6 +14,8 @@ namespace Engine {
     class RenderSystem;
     class AssetManager;
     class Material;
+    class CameraSystem;
+    class Canvas;
     class PrefabManager;
 }
 
@@ -31,6 +33,12 @@ namespace Game {
         Engine::Scene* m_scene = nullptr;
         Engine::RenderSystem* m_renderSystem = nullptr;
 
+        // Camera管理システム（エンジン側で管理）
+        Engine::CameraSystem* m_cameraSystem = nullptr;
+
+        // Canvas UI管理システム
+        Engine::Canvas* m_canvas = nullptr;
+
         // 一部依存：借用D3Dデバイス（借用）
         ID3D11Device* m_device = nullptr;
 
@@ -45,6 +53,16 @@ namespace Game {
 
         // Prefab管理（キャッシュ）
         Engine::PrefabManager* m_prefabs = nullptr;
+
+        /// @brief Prefabを生成する（引数は Prefab::SpawnDesc のコンストラクタ引数に転送される）
+        /// @tparam TPrefab Prefab派生型
+        /// @param args Prefab::SpawnDescのコンストラクタ引数
+        /// @return 生成されたEntity
+        template<class TPrefab, class... Args>
+        Engine::Entity* Spawn(Args&&... args) {
+            using Desc = typename TPrefab::SpawnDesc;
+            return TPrefab::Spawn(*this, Desc{ std::forward<Args>(args)... });
+        }
 
         /// @brief PrefabManager経由でPrefabを生成する
         /// @tparam TPrefab Prefab派生型

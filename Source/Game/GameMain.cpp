@@ -3,6 +3,7 @@
 
 #include "Engine/Core/Logger.h"
 #include "Engine/Core/Application.h"
+#include "Engine/Core/ApplicationSettings.h"
 
 #include "Engine/Graphics/GraphicsDevice.h"
 #include "Engine/Graphics/RenderSystem.h"
@@ -52,6 +53,23 @@ namespace Game {
             if (!m_sharedMaterial) return false;
         }
 
+        //========================
+        // CameraSystem初期化
+        //========================
+        if (!m_cameraSystem.Initialize(m_scene, rs)) {
+            Engine::Logger::Error("GameMain::Initialize failed: CameraSystem initialize failed.");
+            return false;
+        }
+
+        //========================
+        // Canvas初期化
+        //========================
+        const auto& settings = app.GetSettings();
+        if (!m_canvas.Initialize(static_cast<float>(settings.m_width), static_cast<float>(settings.m_height))) {
+            Engine::Logger::Error("GameMain::Initialize failed: Canvas initialize failed.");
+            return false;
+        }
+
 
         //========================
         // SceneContext
@@ -60,6 +78,8 @@ namespace Game {
         ctx.m_app = m_app;
         ctx.m_scene = m_scene;
         ctx.m_renderSystem = rs;
+        ctx.m_cameraSystem = &m_cameraSystem;
+        ctx.m_canvas = &m_canvas;
 
         // 一部依存：借用D3Dデバイスを渡す
         ctx.m_device = gd->GetDevice();
@@ -87,6 +107,8 @@ namespace Game {
 
 
         m_sceneManager.Finalize();
+        m_canvas.Finalize();
+        m_cameraSystem.Finalize();
         m_prefabManager.Clear();
         m_sharedMaterial.reset();
         m_materialLibrary.Finalize();
@@ -100,6 +122,12 @@ namespace Game {
     void GameMain::Update(float deltaTime) {
         // Scene（状態）更新（遷移予約など）
         m_sceneManager.Update(deltaTime);
+
+        // CameraSystem更新
+        m_cameraSystem.Update(deltaTime);
+
+        // Canvas更新
+        m_canvas.Update(deltaTime);
 
         // Scene更新（Component処理）
         if (m_scene) {
@@ -115,6 +143,12 @@ namespace Game {
         // Scene::Draw -> MeshRenderer::Draw -> RenderSystem に RenderItem を積む
         if (m_scene) {
             m_scene->Draw();
+        }
+
+        // Canvas描画（UIは最後に描画して手前に表示）
+        if (m_app) {
+            auto* rs = m_app->GetRenderSystem();
+            m_canvas.Render(rs);
         }
     }
 

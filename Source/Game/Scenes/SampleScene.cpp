@@ -3,6 +3,7 @@
 #include <DirectXMath.h>
 
 #include "Engine/Scene/SceneContext.h"
+#include "Engine/Scene/CameraSystem.h"
 #include "Game/Rendering/DefaultLighting.h"
 
 // Engine Components
@@ -28,7 +29,8 @@ namespace Game {
         }
         m_characters.clear();
 
-        // カメラ破棄（ワールドを切り替えるたびに残るのを防ぐ）
+        // カメラ破棄（CameraSystemを使用している場合はCameraSystem経由で管理される）
+        // 旧来のPrefab方式でカメラを作成した場合のみ、ここで破棄
         if (m_cameraEntity && ctx.m_scene) {
             ctx.m_scene->DestroyEntity(m_cameraEntity);
             m_cameraEntity = nullptr;
@@ -53,9 +55,27 @@ namespace Game {
         if (!ctx.m_scene || !ctx.m_renderSystem) return;
 
         //========================
-        // MainCamera 生成
+        // MainCamera 生成（CameraSystemを使用）
         //========================
-        m_cameraEntity = ctx.SpawnPrefab<MainCameraPrefab>(Engine::Vector3(0, 3, -8), /*yaw*/0.0f, /*pitch*/-5.0f);
+        if (ctx.m_cameraSystem) {
+            // 新しいCameraSystem APIを使用してカメラを作成
+            Engine::CameraInitParams cameraParams{};
+            cameraParams.m_position = Engine::Vector3(0, 3, -8);
+            cameraParams.m_yawDeg = 0.0f;
+            cameraParams.m_pitchDeg = -5.0f;
+            cameraParams.m_fovYRad = DirectX::XM_PIDIV4;
+            cameraParams.m_aspect = 16.0f / 9.0f;
+            cameraParams.m_nearZ = 0.1f;
+            cameraParams.m_farZ = 1000.0f;
+            cameraParams.m_isMain = true;
+
+            auto* mainCamera = ctx.m_cameraSystem->AddCamera(cameraParams);
+            ctx.m_cameraSystem->SetMainCamera(mainCamera);
+        }
+        else {
+            // フォールバック：旧来のPrefab方式
+            m_cameraEntity = ctx.SpawnPrefab<MainCameraPrefab>(Engine::Vector3(0, 3, -8), /*yaw*/0.0f, /*pitch*/-5.0f);
+        }
        
         //========================
         // Sky 生成

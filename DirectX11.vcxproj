@@ -269,6 +269,8 @@
     <ClInclude Include="Source\Engine\Scene\Components\Transform.h" />
     <ClInclude Include="Source\Engine\Scene\Entity.h" />
     <ClInclude Include="Source\Engine\Scene\EntityId.h" />
+    <ClInclude Include="Source\Engine\Scene\Prefab.h" />
+    <ClInclude Include="Source\Engine\Scene\PrefabManager.h" />
     <ClInclude Include="Source\Engine\Scene\World.h" />
     <ClInclude Include="Source\Game\GameMain.h" />
     <ClInclude Include="Source\Game\Prefabs\MainCameraPrefab.h" />

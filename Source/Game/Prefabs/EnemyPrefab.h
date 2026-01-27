@@ -55,7 +55,6 @@ namespace Game {
         /// @param desc 生成パラメータ
         /// @return 生成されたEnemyObject（GameObjectとして返す）
         static Engine::GameObject* SpawnObject(Game::SceneContext& ctx, const SpawnDesc& desc);
-
         Engine::Entity* Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc) override;
     };
 
