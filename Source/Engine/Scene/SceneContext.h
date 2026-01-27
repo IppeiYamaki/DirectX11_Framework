@@ -12,6 +12,8 @@ namespace Engine {
     class RenderSystem;
     class AssetManager;
     class Material;
+    class CameraSystem;
+    class Canvas;
 }
 
 namespace Game {
@@ -27,6 +29,12 @@ namespace Game {
         Engine::Application* m_app = nullptr;
         Engine::Scene* m_scene = nullptr;
         Engine::RenderSystem* m_renderSystem = nullptr;
+
+        // Camera管理システム（エンジン側で管理）
+        Engine::CameraSystem* m_cameraSystem = nullptr;
+
+        // Canvas UI管理システム
+        Engine::Canvas* m_canvas = nullptr;
 
         // 一部依存：借用D3Dデバイス（借用）
         ID3D11Device* m_device = nullptr;

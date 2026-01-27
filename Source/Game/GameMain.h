@@ -5,6 +5,8 @@
 #include "Engine/Core/IGame.h"
 #include "Engine/Resources/AssetManager.h"
 #include "Engine/Scene/SceneManager.h"
+#include "Engine/Scene/CameraSystem.h"
+#include "Engine/UI/Canvas.h"
 #include "Materials/MaterialLibrary.h"
 
 namespace Engine {
@@ -36,6 +38,12 @@ namespace Game {
         std::shared_ptr<Engine::Material> m_sharedMaterial;
 
         Engine::SceneManager m_sceneManager;
+
+        // Camera管理システム
+        Engine::CameraSystem m_cameraSystem;
+
+        // Canvas UI管理システム
+        Engine::Canvas m_canvas;
     };
 
 } // namespace Game

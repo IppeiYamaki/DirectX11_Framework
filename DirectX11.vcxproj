@@ -210,6 +210,12 @@
     <ClCompile Include="Source\Engine\Scene\Components\Transform.cpp" />
     <ClCompile Include="Source\Engine\Scene\Entity.cpp" />
     <ClCompile Include="Source\Engine\Scene\World.cpp" />
+    <ClCompile Include="Source\Engine\Scene\CameraSystem.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Scene.cpp" />
+    <ClCompile Include="Source\Engine\Scene\SceneManager.cpp" />
+    <ClCompile Include="Source\Engine\Scene\GameObject.cpp" />
+    <ClCompile Include="Source\Engine\UI\Canvas.cpp" />
+    <ClCompile Include="Source\Engine\UI\UIElement.cpp" />
     <ClCompile Include="Source\Game\GameMain.cpp" />
     <ClCompile Include="Source\Game\Prefabs\MainCameraPrefab.cpp" />
     <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp" />
@@ -270,6 +276,14 @@
     <ClInclude Include="Source\Engine\Scene\Entity.h" />
     <ClInclude Include="Source\Engine\Scene\EntityId.h" />
     <ClInclude Include="Source\Engine\Scene\World.h" />
+    <ClInclude Include="Source\Engine\Scene\CameraSystem.h" />
+    <ClInclude Include="Source\Engine\Scene\Scene.h" />
+    <ClInclude Include="Source\Engine\Scene\SceneBase.h" />
+    <ClInclude Include="Source\Engine\Scene\SceneContext.h" />
+    <ClInclude Include="Source\Engine\Scene\SceneManager.h" />
+    <ClInclude Include="Source\Engine\Scene\GameObject.h" />
+    <ClInclude Include="Source\Engine\UI\Canvas.h" />
+    <ClInclude Include="Source\Engine\UI\UIElement.h" />
     <ClInclude Include="Source\Game\GameMain.h" />
     <ClInclude Include="Source\Game\Prefabs\MainCameraPrefab.h" />
     <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h" />
