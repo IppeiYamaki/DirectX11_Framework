@@ -225,9 +225,12 @@
     <ClInclude Include="Assets\Materials\MaterialLibrary.h" />
     <ClInclude Include="Assets\Materials\SampleCubeMaterial.h" />
     <ClInclude Include="Assets\Materials\SkyMaterial.h" />
+    <ClInclude Include="Source\Engine\AI\StateMachine.h" />
     <ClInclude Include="Source\Engine\Core\Application.h" />
     <ClInclude Include="Source\Engine\Core\ApplicationSettings.h" />
     <ClInclude Include="Source\Engine\Core\Assert.h" />
+    <ClInclude Include="Source\Engine\Core\Concepts.h" />
+    <ClInclude Include="Source\Engine\Core\EventSystem.h" />
     <ClInclude Include="Source\Engine\Core\IGame.h" />
     <ClInclude Include="Source\Engine\Core\Logger.h" />
     <ClInclude Include="Source\Engine\Core\Time.h" />
@@ -247,6 +250,7 @@
     <ClInclude Include="Source\Engine\Graphics\Texture.h" />
     <ClInclude Include="Source\Engine\Math\Color.h" />
     <ClInclude Include="Source\Engine\Math\Easing.h" />
+    <ClInclude Include="Source\Engine\Math\MathConstants.h" />
     <ClInclude Include="Source\Engine\Math\Vector1.h" />
     <ClInclude Include="Source\Engine\Math\Vector2.h" />
     <ClInclude Include="Source\Engine\Math\Vector3.h" />
@@ -264,6 +268,7 @@
     <ClInclude Include="Source\Engine\Scene\Components\StaticModelRenderer.h" />
     <ClInclude Include="Source\Engine\Scene\Components\Transform.h" />
     <ClInclude Include="Source\Engine\Scene\Entity.h" />
+    <ClInclude Include="Source\Engine\Scene\EntityId.h" />
     <ClInclude Include="Source\Engine\Scene\World.h" />
     <ClInclude Include="Source\Game\GameMain.h" />
     <ClInclude Include="Source\Game\Prefabs\MainCameraPrefab.h" />

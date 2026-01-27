@@ -70,6 +70,12 @@
     <Filter Include="ThirdParty\DirectXTex">
       <UniqueIdentifier>{5e051f36-0c08-4fda-a0f3-8272b5e09513}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Engine\AI">
+      <UniqueIdentifier>{f86cd35d-dbbc-46fe-8d1c-aad322614aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Scene\Scripting">
+      <UniqueIdentifier>{a2eaf970-d1e6-43be-8f65-26b55f05f06b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\Core\Logger.cpp">
@@ -365,6 +371,21 @@
     </ClInclude>
     <ClInclude Include="Assets\Materials\SkyMaterial.h">
       <Filter>Assets\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Concepts.h">
+      <Filter>Source\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\EventSystem.h">
+      <Filter>Source\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\AI\StateMachine.h">
+      <Filter>Source\Engine\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Math\MathConstants.h">
+      <Filter>Source\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\EntityId.h">
+      <Filter>Source\Engine\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
