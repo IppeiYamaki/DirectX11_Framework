@@ -6,7 +6,7 @@
 #include "Engine/Scene/Components/Transform.h"
 #include "Engine/Core/Logger.h"
 
-#include <cmath>
+#include <cfloat>
 
 namespace Game {
 
