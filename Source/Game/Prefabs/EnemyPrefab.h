@@ -8,10 +8,10 @@
 namespace Engine { 
     class GameObject;
 }
+namespace Game { struct SceneContext; }
 
 namespace Game {
 
-    struct SceneContext;
     class EnemyObject;
 
     /// @brief EnemyObjectを生成するPrefab
@@ -52,7 +52,7 @@ namespace Game {
         /// @param ctx SceneContext
         /// @param desc 生成パラメータ
         /// @return 生成されたEnemyObject（GameObjectとして返す）
-        static Engine::GameObject* SpawnObject(SceneContext& ctx, const SpawnDesc& desc);
+        static Engine::GameObject* SpawnObject(Game::SceneContext& ctx, const SpawnDesc& desc);
     };
 
 } // namespace Game

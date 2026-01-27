@@ -12,7 +12,7 @@
 
 namespace Game {
 
-    Engine::GameObject* EnemyPrefab::SpawnObject(SceneContext& ctx, const SpawnDesc& desc) {
+    Engine::GameObject* EnemyPrefab::SpawnObject(Game::SceneContext& ctx, const SpawnDesc& desc) {
         if (!ctx.m_scene) {
             Engine::Logger::Error("EnemyPrefab::SpawnObject failed: ctx.m_scene is null.");
             return nullptr;
