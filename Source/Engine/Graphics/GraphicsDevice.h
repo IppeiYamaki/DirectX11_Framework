@@ -40,6 +40,8 @@ namespace Engine {
         void Clear(const float clearColor[4]);
         /// @brief  バックバッファを表示
         void Present();
+        /// @brief  RTV/DSVとビューポートをバインド（毎フレーム描画前に呼び出す）
+        void BeginFrame();
 
         //============================================================
         // Resize

@@ -29,7 +29,7 @@ namespace Engine {
         createFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-        // Feature leveli‚Ü‚¸‚Íˆê”Ê“I‚È‡‚Åj
+        // Feature levelï¿½iï¿½Ü‚ï¿½ï¿½Íˆï¿½Ê“Iï¿½Èï¿½ï¿½Åj
         const D3D_FEATURE_LEVEL featureLevels[] = {
             D3D_FEATURE_LEVEL_11_1,
             D3D_FEATURE_LEVEL_11_0,
@@ -46,10 +46,10 @@ namespace Engine {
         scDesc.SampleDesc.Count = 1;
         scDesc.SampleDesc.Quality = 0;
         scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-        scDesc.BufferCount = 2; // 2‚ª–³“ïiŒã‚Åİ’è‰»‚µ‚Ä‚àOKj
+        scDesc.BufferCount = 2; // 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½Åİ’è‰»ï¿½ï¿½ï¿½Ä‚ï¿½OKï¿½j
         scDesc.OutputWindow = m_hWnd;
         scDesc.Windowed = TRUE;
-        scDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // DX11Å¬\¬iŒã‚ÅFLIP‚ÉˆÚs‚µ‚Ä‚àOKj
+        scDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // DX11ï¿½Åï¿½ï¿½\ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½FLIPï¿½ÉˆÚsï¿½ï¿½ï¿½Ä‚ï¿½OKï¿½j
         scDesc.Flags = 0;
 
         D3D_FEATURE_LEVEL createdLevel = D3D_FEATURE_LEVEL_11_0;
@@ -70,7 +70,7 @@ namespace Engine {
         );
 
         if (FAILED(hr)) {
-            // 11_1‚ª–³‚¢ŠÂ‹«‚È‚Ç‚Å—‚¿‚éê‡‚ª‚ ‚é‚Ì‚ÅAÅ’áŒÀ‚ÌƒtƒH[ƒ‹ƒoƒbƒN‚à—pˆÓ
+            // 11_1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â‹ï¿½ï¿½È‚Ç‚Å—ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅAï¿½Å’ï¿½ï¿½ï¿½Ìƒtï¿½Hï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½ï¿½ï¿½pï¿½ï¿½
             Logger::Warn("D3D11CreateDeviceAndSwapChain failed. Retry with 11_0 only.");
 
             const D3D_FEATURE_LEVEL fallbackLevels[] = { D3D_FEATURE_LEVEL_11_0 };
@@ -111,7 +111,7 @@ namespace Engine {
 
     void GraphicsDevice::Finalize() {
         if (m_context) {
-            // ƒŠƒ\[ƒX‰ğ•ú‚Ì‘O‚Éó‘Ô‚ğŠO‚·iˆÀ‘Sôj
+            // ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½ï¿½ï¿½ï¿½Ì‘Oï¿½Éï¿½Ô‚ï¿½ï¿½Oï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Sï¿½ï¿½j
             m_context->OMSetRenderTargets(0, nullptr, nullptr);
             m_context->ClearState();
             m_context->Flush();
@@ -134,7 +134,7 @@ namespace Engine {
     }
 
     void GraphicsDevice::Reset() {
-        // ¡‚Í‰½‚à‚µ‚È‚¢i•K—v‚É‚È‚Á‚½‚ç’Ç‰Áj
+        // ï¿½ï¿½ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½iï¿½Kï¿½vï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½j
     }
 
     void GraphicsDevice::Clear(const float clearColor[4]) {
@@ -156,6 +156,13 @@ namespace Engine {
         m_swapChain->Present(syncInterval, flags);
     }
 
+    void GraphicsDevice::BeginFrame() {
+        if (!m_isInitialized) return;
+
+        // æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æç”»å‰ã«RTV/DSVã¨ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã‚’å†ãƒã‚¤ãƒ³ãƒ‰
+        BindDefaultTargetsAndViewport(m_width, m_height);
+    }
+
     bool GraphicsDevice::Resize(int width, int height) {
         if (!m_isInitialized) return false;
         if (width <= 0 || height <= 0) return false;
@@ -167,20 +174,20 @@ namespace Engine {
         m_width = width;
         m_height = height;
 
-        // ƒoƒCƒ“ƒh‰ğœ
+        // ï¿½oï¿½Cï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½
         m_context->OMSetRenderTargets(0, nullptr, nullptr);
 
-        // Šù‘¶ƒrƒ…[”jŠü
+        // ï¿½ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½[ï¿½jï¿½ï¿½
         m_dsv.Reset();
         m_depthBuffer.Reset();
         m_rtv.Reset();
 
-        // ƒoƒbƒtƒ@ƒTƒCƒY•ÏX
+        // ï¿½oï¿½bï¿½tï¿½@ï¿½Tï¿½Cï¿½Yï¿½ÏX
         HRESULT hr = m_swapChain->ResizeBuffers(
-            0, // ƒoƒbƒtƒ@”‚ÍˆÛ
+            0, // ï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½ÍˆÛï¿½
             static_cast<UINT>(m_width),
             static_cast<UINT>(m_height),
-            DXGI_FORMAT_UNKNOWN, // Šù‘¶ƒtƒH[ƒ}ƒbƒgˆÛ
+            DXGI_FORMAT_UNKNOWN, // ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½Hï¿½[ï¿½}ï¿½bï¿½gï¿½Ûï¿½
             0
         );
         if (FAILED(hr)) {
@@ -198,7 +205,7 @@ namespace Engine {
     }
 
     bool GraphicsDevice::CreateBackBufferViews(int width, int height) {
-        // BackBuffer ¨ RTV
+        // BackBuffer ï¿½ï¿½ RTV
         Microsoft::WRL::ComPtr<ID3D11Texture2D> backBuffer;
         HRESULT hr = m_swapChain->GetBuffer(0, IID_PPV_ARGS(backBuffer.GetAddressOf()));
         if (FAILED(hr)) {
@@ -212,7 +219,7 @@ namespace Engine {
             return false;
         }
 
-        // Depth ¨ DSV
+        // Depth ï¿½ï¿½ DSV
         D3D11_TEXTURE2D_DESC depthDesc{};
         depthDesc.Width = static_cast<UINT>(width);
         depthDesc.Height = static_cast<UINT>(height);
