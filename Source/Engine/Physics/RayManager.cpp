@@ -2,6 +2,8 @@
 /// @brief  レイの生成と管理を担当するクラス実装
 #include "RayManager.h"
 
+#include <utility>
+
 namespace Engine {
 
     //============================================================
@@ -34,7 +36,11 @@ namespace Engine {
 
     bool RayManager::RemoveRay(std::size_t index) {
         if (index < m_rays.size()) {
-            m_rays.erase(m_rays.begin() + static_cast<std::ptrdiff_t>(index));
+            // Swap-and-pop for O(1) removal (order is not preserved)
+            if (index != m_rays.size() - 1) {
+                std::swap(m_rays[index], m_rays.back());
+            }
+            m_rays.pop_back();
             return true;
         }
         return false;
