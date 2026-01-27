@@ -8,6 +8,7 @@
 #include <string>
 #include <any>
 #include <cstdint>
+#include <algorithm>
 
 namespace Engine {
 

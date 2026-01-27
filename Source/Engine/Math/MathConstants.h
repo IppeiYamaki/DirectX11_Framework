@@ -84,6 +84,13 @@ namespace Engine::Math {
         return value;
     }
 
+    /// @brief 絶対値
+    /// @param value 値
+    /// @return 絶対値
+    [[nodiscard]] constexpr float Abs(float value) noexcept {
+        return (value < 0.0f) ? -value : value;
+    }
+
     /// @brief 0から1の範囲にクランプ
     /// @param value クランプする値
     /// @return クランプされた値
@@ -126,7 +133,7 @@ namespace Engine::Math {
     /// @brief 角度を0〜360度の範囲に正規化
     /// @param degrees 角度（度）
     /// @return 正規化された角度
-    [[nodiscard]] constexpr float NormalizeAngle360(float degrees) noexcept {
+    [[nodiscard]] inline float NormalizeAngle360(float degrees) noexcept {
         degrees = std::fmod(degrees, 360.0f);
         if (degrees < 0.0f) {
             degrees += 360.0f;
@@ -137,7 +144,7 @@ namespace Engine::Math {
     /// @brief 角度を-180〜180度の範囲に正規化
     /// @param degrees 角度（度）
     /// @return 正規化された角度
-    [[nodiscard]] constexpr float NormalizeAngle180(float degrees) noexcept {
+    [[nodiscard]] inline float NormalizeAngle180(float degrees) noexcept {
         degrees = NormalizeAngle360(degrees);
         if (degrees > 180.0f) {
             degrees -= 360.0f;
@@ -152,7 +159,7 @@ namespace Engine::Math {
     /// @return ほぼ等しければtrue
     [[nodiscard]] constexpr bool IsNearlyEqual(float a, float b,
                                                 float epsilon = kEpsilon) noexcept {
-        return std::abs(a - b) <= epsilon;
+        return Abs(a - b) <= epsilon;
     }
 
     /// @brief 値がほぼゼロかチェック
@@ -161,7 +168,7 @@ namespace Engine::Math {
     /// @return ほぼゼロならtrue
     [[nodiscard]] constexpr bool IsNearlyZero(float value,
                                                float threshold = kNearZero) noexcept {
-        return std::abs(value) <= threshold;
+        return Abs(value) <= threshold;
     }
 
     /// @brief 符号を返す
@@ -187,13 +194,6 @@ namespace Engine::Math {
     /// @return 大きい方の値
     [[nodiscard]] constexpr float Max(float a, float b) noexcept {
         return (a > b) ? a : b;
-    }
-
-    /// @brief 絶対値
-    /// @param value 値
-    /// @return 絶対値
-    [[nodiscard]] constexpr float Abs(float value) noexcept {
-        return (value < 0.0f) ? -value : value;
     }
 
     //============================================================
