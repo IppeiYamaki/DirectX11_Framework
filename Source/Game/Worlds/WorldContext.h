@@ -18,31 +18,31 @@ namespace Game {
     class MaterialLibrary;
 
     /**
-     * @brief Scene‚ªg‚¤Å’áŒÀ‚ÌƒT[ƒrƒX‚ğ‚Ü‚Æ‚ß‚½ƒRƒ“ƒeƒLƒXƒg
-     * - Scene‚Í Engine ‚Ì‹‘åƒNƒ‰ƒX‚É’¼ÚˆË‘¶‚µ‚È‚¢iˆË‘¶‚ğÅ¬‰»j
+     * @brief Worldåˆ©ç”¨ã«æœ€ä½é™ã®ã‚µãƒ¼ãƒ“ã‚¹ã‚’ã¾ã¨ã‚ãŸã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+     * - Worldã¯Engineã®å…·è±¡ã‚¯ãƒ©ã‚¹ã«ç›´æ¥ä¾å­˜ã—ãªã„ï¼ˆä¾å­˜ã‚’æœ€å°é™ã«ï¼‰
      */
-    struct SceneContext final {
-        // Engine‘¤ƒT[ƒrƒXiÅ¬j
+    struct WorldContext final {
+        // Engineå´ã‚µãƒ¼ãƒ“ã‚¹ï¼ˆæœ€å°ï¼‰
         Engine::Application* m_app = nullptr;
         Engine::World* m_world = nullptr;
         Engine::RenderSystem* m_renderSystem = nullptr;
 
-        // ”–‚¢ˆË‘¶F¶‚ÌD3DƒfƒoƒCƒXiØ—pj
+        // ä¸€éƒ¨ä¾å­˜ï¼šå€Ÿç”¨D3Dãƒ‡ãƒã‚¤ã‚¹ï¼ˆå€Ÿç”¨ï¼‰
         ID3D11Device* m_device = nullptr;
 
-        // ‹¤—LƒŠƒ\[ƒXiGameMain‚ª—pˆÓ‚µ‚ÄScene‚É“n‚·j
+        // å…±æœ‰ãƒªã‚½ãƒ¼ã‚¹ï¼ˆGameMainãŒç”¨æ„ã—ã¦Worldã«æ¸¡ã™ï¼‰
         Engine::AssetManager* m_assets = nullptr;
 
-        // ‹¤—LMaterialiScene“à‚Å’¼Úg‚¢‚½‚¢ê‡j
+        // å…±æœ‰Materialï¼ˆWorldå´ã§ç›´æ¥ä½¿ã„ãŸã„å ´åˆï¼‰
         std::shared_ptr<Engine::Material> m_sharedMaterial;
 
-        // Material‘YŠÇ—
+        // Materialè³‡ç”£ç®¡ç†
         MaterialLibrary* m_materials = nullptr;
 
-        /// @brief Prefab‚ğ¶¬‚·‚éiˆø”‚Í Prefab::SpawnDesc ‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆø”‚É“]‘—‚³‚ê‚éj
-        /// @param pos ¶¬ˆÊ’u
-        /// @param scale ¶¬ƒXƒP[ƒ‹
-        /// @param rot ¶¬‰ñ“]
+        /// @brief Prefabã‚’ç”Ÿæˆã™ã‚‹ï¼ˆå¼•æ•°ã¯ Prefab::SpawnDesc ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å¼•æ•°ã«è»¢é€ã•ã‚Œã‚‹ï¼‰
+        /// @param pos ç”Ÿæˆä½ç½®
+        /// @param scale ç”Ÿæˆã‚¹ã‚±ãƒ¼ãƒ«
+        /// @param rot ç”Ÿæˆå›è»¢
         template<class TPrefab, class... Args>
         Engine::Entity* Spawn(Args&&... args) {
             using Desc = typename TPrefab::SpawnDesc;

@@ -37,13 +37,13 @@
     <Filter Include="Source\Game\Systems">
       <UniqueIdentifier>{be06c1a0-c3f2-4240-9fe6-8a75047332f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Game\Scenes">
+    <Filter Include="Source\Game\Worlds">
       <UniqueIdentifier>{6f1faaf9-cafa-495e-b105-4c0c2e37765d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Game\Prefabs">
       <UniqueIdentifier>{a1739fff-bfd9-4a7e-84de-4704b07bbc1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Game\Scenes\Base">
+    <Filter Include="Source\Game\Worlds\Base">
       <UniqueIdentifier>{6c414585-dff1-40d8-94aa-38f8e58c824f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Game\Rendering">
@@ -147,8 +147,8 @@
     <ClCompile Include="Source\Engine\Scene\Components\MeshRenderer.cpp">
       <Filter>Source\Engine\Scene\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Scenes\SampleScene.cpp">
-      <Filter>Source\Game\Scenes</Filter>
+    <ClCompile Include="Source\Game\Worlds\SampleWorld.cpp">
+      <Filter>Source\Game\Worlds</Filter>
     </ClCompile>
     <ClCompile Include="Assets\Materials\SampleCubeMaterial.cpp">
       <Filter>Assets\Materials</Filter>
@@ -162,8 +162,8 @@
     <ClCompile Include="Source\Engine\Platform\Input.cpp">
       <Filter>Source\Engine\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Scenes\SceneManager.cpp">
-      <Filter>Source\Game\Scenes\Base</Filter>
+    <ClCompile Include="Source\Game\Worlds\WorldManager.cpp">
+      <Filter>Source\Game\Worlds\Base</Filter>
     </ClCompile>
     <ClCompile Include="Assets\Materials\MaterialLibrary.cpp">
       <Filter>Assets\Materials\Base</Filter>
@@ -303,8 +303,8 @@
     <ClInclude Include="Source\Engine\Scene\Components\MeshRenderer.h">
       <Filter>Source\Engine\Scene\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Scenes\SampleScene.h">
-      <Filter>Source\Game\Scenes</Filter>
+    <ClInclude Include="Source\Game\Worlds\SampleWorld.h">
+      <Filter>Source\Game\Worlds</Filter>
     </ClInclude>
     <ClInclude Include="Assets\Materials\SampleCubeMaterial.h">
       <Filter>Assets\Materials</Filter>
@@ -318,14 +318,14 @@
     <ClInclude Include="Source\Engine\Platform\Input.h">
       <Filter>Source\Engine\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Scenes\IScene.h">
-      <Filter>Source\Game\Scenes\Base</Filter>
+    <ClInclude Include="Source\Game\Worlds\IWorld.h">
+      <Filter>Source\Game\Worlds\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Scenes\SceneContext.h">
-      <Filter>Source\Game\Scenes\Base</Filter>
+    <ClInclude Include="Source\Game\Worlds\WorldContext.h">
+      <Filter>Source\Game\Worlds\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Scenes\SceneManager.h">
-      <Filter>Source\Game\Scenes\Base</Filter>
+    <ClInclude Include="Source\Game\Worlds\WorldManager.h">
+      <Filter>Source\Game\Worlds\Base</Filter>
     </ClInclude>
     <ClInclude Include="Assets\Materials\MaterialBuildContext.h">
       <Filter>Assets\Materials\Base</Filter>
@@ -336,8 +336,8 @@
     <ClInclude Include="Source\Game\Rendering\DefaultLighting.h">
       <Filter>Source\Game\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Scenes\PrefabSlot.h">
-      <Filter>Source\Game\Scenes\Base</Filter>
+    <ClInclude Include="Source\Game\Worlds\PrefabSlot.h">
+      <Filter>Source\Game\Worlds\Base</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Scene\Components\StaticModelRenderer.h">
       <Filter>Source\Engine\Scene\Components</Filter>

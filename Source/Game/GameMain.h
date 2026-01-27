@@ -4,7 +4,7 @@
 
 #include "Engine/Core/IGame.h"
 #include "Engine/Resources/AssetManager.h"
-#include "Game/Scenes/SceneManager.h"
+#include "Game/Worlds/WorldManager.h"
 #include "Materials/MaterialLibrary.h"
 
 namespace Engine {
@@ -29,13 +29,13 @@ namespace Game {
 
         Engine::AssetManager m_assets;
 
-        // Material‘Y‚ÌŠÇ—
+        // Materialè³‡ç”£ã®ç®¡ç†
         Game::MaterialLibrary m_materialLibrary;
 
-        // ‹¤—LMaterialiSampleScene‚Å’¼Úg‚¢‚½‚¢ê‡‚É‚à“n‚¹‚éj
+        // å…±æœ‰Materialï¼ˆSampleWorldã§ç›´æ¥ä½¿ã„ãŸã„å ´åˆã«ã‚‚æ¸¡ã›ã‚‹ï¼‰
         std::shared_ptr<Engine::Material> m_sharedMaterial;
 
-        SceneManager m_sceneManager;
+        WorldManager m_worldManager;
     };
 
 } // namespace Game

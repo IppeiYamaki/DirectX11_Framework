@@ -3,13 +3,13 @@
 #include "Engine/Math/Vector3.h"
 
 namespace Engine { class Entity; }
-namespace Game { struct SceneContext; }
+namespace Game { struct WorldContext; }
 
 namespace Game {
 
     /**
-     * @brief Unity‚ÌPrefab‘Š“–iƒR[ƒh”Åj
-     * - MeshType / Material / Transform ‰Šú’l / Script ‚È‚Ç‚ğ‚±‚±‚ÅŠ®Œ‹‚³‚¹‚é
+     * @brief Unityï¿½ï¿½Prefabï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Rï¿½[ï¿½hï¿½Åj
+     * - MeshType / Material / Transform ï¿½ï¿½ï¿½ï¿½ï¿½l / Script ï¿½È‚Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÅŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     class SamplePrefab final {
     public:
@@ -20,7 +20,7 @@ namespace Game {
 
             SpawnDesc() = default;
 
-            // ctx.Spawn<SamplePrefab>(pos, scale, rot) ‚ğ‰Â”\‚É‚·‚é
+            // ctx.Spawn<SamplePrefab>(pos, scale, rot) ï¿½ï¿½ï¿½Â”\ï¿½É‚ï¿½ï¿½ï¿½
             SpawnDesc(const Engine::Vector3& position,
                 float uniformScale = 1.0f,
                 float rotateDegPerSec = 45.0f)
@@ -30,7 +30,7 @@ namespace Game {
             }
         };
 
-        static Engine::Entity* Spawn(SceneContext& ctx, const SpawnDesc& desc);
+        static Engine::Entity* Spawn(WorldContext& ctx, const SpawnDesc& desc);
     };
 
 } // namespace Game

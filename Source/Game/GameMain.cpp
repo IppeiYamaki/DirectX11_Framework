@@ -11,10 +11,10 @@
 #include "Engine/Scene/World.h"
 #include "Engine/Math/Vector4.h"
 
-#include "Game/Scenes/SceneContext.h"
-#include "Game/Scenes/SampleScene.h"
+#include "Game/Worlds/WorldContext.h"
+#include "Game/Worlds/SampleWorld.h"
 
-// Material‘Y
+// Materialè³‡ç”£
 #include "Materials/MaterialBuildContext.h"
 #include "Materials/SampleCubeMaterial.h"
 
@@ -38,7 +38,7 @@ namespace Game {
         m_assets.SetBaseDirectory(L"Assets");
 
         //========================
-        // MaterialLibraryiMaterial‘¤‚Å Shader / InputLayout ‚Ü‚ÅÓ–±‚ğ‚Âj
+        // MaterialLibraryï¼ˆMaterialç”Ÿæˆã‹ã‚‰Shader / InputLayoutã¾ã§è²¬å‹™ã‚’æŒã¤ï¼‰
         //========================
         {
             MaterialBuildContext mbc{};
@@ -47,34 +47,34 @@ namespace Game {
 
             m_materialLibrary.Initialize(mbc);
 
-            // gAssets‚Åì‚Á‚½Materialh ‘Š“–‚ğ‚±‚±‚Å¶¬•ƒLƒƒƒbƒVƒ…iƒvƒŒƒEƒH[ƒ€j
+            // ã€ŒAssetsã§ä½œã£ãŸMaterialã€ã‚’èµ·å‹•æ™‚ã«ç”Ÿæˆã—ã‚­ãƒ£ãƒƒã‚·ãƒ¥ï¼ˆãƒ—ãƒ¬ã‚¦ã‚©ãƒ¼ãƒ ï¼‰
             m_sharedMaterial = m_materialLibrary.GetOrCreate<SampleCubeMaterial>();
             if (!m_sharedMaterial) return false;
         }
 
 
         //========================
-        // SceneContext
+        // WorldContext
         //========================
-        SceneContext ctx{};
+        WorldContext ctx{};
         ctx.m_app = m_app;
         ctx.m_world = m_world;
         ctx.m_renderSystem = rs;
 
-        // ”–‚¢ˆË‘¶F¶‚ÌD3DƒfƒoƒCƒX‚¾‚¯“n‚·
+        // ä¸€éƒ¨ä¾å­˜ï¼šå€Ÿç”¨D3Dãƒ‡ãƒã‚¤ã‚¹ã‚’æ¸¡ã™
         ctx.m_device = gd->GetDevice();
 
-        // ”CˆÓFScene‚ª•K—v‚È‚çQÆ‚Å‚«‚é‚æ‚¤‚É“n‚·
+        // ä»»æ„ï¼šWorldãŒå¿…è¦ãªã‚‰å‚ç…§ã§ãã‚‹ã‚ˆã†ã«æ¸¡ã™
         ctx.m_assets = &m_assets;
 
-        // ‹¤—LMaterialiSampleScene‚ª’¼Úg‚¤ê‡j
+        // å…±æœ‰Materialï¼ˆSampleWorldãŒç›´æ¥ä½¿ã†å ´åˆï¼‰
         ctx.m_sharedMaterial = m_sharedMaterial;
 
-        // Prefab‚ª MaterialLibrary ‚ğg‚¤‚½‚ß‚É“n‚·
+        // PrefabãŒMaterialLibraryã‚’ä½¿ã†ãŸã‚ã«æ¸¡ã™
         ctx.m_materials = &m_materialLibrary;
 
-        // Å‰‚©‚ç SampleScene
-        m_sceneManager.Initialize(ctx, std::make_unique<SampleScene>());
+        // æœ€åˆã®ç©ºé–“ã¯SampleWorld
+        m_worldManager.Initialize(ctx, std::make_unique<SampleWorld>());
 
         return true;
     }
@@ -83,7 +83,7 @@ namespace Game {
         Engine::Logger::Info("GameMain Finalize");
 
 
-        m_sceneManager.Finalize();
+        m_worldManager.Finalize();
         m_sharedMaterial.reset();
         m_materialLibrary.Finalize();
         m_assets.Finalize();
@@ -95,10 +95,10 @@ namespace Game {
     }
 
     void GameMain::Update(float deltaTime) {
-        // Sceneió‘ÔjXVi‘JˆÚ—\–ñ‚È‚Çj
-        m_sceneManager.Update(deltaTime);
+        // Worldï¼ˆçŠ¶æ…‹ï¼‰æ›´æ–°ï¼ˆé·ç§»äºˆç´„ãªã©ï¼‰
+        m_worldManager.Update(deltaTime);
 
-        // WorldXViComponent“®ìj
+        // Worldæ›´æ–°ï¼ˆComponentå‡¦ç†ï¼‰
         if (m_world) {
             m_world->Update(deltaTime);
             m_world->LateUpdate(deltaTime);
@@ -106,10 +106,10 @@ namespace Game {
     }
 
     void GameMain::Draw() {
-        // SceneŒÅ—LUI‚È‚Ç
-        m_sceneManager.Draw();
+        // Worldå›ºæœ‰UIãªã©
+        m_worldManager.Draw();
 
-        // World::Draw -> MeshRenderer::Draw -> RenderSystem ‚É RenderItem ‚ğÏ‚Ş
+        // World::Draw -> MeshRenderer::Draw -> RenderSystem ã« RenderItem ã‚’ç©ã‚€
         if (m_world) {
             m_world->Draw();
         }

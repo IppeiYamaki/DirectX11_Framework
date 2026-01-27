@@ -215,8 +215,8 @@
     <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp" />
     <ClCompile Include="Source\Game\Prefabs\SkyPrefab.cpp" />
     <ClCompile Include="Source\Game\Rendering\DefaultLighting.cpp" />
-    <ClCompile Include="Source\Game\Scenes\SampleScene.cpp" />
-    <ClCompile Include="Source\Game\Scenes\SceneManager.cpp" />
+    <ClCompile Include="Source\Game\Worlds\SampleWorld.cpp" />
+    <ClCompile Include="Source\Game\Worlds\WorldManager.cpp" />
     <ClCompile Include="Source\Game\Scripts\SampleRotateComponent.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
@@ -275,11 +275,11 @@
     <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h" />
     <ClInclude Include="Source\Game\Prefabs\SkyPrefab.h" />
     <ClInclude Include="Source\Game\Rendering\DefaultLighting.h" />
-    <ClInclude Include="Source\Game\Scenes\IScene.h" />
-    <ClInclude Include="Source\Game\Scenes\PrefabSlot.h" />
-    <ClInclude Include="Source\Game\Scenes\SampleScene.h" />
-    <ClInclude Include="Source\Game\Scenes\SceneContext.h" />
-    <ClInclude Include="Source\Game\Scenes\SceneManager.h" />
+    <ClInclude Include="Source\Game\Worlds\IWorld.h" />
+    <ClInclude Include="Source\Game\Worlds\PrefabSlot.h" />
+    <ClInclude Include="Source\Game\Worlds\SampleWorld.h" />
+    <ClInclude Include="Source\Game\Worlds\WorldContext.h" />
+    <ClInclude Include="Source\Game\Worlds\WorldManager.h" />
     <ClInclude Include="Source\Game\Scripts\SampleRotateComponent.h" />
     <ClInclude Include="Source\ThirdParty\DirectXTex\DirectXTex.h" />
   </ItemGroup>

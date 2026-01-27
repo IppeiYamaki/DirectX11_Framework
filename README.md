@@ -7,7 +7,7 @@ C++ / DirectX11 でゲーム制作を行うためのフレームワークです�
 
 ## 目標
 
-- **用途ごとに分離**：Window / GraphicsDevice / Render / Shader / Texture / Material / Scene / Entity / Component … を責務で分割
+- **用途ごとに分離**：Window / GraphicsDevice / Render / Shader / Texture / Material / World / Entity / Component … を責務で分割
 - **語彙（関数名）を固定**：全クラスで同じ意味・同じタイミングで呼ばれるように統一
 - **カプセル化の徹底**：変数は private が基本。状態変更は用途別の関数経由のみ
 - **DirectX11 の COM は ComPtr 統一**：手動 Release() をしない。借用は raw pointer 返しOK
@@ -17,7 +17,7 @@ C++ / DirectX11 でゲーム制作を行うためのフレームワークです�
 ## アーキテクチャ概要（Unity 風：Entity + Component）
 
 - **Application** がメインループと全体初期化を司る
-- **World(Scene)** が Entity 群を管理し、Update/Draw の呼び出しを統括
+- **World** が Entity 群を管理し、Update/Draw の呼び出しを統括
 - **Entity(GameObject相当)** は Component の器
 - **Component** は機能単位（Transform / MeshRenderer / Camera / ScriptComponent など）
 - **ScriptComponent** はゲームロジックを書くための Component（MonoBehaviour の代替）

@@ -5,7 +5,7 @@
 #include "Engine/Math/Vector3.h"
 
 namespace Engine { class Entity; }
-namespace Game { struct SceneContext; }
+namespace Game { struct WorldContext; }
 
 namespace Game {
 
@@ -14,9 +14,9 @@ namespace Game {
         struct SpawnDesc final {
             Engine::Vector3 m_position{ 0, -5.0f, -8 };
 
-            // šŒÅ’èƒJƒƒ‰‚ÌŠp“xi“xj
+            // ï¿½ï¿½ï¿½Å’ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ÌŠpï¿½xï¿½iï¿½xï¿½j
             float m_yawDeg = 0.0f;
-            float m_pitchDeg = 20.0f; // ­‚µ‰ºŒü‚«i‡‚í‚È‚¯‚ê‚Î•„†‚ğ‹t‚É‚µ‚ÄOKj
+            float m_pitchDeg = 20.0f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½Î•ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½É‚ï¿½ï¿½ï¿½OKï¿½j
             float m_rollDeg = 0.0f;
 
             float m_fovYRad = DirectX::XM_PIDIV4;
@@ -28,7 +28,7 @@ namespace Game {
 
             SpawnDesc() = default;
 
-            // ctx.Spawn<MainCameraPrefab>(pos, yaw, pitch) ‚ª‚Å‚«‚éŒ`
+            // ctx.Spawn<MainCameraPrefab>(pos, yaw, pitch) ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½`
             SpawnDesc(const Engine::Vector3& position,
                 float yawDeg = 0.0f,
                 float pitchDeg = 20.0f,
@@ -48,7 +48,7 @@ namespace Game {
             }
         };
 
-        static Engine::Entity* Spawn(SceneContext& ctx, const SpawnDesc& desc);
+        static Engine::Entity* Spawn(WorldContext& ctx, const SpawnDesc& desc);
     };
 
 } // namespace Game

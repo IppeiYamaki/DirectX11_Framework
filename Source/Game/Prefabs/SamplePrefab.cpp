@@ -1,6 +1,6 @@
 #include "SamplePrefab.h"
 
-#include "Game/Scenes/SceneContext.h"
+#include "Game/Worlds/WorldContext.h"
 
 #include "Engine/Core/Logger.h"
 #include "Engine/Scene/World.h"
@@ -14,7 +14,7 @@
 
 namespace Game {
 
-    Engine::Entity* SamplePrefab::Spawn(SceneContext& ctx, const SpawnDesc& desc) {
+    Engine::Entity* SamplePrefab::Spawn(WorldContext& ctx, const SpawnDesc& desc) {
         if (!ctx.m_world || !ctx.m_renderSystem || !ctx.m_device) {
             Engine::Logger::Error("SamplePrefab::Spawn failed: ctx invalid.");
             return nullptr;
@@ -23,24 +23,24 @@ namespace Game {
         auto* e = ctx.m_world->CreateEntity();
         if (!e) return nullptr;
 
-        // Transform ‰Šú’l
+        // Transform åˆæœŸå€¤
         if (auto* tr = e->GetComponent<Engine::Transform>()) {
             tr->SetPosition(desc.m_position);
             tr->SetUniformScale(desc.m_uniformScale);
         }
 
-        // MeshRendereriˆË‘¶’“ü‚Í SceneContext ‚©‚çj
+        // MeshRendererï¼ˆä¾å­˜æƒ…å ±ã¯ WorldContext ã‹ã‚‰ï¼‰
         auto* mr = e->AddComponent<Engine::MeshRenderer>(ctx.m_device, ctx.m_renderSystem);
         mr->SetMeshType(Engine::MeshType::Cube);
 
-        // MaterialiMaterialLibrary ‚©‚çŽæ“¾j
+        // Materialï¼ˆMaterialLibrary ã‹ã‚‰å–å¾—ï¼‰
         if (!ctx.m_materials) {
             Engine::Logger::Error("SamplePrefab::Spawn failed: MaterialLibrary is null.");
             return e;
         }
         mr->SetMaterial(ctx.m_materials->GetOrCreate<SampleCubeMaterial>());
 
-        // ‰ñ“]‹““®
+        // å›žè»¢å‡¦ç†
         e->AddComponent<Game::SampleRotateComponent>(desc.m_rotateDegPerSec);
 
         return e;

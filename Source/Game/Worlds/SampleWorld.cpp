@@ -1,8 +1,8 @@
-#include "SampleScene.h"
+#include "SampleWorld.h"
 
 #include <DirectXMath.h>
 
-#include "Game/Scenes/SceneContext.h"
+#include "Game/Worlds/WorldContext.h"
 #include "Game/Rendering/DefaultLighting.h"
 
 // Engine Components
@@ -16,54 +16,54 @@
 
 namespace Game {
 
-    void SampleScene::OnEnter(SceneContext& ctx) {
-        ApplySceneLighting(ctx);
-        BuildScene(ctx);
+    void SampleWorld::OnEnter(WorldContext& ctx) {
+        ApplyWorldLighting(ctx);
+        BuildWorld(ctx);
     }
 
-    void SampleScene::OnExit(SceneContext& ctx) {
-        // ÉLÉÉÉâîjä¸
+    void SampleWorld::OnExit(WorldContext& ctx) {
+        // „Ç≠„É£„É©Á†¥Ê£Ñ
         for (auto& slot : m_characters) {
             slot.Destroy(ctx);
         }
         m_characters.clear();
 
-        // ÉJÉÅÉâîjä¸ÅiÉVÅ[ÉìÇêÿÇËë÷Ç¶ÇÈÇΩÇ—Ç…écÇÈÇÃÇñhÇÆÅj
+        // „Ç´„É°„É©Á†¥Ê£ÑÔºà„ÉØ„Éº„É´„Éâ„ÇíÂàá„ÇäÊõø„Åà„Çã„Åü„Å≥„Å´ÊÆã„Çã„ÅÆ„ÇíÈò≤„ÅêÔºâ
         if (m_cameraEntity && ctx.m_world) {
             ctx.m_world->DestroyEntity(m_cameraEntity);
             m_cameraEntity = nullptr;
         }
     }
 
-    void SampleScene::Update(SceneContext& ctx, float deltaTime) {
+    void SampleWorld::Update(WorldContext& ctx, float deltaTime) {
         (void)ctx;
         (void)deltaTime;
     }
 
-    void SampleScene::Draw(SceneContext& ctx) {
+    void SampleWorld::Draw(WorldContext& ctx) {
         (void)ctx;
     }
 
-    void SampleScene::ApplySceneLighting(SceneContext& ctx) {
+    void SampleWorld::ApplyWorldLighting(WorldContext& ctx) {
         if (!ctx.m_renderSystem) return;
         ApplyDefaultLighting(*ctx.m_renderSystem);
     }
 
-    void SampleScene::BuildScene(SceneContext& ctx) {
+    void SampleWorld::BuildWorld(WorldContext& ctx) {
         if (!ctx.m_world || !ctx.m_renderSystem) return;
 
         //========================
-        // MainCamera ê∂ê¨
+        // MainCamera ÁîüÊàê
         //========================
         m_cameraEntity = ctx.Spawn<MainCameraPrefab>(Engine::Vector3(0, 3, -8), /*yaw*/0.0f, /*pitch*/-5.0f);
        
         //========================
-		// Sky ê∂ê¨
+        // Sky ÁîüÊàê
         //========================
-		ctx.Spawn<SkyPrefab>(Engine::Vector3(0, 0, 0), 200.0f);
+        ctx.Spawn<SkyPrefab>(Engine::Vector3(0, 0, 0), 200.0f);
 
         //========================
-        // ÇªÇÃëºÇÃ Prefab ê∂ê¨
+        // „Åù„ÅÆ‰ªñ„ÅÆ Prefab ÁîüÊàê
         //========================
         m_characters.clear();
 
