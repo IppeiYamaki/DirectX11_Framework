@@ -11,7 +11,6 @@
 namespace Engine {
 
     class RenderSystem;
-    class Light;
     class DirectionalLightObject;
     class PointLightObject;
     class SpotLightObject;
