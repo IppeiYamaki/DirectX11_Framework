@@ -2,14 +2,14 @@
 
 #include "Engine/Math/Vector3.h"
 
-namespace Engine { class Entity; }
-namespace Engine { struct SceneContext; }
+namespace Engine { class GameObject; }
+namespace Game { struct SceneContext; }
 
 namespace Game {
 
     /**
-     * @brief Unity��Prefab�����i�R�[�h�Łj
-     * - MeshType / Material / Transform �����l / Script �Ȃǂ������Ŋ���������
+     * @brief UnityのPrefab相当（コードで）
+     * - MeshType / Material / Transform 初期値 / Script などを内部で完結させる
      */
     class SamplePrefab final {
     public:
@@ -20,7 +20,7 @@ namespace Game {
 
             SpawnDesc() = default;
 
-            // ctx.Spawn<SamplePrefab>(pos, scale, rot) ���\�ɂ���
+            // ctx.Spawn<SamplePrefab>(pos, scale, rot) を可能にする
             SpawnDesc(const Engine::Vector3& position,
                 float uniformScale = 1.0f,
                 float rotateDegPerSec = 45.0f)
@@ -30,7 +30,7 @@ namespace Game {
             }
         };
 
-        static Engine::Entity* Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc);
+        static Engine::GameObject* Spawn(Game::SceneContext& ctx, const SpawnDesc& desc);
     };
 
 } // namespace Game

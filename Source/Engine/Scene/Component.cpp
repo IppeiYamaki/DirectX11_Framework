@@ -2,20 +2,20 @@
 
 namespace Engine {
 
-    Entity* Component::GetOwner() {
+    GameObject* Component::GetOwner() {
         return m_owner;
     }
 
-    const Entity* Component::GetOwner() const {
+    const GameObject* Component::GetOwner() const {
         return m_owner;
     }
 
     GameObject* Component::GetGameObject() {
-        return m_gameObject;
+        return m_owner;
     }
 
     const GameObject* Component::GetGameObject() const {
-        return m_gameObject;
+        return m_owner;
     }
 
     void Component::Enable() {
@@ -37,12 +37,8 @@ namespace Engine {
     void Component::Draw() {}
     void Component::OnDestroy() {}
 
-    void Component::SetOwner(Entity* owner) {
-        m_owner = owner;
-    }
-
     void Component::SetOwner(GameObject* owner) {
-        m_gameObject = owner;
+        m_owner = owner;
     }
 
 } // namespace Engine

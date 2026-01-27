@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <set>
 #include <type_traits>
 
 #include "Engine/Math/Vector3.h"
@@ -108,18 +109,31 @@ namespace Engine {
         /// @return オブジェクト名への参照
         [[nodiscard]] const std::string& GetName() const;
 
-        /// @brief タグを設定
+        /// @brief タグを設定（単一タグ方式、互換性維持）
         /// @param tag タグ文字列
         void SetTag(const std::string& tag);
 
-        /// @brief タグを取得
+        /// @brief タグを取得（単一タグ方式、互換性維持）
         /// @return タグへの参照
         [[nodiscard]] const std::string& GetTag() const;
 
-        /// @brief タグが一致するか確認
+        /// @brief タグが一致するか確認（単一タグ方式）
         /// @param tag 比較するタグ
         /// @return 一致すればtrue
         [[nodiscard]] bool CompareTag(const std::string& tag) const;
+
+        /// @brief タグを追加（複数タグ方式）
+        /// @param tag 追加するタグ
+        void AddTag(const std::string& tag);
+
+        /// @brief タグを削除（複数タグ方式）
+        /// @param tag 削除するタグ
+        void RemoveTag(const std::string& tag);
+
+        /// @brief タグを持っているか確認（複数タグ方式）
+        /// @param tag チェックするタグ
+        /// @return タグを持っていればtrue
+        [[nodiscard]] bool HasTag(const std::string& tag) const;
 
         //============================================================
         // 有効/無効制御
@@ -278,7 +292,8 @@ namespace Engine {
         // 識別情報
         EntityId m_id;                                          ///< 一意識別子
         std::string m_name;                                     ///< オブジェクト名
-        std::string m_tag;                                      ///< タグ
+        std::string m_tag;                                      ///< タグ（単一タグ方式、互換性維持）
+        std::set<std::string> m_tags;                           ///< タグセット（複数タグ方式）
 
         // 状態フラグ
         bool m_isActive = true;                                 ///< 有効フラグ

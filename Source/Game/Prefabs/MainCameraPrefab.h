@@ -4,8 +4,8 @@
 
 #include "Engine/Math/Vector3.h"
 
-namespace Engine { class Entity; }
-namespace Engine { struct SceneContext; }
+namespace Engine { class GameObject; }
+namespace Game { struct SceneContext; }
 
 namespace Game {
 
@@ -14,9 +14,9 @@ namespace Game {
         struct SpawnDesc final {
             Engine::Vector3 m_position{ 0, -5.0f, -8 };
 
-            // ���Œ�J�����̊p�x�i�x�j
+            // 固定カメラの角度（度）
             float m_yawDeg = 0.0f;
-            float m_pitchDeg = 20.0f; // �����������i����Ȃ���Ε������t�ɂ���OK�j
+            float m_pitchDeg = 20.0f;
             float m_rollDeg = 0.0f;
 
             float m_fovYRad = DirectX::XM_PIDIV4;
@@ -28,7 +28,7 @@ namespace Game {
 
             SpawnDesc() = default;
 
-            // ctx.Spawn<MainCameraPrefab>(pos, yaw, pitch) ���ł���`
+            // ctx.Spawn<MainCameraPrefab>(pos, yaw, pitch) ができる定義
             SpawnDesc(const Engine::Vector3& position,
                 float yawDeg = 0.0f,
                 float pitchDeg = 20.0f,
@@ -48,7 +48,7 @@ namespace Game {
             }
         };
 
-        static Engine::Entity* Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc);
+        static Engine::GameObject* Spawn(Game::SceneContext& ctx, const SpawnDesc& desc);
     };
 
 } // namespace Game

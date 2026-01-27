@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 #include "Engine/Graphics/RenderSystem.h"
-#include "Engine/Scene/Entity.h"
+#include "Engine/Scene/GameObject.h"
 #include "Engine/Scene/Components/Transform.h"
 
 namespace Engine {
@@ -11,7 +11,7 @@ namespace Engine {
     }
 
     void Camera::OnStart() {
-        // ¶¬‚µ‚½ƒtƒŒ[ƒ€‚©‚ç‚·‚®”½‰f‚µ‚½‚¢‚Ì‚Å1‰ñ“K—p
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ç‚·ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½1ï¿½ï¿½Kï¿½p
         if (m_isMain) {
             ApplyToRenderSystem();
         }
@@ -27,7 +27,7 @@ namespace Engine {
     void Camera::SetMain(bool isMain) {
         m_isMain = isMain;
 
-        // mainØ‚è‘Ö‚¦’¼Œã‚É‘¦”½‰fiˆÀ‘Sj
+        // mainï¿½Ø‚ï¿½Ö‚ï¿½ï¿½ï¿½ï¿½ï¿½É‘ï¿½ï¿½ï¿½ï¿½fï¿½iï¿½ï¿½ï¿½Sï¿½j
         if (m_isMain) {
             ApplyToRenderSystem();
         }

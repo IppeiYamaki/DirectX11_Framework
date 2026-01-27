@@ -3,7 +3,7 @@
 #include "Engine/Scene/SceneBase.h"
 #include "Game/Scenes/PrefabSlot.h"
 
-namespace Engine { struct SceneContext; }
+namespace Engine { class GameObject; }
 
 namespace Game {
     /**
@@ -40,8 +40,8 @@ namespace Game {
         void BuildScene(Engine::SceneContext& ctx);
 
     private:
-        // カメラEntity（シーン切替時に破棄するため保持しておく）
-        Engine::Entity* m_cameraEntity = nullptr;
+        // カメラオブジェクト（シーン切替時に破棄するため保持しておく）
+        Engine::GameObject* m_cameraObject = nullptr;
 
         // "後で触る対象" は Slot に入れて管理する
         // PrefabSlot m_player;
@@ -49,5 +49,6 @@ namespace Game {
 
         // 複数に増えるなら vector で管理
         std::vector<PrefabSlot> m_characters;
+    };
 
 } // namespace Game

@@ -9,7 +9,7 @@
 1. [C++20の活用](#1-c20の活用)
 2. [Sankou_00とSankou_01の活用と統合提案](#2-sankou_00とsankou_01の活用と統合提案)
 3. [DirectX11のパフォーマンス最適化](#3-directx11のパフォーマンス最適化)
-4. [Entity+Componentモデルの改善提案](#4-entitycomponentモデルの改善提案)
+4. [GameObject+Componentモデルの改善提案](#4-entitycomponentモデルの改善提案)
 5. [スタイルとドキュメント方針の整備](#5-スタイルとドキュメント方針の整備)
 6. [モジュール設計とステートパターン](#6-モジュール設計とステートパターン)
 7. [段階的な開発ロードマップ](#7-段階的な開発ロードマップ)
@@ -22,7 +22,7 @@
 
 現状のテンプレート制約は`static_assert`で行われていますが、C++20のConceptsを使用することで、より明確で型安全なコードが実現できます。
 
-#### 現状のコード（Entity.h）
+#### 現状のコード（GameObject.h）
 ```cpp
 template <class T, class... Args>
 T* AddComponent(Args&&... args) {
@@ -67,7 +67,7 @@ namespace Engine {
 } // namespace Engine
 ```
 
-#### Entity.hの改善
+#### GameObject.hの改善
 ```cpp
 #pragma once
 
@@ -77,7 +77,7 @@ namespace Engine {
 
 namespace Engine {
 
-    class Entity final {
+    class GameObject final {
     public:
         // Conceptsを使用した型制約
         template <DerivedFromComponent T, typename... Args>
@@ -112,9 +112,9 @@ namespace Engine {
 
 ループ処理をよりモダンで読みやすくするために、C++20のRangesライブラリを活用します。
 
-#### 現状のコード（Entity.cpp）
+#### 現状のコード（GameObject.cpp）
 ```cpp
-void Entity::UpdateComponents(float deltaTime) {
+void GameObject::UpdateComponents(float deltaTime) {
     if (!m_isEnabled) return;
 
     StartIfNeeded();
@@ -132,7 +132,7 @@ void Entity::UpdateComponents(float deltaTime) {
 #include <ranges>
 #include <algorithm>
 
-void Entity::UpdateComponents(float deltaTime) {
+void GameObject::UpdateComponents(float deltaTime) {
     if (!m_isEnabled) return;
 
     StartIfNeeded();
@@ -156,16 +156,16 @@ void World::Update(float deltaTime) {
     if (!m_isInitialized) return;
 
     // range-based forとviewsを組み合わせて使用
-    std::ranges::for_each(m_entities, [deltaTime](auto& e) {
+    std::ranges::for_each(m_gameObjects, [deltaTime](auto& e) {
         e->UpdateComponents(deltaTime);
     });
 }
 
-Entity* World::FindEntityByPredicate(auto predicate) {
-    auto it = std::ranges::find_if(m_entities, [&predicate](const auto& e) {
+GameObject* World::FindEntityByPredicate(auto predicate) {
+    auto it = std::ranges::find_if(m_gameObjects, [&predicate](const auto& e) {
         return predicate(e.get());
     });
-    return (it != m_entities.end()) ? it->get() : nullptr;
+    return (it != m_gameObjects.end()) ? it->get() : nullptr;
 }
 ```
 
@@ -694,14 +694,14 @@ namespace Engine {
 
 ---
 
-## 4. Entity+Componentモデルの改善提案
+## 4. GameObject+Componentモデルの改善提案
 
 ### 4.1 コンポーネントキャッシュの導入
 
 頻繁にアクセスされるコンポーネントのルックアップを高速化します。
 
 ```cpp
-// Source/Engine/Scene/Entity.h (改善版)
+// Source/Engine/Scene/GameObject.h (改善版)
 #pragma once
 
 #include <memory>
@@ -712,7 +712,7 @@ namespace Engine {
 
 namespace Engine {
 
-    class Entity final {
+    class GameObject final {
     public:
         // ... 既存のメソッド ...
 
@@ -849,7 +849,7 @@ namespace Engine {
 // EventSystem::GetInstance().Publish("OnDamage", DamageEvent{ 10.0f });
 ```
 
-### 4.3 Entity識別子とタグシステム
+### 4.3 オブジェクト識別子とタグシステム
 
 ```cpp
 // Source/Engine/Scene/EntityId.h
@@ -861,7 +861,7 @@ namespace Engine {
 
 namespace Engine {
 
-    /// @brief エンティティの一意識別子
+    /// @brief GameObjectの一意識別子
     struct EntityId {
         std::uint64_t m_value = 0;
 
@@ -878,12 +878,12 @@ namespace Engine {
 
 } // namespace Engine
 
-// Entity.h への追加
-class Entity final {
+// GameObject.h への追加
+class GameObject final {
 public:
     // ... 既存のメソッド ...
 
-    /// @brief エンティティIDを取得
+    /// @brief GameObjectIDを取得
     [[nodiscard]] EntityId GetId() const { return m_id; }
 
     /// @brief 名前を設定
@@ -919,23 +919,23 @@ class World final {
 public:
     // ... 既存のメソッド ...
 
-    /// @brief 名前でエンティティを検索
+    /// @brief 名前でGameObjectを検索
     /// @param name 検索する名前
-    /// @return 見つかったエンティティ（存在しない場合nullptr）
-    [[nodiscard]] Entity* FindEntityByName(const std::string& name);
+    /// @return 見つかったGameObject（存在しない場合nullptr）
+    [[nodiscard]] GameObject* FindObjectByName(const std::string& name);
 
-    /// @brief タグを持つエンティティを検索
+    /// @brief タグを持つGameObjectを検索
     /// @param tag 検索するタグ
-    /// @return 見つかったエンティティのベクター
-    [[nodiscard]] std::vector<Entity*> FindEntitiesWithTag(const std::string& tag);
+    /// @return 見つかったGameObjectのベクター
+    [[nodiscard]] std::vector<GameObject*> FindObjectsWithTag(const std::string& tag);
 
-    /// @brief 特定のコンポーネントを持つエンティティを検索
+    /// @brief 特定のコンポーネントを持つGameObjectを検索
     /// @tparam T コンポーネント型
-    /// @return 見つかったエンティティのベクター
+    /// @return 見つかったGameObjectのベクター
     template <DerivedFromComponent T>
-    [[nodiscard]] std::vector<Entity*> FindEntitiesWithComponent() {
-        std::vector<Entity*> result;
-        for (auto& e : m_entities) {
+    [[nodiscard]] std::vector<GameObject*> FindObjectsWithComponent() {
+        std::vector<GameObject*> result;
+        for (auto& e : m_gameObjects) {
             if (e->GetComponent<T>() != nullptr) {
                 result.push_back(e.get());
             }
@@ -943,13 +943,13 @@ public:
         return result;
     }
 
-    /// @brief 条件を満たすエンティティを検索
+    /// @brief 条件を満たすGameObjectを検索
     /// @param predicate 検索条件
-    /// @return 見つかったエンティティのベクター
+    /// @return 見つかったGameObjectのベクター
     template <typename Predicate>
-    [[nodiscard]] std::vector<Entity*> FindEntitiesWhere(Predicate predicate) {
-        std::vector<Entity*> result;
-        for (auto& e : m_entities) {
+    [[nodiscard]] std::vector<GameObject*> FindObjectsWhere(Predicate predicate) {
+        std::vector<GameObject*> result;
+        for (auto& e : m_gameObjects) {
             if (predicate(e.get())) {
                 result.push_back(e.get());
             }
@@ -968,27 +968,27 @@ class World final {
 public:
     // ... 既存のメソッド ...
 
-    /// @brief エンティティを次のフレームで破棄予約
-    /// @param entity 破棄するエンティティ
-    void DestroyEntityDeferred(Entity* entity);
+    /// @brief GameObjectを次のフレームで破棄予約
+    /// @param entity 破棄するGameObject
+    void DestroyObjectDeferred(GameObject* entity);
 
 private:
-    /// @brief フレーム終了時に破棄予約されたエンティティを削除
+    /// @brief フレーム終了時に破棄予約されたGameObjectを削除
     void ProcessPendingDestructions();
 
 private:
-    std::vector<Entity*> m_pendingDestruction;
+    std::vector<GameObject*> m_pendingDestruction;
 };
 
 // World.cpp
-void World::DestroyEntityDeferred(Entity* entity) {
+void World::DestroyObjectDeferred(GameObject* entity) {
     if (entity == nullptr) return;
     m_pendingDestruction.push_back(entity);
 }
 
 void World::ProcessPendingDestructions() {
-    for (Entity* entity : m_pendingDestruction) {
-        DestroyEntity(entity);
+    for (GameObject* entity : m_pendingDestruction) {
+        DestroyObject(entity);
     }
     m_pendingDestruction.clear();
 }
@@ -997,7 +997,7 @@ void World::ProcessPendingDestructions() {
 void World::Update(float deltaTime) {
     if (!m_isInitialized) return;
 
-    for (auto& e : m_entities) {
+    for (auto& e : m_gameObjects) {
         e->UpdateComponents(deltaTime);
     }
 
@@ -1104,7 +1104,7 @@ namespace Engine {
 以下のファイルでコメント形式の統一が必要です：
 
 1. **Transform.h** - 一部のコメントで列の揃え方が不統一
-2. **Entity.h** - テンプレートメソッドにDoxygenコメントがない
+2. **GameObject.h** - テンプレートメソッドにDoxygenコメントがない
 3. **RenderSystem.h** - RenderItem構造体のメンバーにコメントがない
 
 ---
@@ -1426,7 +1426,7 @@ namespace Engine {
 | 高 | [[nodiscard]]属性追加 | Initialize/Load系関数への追加 | 1日 |
 | 高 | Doxygenコメント統一 | 全ファイルのコメント形式統一 | 3-5日 |
 | 中 | std::format導入 | Logger/Assert向上 | 2日 |
-| 中 | Entity識別子導入 | EntityId/Name/Tagシステム | 3日 |
+| 中 | オブジェクト識別子導入 | EntityId/Name/Tagシステム | 3日 |
 | 低 | constexpr数学関数 | MathConstants.h追加 | 1日 |
 
 ### 7.2 中期目標（3-6ヶ月）
@@ -1459,7 +1459,7 @@ namespace Engine {
 ```mermaid
 graph TD
     A[短期: C++20基礎] --> B[短期: Doxygen統一]
-    A --> C[短期: Entity識別子]
+    A --> C[短期: オブジェクト識別子]
     B --> D[中期: イベントシステム]
     C --> E[中期: Worldクエリ]
     C --> F[中期: 遅延破棄]
@@ -1478,7 +1478,7 @@ graph TD
 以下のファイルを修正：
 
 1. **Source/Engine/Core/Concepts.h** （新規作成）
-2. **Source/Engine/Scene/Entity.h** （Concepts使用に変更）
+2. **Source/Engine/Scene/GameObject.h** （Concepts使用に変更）
 3. **Source/Engine/Scene/World.h** （クエリメソッド追加）
 
 ### 8.2 イベントシステム導入のPR案

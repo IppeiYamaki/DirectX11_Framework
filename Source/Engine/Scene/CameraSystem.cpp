@@ -5,7 +5,7 @@
 #include "Engine/Core/Logger.h"
 #include "Engine/Graphics/RenderSystem.h"
 #include "Engine/Scene/Scene.h"
-#include "Engine/Scene/Entity.h"
+#include "Engine/Scene/GameObject.h"
 #include "Engine/Scene/Components/Transform.h"
 #include "Engine/Scene/Components/Camera.h"
 
@@ -32,7 +32,7 @@ namespace Engine {
         m_scene = scene;
         m_renderSystem = renderSystem;
         m_mainCamera = nullptr;
-        m_cameraEntities.clear();
+        m_cameraObjects.clear();
 
         m_isInitialized = true;
         Logger::Info("CameraSystem initialized.");
@@ -42,9 +42,9 @@ namespace Engine {
     void CameraSystem::Finalize() {
         if (!m_isInitialized) return;
 
-        // カメラEntityの破棄はScene側で行われるため、ポインタのクリアのみ
+        // カメラGameObjectの破棄はScene側で行われるため、ポインタのクリアのみ
         m_mainCamera = nullptr;
-        m_cameraEntities.clear();
+        m_cameraObjects.clear();
         m_scene = nullptr;
         m_renderSystem = nullptr;
 
@@ -62,24 +62,24 @@ namespace Engine {
             return nullptr;
         }
 
-        // カメラ用Entityを生成
-        auto* entity = m_scene->CreateEntity("Camera");
-        if (!entity) {
-            Logger::Error("CameraSystem::AddCamera failed: CreateEntity failed.");
+        // カメラ用GameObjectを生成
+        auto* object = m_scene->CreateObject<GameObject>("Camera");
+        if (!object) {
+            Logger::Error("CameraSystem::AddCamera failed: CreateObject failed.");
             return nullptr;
         }
 
         // Transform設定
-        if (auto* tr = entity->GetComponent<Transform>()) {
+        if (auto* tr = object->GetComponent<Transform>()) {
             tr->SetPosition(params.m_position);
             tr->SetYawPitchRollDegrees(params.m_yawDeg, params.m_pitchDeg, params.m_rollDeg);
         }
 
         // Cameraコンポーネント追加
-        auto* camera = entity->AddComponent<Camera>(m_renderSystem);
+        auto* camera = object->AddComponent<Camera>(m_renderSystem);
         if (!camera) {
             Logger::Error("CameraSystem::AddCamera failed: AddComponent<Camera> failed.");
-            m_scene->DestroyEntity(entity);
+            m_scene->DestroyObject(object);
             return nullptr;
         }
 
@@ -90,21 +90,21 @@ namespace Engine {
             SetMainCamera(camera);
         }
 
-        m_cameraEntities.push_back(entity);
+        m_cameraObjects.push_back(object);
         return camera;
     }
 
     void CameraSystem::RemoveCamera(Camera* camera) {
         if (!m_isInitialized || !camera || !m_scene) return;
 
-        // カメラを持つEntityを検索
-        Entity* targetEntity = camera->GetOwner();
-        if (!targetEntity) return;
+        // カメラを持つGameObjectを検索
+        GameObject* targetObject = camera->GetOwner();
+        if (!targetObject) return;
 
         // リストから削除
-        auto it = std::find(m_cameraEntities.begin(), m_cameraEntities.end(), targetEntity);
-        if (it != m_cameraEntities.end()) {
-            m_cameraEntities.erase(it);
+        auto it = std::find(m_cameraObjects.begin(), m_cameraObjects.end(), targetObject);
+        if (it != m_cameraObjects.end()) {
+            m_cameraObjects.erase(it);
         }
 
         // メインカメラの場合はクリア
@@ -112,8 +112,8 @@ namespace Engine {
             m_mainCamera = nullptr;
         }
 
-        // Entityを破棄
-        m_scene->DestroyEntityDeferred(targetEntity);
+        // GameObjectを破棄
+        m_scene->DestroyObjectDeferred(targetObject);
     }
 
     void CameraSystem::SetMainCamera(Camera* camera) {
@@ -134,7 +134,7 @@ namespace Engine {
     }
 
     std::size_t CameraSystem::GetCameraCount() const {
-        return m_cameraEntities.size();
+        return m_cameraObjects.size();
     }
 
     //============================================================
@@ -143,7 +143,7 @@ namespace Engine {
 
     void CameraSystem::Update(float deltaTime) {
         (void)deltaTime;
-        // 現在、カメラの更新はEntity/Componentシステム経由で行われるため、
+        // 現在、カメラの更新はGameObject/Componentシステム経由で行われるため、
         // ここでは特に追加処理なし。
         // 
         // 将来の拡張予定：

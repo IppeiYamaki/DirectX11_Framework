@@ -1,5 +1,5 @@
 /// @file   EntityId.h
-/// @brief  エンティティの一意識別子とタグシステム
+/// @brief  GameObjectの一意識別子とタグシステム
 #pragma once
 
 #include <cstdint>
@@ -10,10 +10,10 @@
 namespace Engine {
 
     //============================================================
-    // EntityId
+    // EntityId（GameObjectの識別子として使用）
     //============================================================
 
-    /// @brief エンティティの一意識別子
+    /// @brief GameObjectの一意識別子
     struct EntityId {
         std::uint64_t m_value = 0;
 
@@ -72,9 +72,10 @@ namespace Engine {
 
     //============================================================
     // EntityIdentity（Name + Tags を保持）
+    // Note: GameObjectはこのクラスを直接使用せず、独自にメンバを保持
     //============================================================
 
-    /// @brief エンティティの識別情報を保持するクラス
+    /// @brief オブジェクトの識別情報を保持するクラス（レガシー、参考用）
     class EntityIdentity final {
     public:
         EntityIdentity() : m_id(EntityId::Generate()) {}
@@ -87,7 +88,7 @@ namespace Engine {
         // ID
         //============================================================
 
-        /// @brief エンティティIDを取得
+        /// @brief オブジェクトIDを取得
         /// @return EntityId
         [[nodiscard]] EntityId GetId() const noexcept {
             return m_id;
@@ -213,20 +214,22 @@ namespace Engine {
 
 // 使用例:
 //
-// // EntityにEntityIdentityを追加
-// class Entity {
+// // GameObjectでの使用例
+// class GameObject {
 // public:
-//     EntityId GetId() const { return m_identity.GetId(); }
-//     void SetName(const std::string& name) { m_identity.SetName(name); }
-//     const std::string& GetName() const { return m_identity.GetName(); }
-//     void AddTag(const Tag& tag) { m_identity.AddTag(tag); }
-//     bool HasTag(const Tag& tag) const { return m_identity.HasTag(tag); }
+//     EntityId GetId() const { return m_id; }
+//     void SetName(const std::string& name) { m_name = name; }
+//     const std::string& GetName() const { return m_name; }
+//     void AddTag(const std::string& tag) { m_tags.insert(tag); }
+//     bool HasTag(const std::string& tag) const { return m_tags.contains(tag); }
 // private:
-//     EntityIdentity m_identity;
+//     EntityId m_id = EntityId::Generate();
+//     std::string m_name;
+//     std::set<std::string> m_tags;
 // };
 //
 // // 使用
-// Entity* player = world->CreateEntity();
+// GameObject* player = scene->CreateObject<GameObject>();
 // player->SetName("Player1");
 // player->AddTag(Tags::kPlayer);
 // player->AddTag(Tags::kDynamic);

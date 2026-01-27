@@ -208,7 +208,6 @@
     <ClCompile Include="Source\Engine\Scene\Components\MeshRenderer.cpp" />
     <ClCompile Include="Source\Engine\Scene\Components\StaticModelRenderer.cpp" />
     <ClCompile Include="Source\Engine\Scene\Components\Transform.cpp" />
-    <ClCompile Include="Source\Engine\Scene\Entity.cpp" />
     <ClCompile Include="Source\Engine\Scene\World.cpp" />
     <ClCompile Include="Source\Engine\Scene\CameraSystem.cpp" />
     <ClCompile Include="Source\Engine\Scene\Scene.cpp" />
@@ -275,7 +274,6 @@
     <ClInclude Include="Source\Engine\Scene\Components\ScriptComponent.h" />
     <ClInclude Include="Source\Engine\Scene\Components\StaticModelRenderer.h" />
     <ClInclude Include="Source\Engine\Scene\Components\Transform.h" />
-    <ClInclude Include="Source\Engine\Scene\Entity.h" />
     <ClInclude Include="Source\Engine\Scene\EntityId.h" />
     <ClInclude Include="Source\Engine\Scene\World.h" />
     <ClInclude Include="Source\Engine\Scene\CameraSystem.h" />

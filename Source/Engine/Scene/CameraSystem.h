@@ -13,7 +13,7 @@ namespace Engine {
 
     class RenderSystem;
     class Camera;
-    class Entity;
+    class GameObject;
     class Scene;
 
     /// @brief カメラ初期化パラメータ
@@ -109,11 +109,11 @@ namespace Engine {
         void Update(float deltaTime);
 
     private:
-        Scene* m_scene = nullptr;                   ///< シーン参照（借用）
-        RenderSystem* m_renderSystem = nullptr;     ///< RenderSystem参照（借用）
-        Camera* m_mainCamera = nullptr;             ///< メインカメラへのポインタ（借用）
-        std::vector<Entity*> m_cameraEntities;      ///< カメラを持つEntity群（借用）
-        bool m_isInitialized = false;               ///< 初期化済みフラグ
+        Scene* m_scene = nullptr;                       ///< シーン参照（借用）
+        RenderSystem* m_renderSystem = nullptr;         ///< RenderSystem参照（借用）
+        Camera* m_mainCamera = nullptr;                 ///< メインカメラへのポインタ（借用）
+        std::vector<GameObject*> m_cameraObjects;       ///< カメラを持つGameObject群（借用）
+        bool m_isInitialized = false;                   ///< 初期化済みフラグ
     };
 
 } // namespace Engine

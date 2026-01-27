@@ -8,7 +8,7 @@
 #include "Engine/Scene/SceneContext.h"
 #include "Engine/Scene/Scene.h"
 
-namespace Engine { class Entity; }
+namespace Engine { class GameObject; }
 
 namespace Game {
 
@@ -18,25 +18,25 @@ namespace Game {
      * - Spawn時の引数を保存し、Respawnで同引数で再生成できる
      *
      * 注意：
-     * - Destroy() は Scene::DestroyEntity() を呼ぶ（即時削除）
+     * - Destroy() は Scene::DestroyObject() を呼ぶ（即時削除）
      * - Component Update内など、Scene内からのDestroyしないこと（Scene Update内ならOK）
      */
     class PrefabSlot final {
     public:
         PrefabSlot() = default;
 
-        Engine::Entity* Get() const { return m_entity; }
-        bool IsAlive() const { return m_entity != nullptr; }
+        Engine::GameObject* Get() const { return m_object; }
+        bool IsAlive() const { return m_object != nullptr; }
 
         template<class TPrefab, class... Args>
-        Engine::Entity* Spawn(Engine::SceneContext& ctx, Args&&... args) {
+        Engine::GameObject* Spawn(Game::SceneContext& ctx, Args&&... args) {
             // 引数を値として保持（あとで同引数で再生成するため）
             auto argsTuple = std::make_shared<std::tuple<std::decay_t<Args>...>>(
                 std::forward<Args>(args)...);
 
-            m_respawn = [argsTuple](Engine::SceneContext& c) -> Engine::Entity* {
+            m_respawn = [argsTuple](Game::SceneContext& c) -> Engine::GameObject* {
                 return std::apply(
-                    [&](auto&&... a) -> Engine::Entity* {
+                    [&](auto&&... a) -> Engine::GameObject* {
                         return c.Spawn<TPrefab>(a...);
                     },
                     *argsTuple);
@@ -44,33 +44,33 @@ namespace Game {
 
             // 既に生成してるなら破棄してから生成（転用をシンプルに）
             Destroy(ctx);
-            m_entity = m_respawn(ctx);
-            return m_entity;
+            m_object = m_respawn(ctx);
+            return m_object;
         }
 
-        void Destroy(Engine::SceneContext& ctx) {
-            if (!m_entity) return;
+        void Destroy(Game::SceneContext& ctx) {
+            if (!m_object) return;
             if (ctx.m_scene) {
-                ctx.m_scene->DestroyEntity(m_entity);
+                ctx.m_scene->DestroyObject(m_object);
             }
-            m_entity = nullptr;
+            m_object = nullptr;
         }
 
-        Engine::Entity* Respawn(Engine::SceneContext& ctx) {
+        Engine::GameObject* Respawn(Game::SceneContext& ctx) {
             Destroy(ctx);
             if (!m_respawn) return nullptr;
-            m_entity = m_respawn(ctx);
-            return m_entity;
+            m_object = m_respawn(ctx);
+            return m_object;
         }
 
         void Clear() {
-            m_entity = nullptr;
+            m_object = nullptr;
             m_respawn = nullptr;
         }
 
     private:
-        Engine::Entity* m_entity = nullptr; // non-owning
-        std::function<Engine::Entity* (Engine::SceneContext&)> m_respawn;
+        Engine::GameObject* m_object = nullptr; // non-owning
+        std::function<Engine::GameObject* (Game::SceneContext&)> m_respawn;
     };
 
 } // namespace Game

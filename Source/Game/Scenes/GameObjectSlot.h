@@ -36,20 +36,20 @@ namespace Game {
         bool IsAlive() const { return m_object != nullptr; }
 
         /// @brief GameObjectPrefabを使って生成
-        /// @tparam TPrefab PrefabクラスSpawnObjectを持つ
+        /// @tparam TPrefab PrefabクラスSpawnを持つ
         /// @param ctx SceneContext
         /// @param args Prefab::SpawnDescのコンストラクタ引数
         /// @return 生成されたGameObject
         template<class TPrefab, class... Args>
-        Engine::GameObject* Spawn(Engine::SceneContext& ctx, Args&&... args) {
+        Engine::GameObject* Spawn(Game::SceneContext& ctx, Args&&... args) {
             // 引数を値として保持（あとで同引数で再生成するため）
             auto argsTuple = std::make_shared<std::tuple<std::decay_t<Args>...>>(
                 std::forward<Args>(args)...);
 
-            m_respawn = [argsTuple](Engine::SceneContext& c) -> Engine::GameObject* {
+            m_respawn = [argsTuple](Game::SceneContext& c) -> Engine::GameObject* {
                 return std::apply(
                     [&](auto&&... a) -> Engine::GameObject* {
-                        return c.SpawnObject<TPrefab>(a...);
+                        return c.Spawn<TPrefab>(a...);
                     },
                     *argsTuple);
                 };
@@ -62,7 +62,7 @@ namespace Game {
 
         /// @brief GameObjectを破棄
         /// @param ctx SceneContext
-        void Destroy(Engine::SceneContext& ctx) {
+        void Destroy(Game::SceneContext& ctx) {
             if (!m_object) return;
             if (ctx.m_scene) {
                 ctx.m_scene->DestroyObject(m_object);
@@ -73,7 +73,7 @@ namespace Game {
         /// @brief 同じ引数で再生成
         /// @param ctx SceneContext
         /// @return 再生成されたGameObject
-        Engine::GameObject* Respawn(Engine::SceneContext& ctx) {
+        Engine::GameObject* Respawn(Game::SceneContext& ctx) {
             Destroy(ctx);
             if (!m_respawn) return nullptr;
             m_object = m_respawn(ctx);
@@ -88,7 +88,7 @@ namespace Game {
 
     private:
         Engine::GameObject* m_object = nullptr; // non-owning
-        std::function<Engine::GameObject* (Engine::SceneContext&)> m_respawn;
+        std::function<Engine::GameObject* (Game::SceneContext&)> m_respawn;
     };
 
 } // namespace Game

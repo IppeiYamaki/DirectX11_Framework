@@ -144,6 +144,18 @@ namespace Engine {
         return m_tag == tag;
     }
 
+    void GameObject::AddTag(const std::string& tag) {
+        m_tags.insert(tag);
+    }
+
+    void GameObject::RemoveTag(const std::string& tag) {
+        m_tags.erase(tag);
+    }
+
+    bool GameObject::HasTag(const std::string& tag) const {
+        return m_tags.contains(tag);
+    }
+
     //============================================================
     // 有効/無効制御
     //============================================================
