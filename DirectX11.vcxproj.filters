@@ -238,6 +238,15 @@
     <ClCompile Include="Source\Engine\Physics\Raycast.cpp">
       <Filter>Source\Engine\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Physics\RayManager.cpp">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Platform\MouseInputManager.cpp">
+      <Filter>Source\Engine\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Scripts\SelectUI.cpp">
+      <Filter>Source\Game\Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Core\Logger.h">
@@ -458,6 +467,15 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Physics\Raycast.h">
       <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\RayManager.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Platform\MouseInputManager.h">
+      <Filter>Source\Engine\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scripts\SelectUI.h">
+      <Filter>Source\Game\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
