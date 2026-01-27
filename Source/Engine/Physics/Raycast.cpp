@@ -70,7 +70,7 @@ namespace Engine {
             // オブジェクトの位置を中心とした簡易球体判定
             Vector3 center = obj->GetPosition();
             Vector3 scale = obj->GetScale();
-            float radius = (std::max)({ scale.x, scale.y, scale.z }) * 0.5f;
+            float radius = (std::max)(scale.x, (std::max)(scale.y, scale.z)) * 0.5f;
 
             float distance = 0.0f;
             if (RaySphereIntersect(ray, center, radius, distance)) {

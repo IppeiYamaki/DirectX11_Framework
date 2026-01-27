@@ -294,8 +294,124 @@ SceneContext ──────────────────────�
 
 ## 7. 今後の拡張予定
 
-- [ ] UI要素の派生クラス追加（Button、Text、Image等）
-- [ ] UIイベントシステム（クリック、ホバー等）
+- [x] UI要素の派生クラス追加（Button、Text等）
+- [x] UIイベントシステム（クリック判定）
 - [ ] カメラ切り替えアニメーション
 - [ ] 複数カメラ同時描画（スプリットスクリーン）
 - [ ] UIアンカーシステム（画面端配置）
+
+---
+
+## 8. Rayシステム
+
+### 8.1 概要
+
+Rayシステムは、Unity風のレイキャスティング機能を提供します。スクリーン座標から3D空間へのレイ生成や、オブジェクトとの衝突判定が可能です。
+
+### 8.2 主な機能
+
+- レイの生成・管理（origin, direction）
+- スクリーン座標から3Dレイへの変換（Camera::ScreenPointToRay）
+- GameObjectとの衝突判定（Physics::Raycast）
+- UI要素のクリック判定（Canvas::HandleMouseClick）
+
+### 8.3 クラス設計
+
+#### Ray
+
+```cpp
+class Ray {
+public:
+    Ray(const Vector3& origin, const Vector3& direction);
+
+    const Vector3& GetOrigin() const;
+    void SetOrigin(const Vector3& origin);
+
+    const Vector3& GetDirection() const;
+    void SetDirection(const Vector3& direction);
+
+    Vector3 GetPoint(float distance) const;
+
+private:
+    Vector3 m_origin;
+    Vector3 m_direction;
+};
+```
+
+#### RaycastResult
+
+```cpp
+class RaycastResult {
+public:
+    bool HasHit() const;
+    GameObject* GetHitObject() const;
+    float GetDistance() const;
+    const Vector3& GetHitPoint() const;
+    const Vector3& GetNormal() const;
+};
+```
+
+#### Physics
+
+```cpp
+class Physics {
+public:
+    static bool Raycast(const Ray& ray, Scene* scene, RaycastResult& result, float maxDistance = 10000.0f);
+    static bool RaySphereIntersect(const Ray& ray, const Vector3& center, float radius, float& outDistance);
+    static bool RayAABBIntersect(const Ray& ray, const Vector3& min, const Vector3& max, float& outDistance);
+};
+```
+
+### 8.4 使用方法
+
+```cpp
+// マウスクリック位置から3D空間へのレイキャスト
+void HandleMouseClick(SceneContext& ctx, float mouseX, float mouseY) {
+    // 1. まずUIのクリック判定
+    if (ctx.m_canvas && ctx.m_canvas->HandleMouseClick(mouseX, mouseY)) {
+        return; // UIがクリックされた
+    }
+
+    // 2. 3Dオブジェクトへのレイキャスト
+    if (ctx.m_cameraSystem) {
+        auto* camera = ctx.m_cameraSystem->GetMainCamera();
+        if (camera) {
+            float screenW = ctx.m_canvas->GetScreenWidth();
+            float screenH = ctx.m_canvas->GetScreenHeight();
+
+            Ray ray = camera->ScreenPointToRay(mouseX, mouseY, screenW, screenH);
+
+            RaycastResult result;
+            if (Physics::Raycast(ray, ctx.m_scene, result)) {
+                auto* hitObject = result.GetHitObject();
+                // オブジェクトがヒットした
+            }
+        }
+    }
+}
+```
+
+### 8.5 ファイル構成
+
+```
+Source/
+├── Engine/
+│   ├── Physics/             ★ 新規ディレクトリ
+│   │   ├── Ray.h            ★ レイクラスヘッダ
+│   │   ├── Ray.cpp          ★ レイクラス実装
+│   │   ├── Raycast.h        ★ レイキャストヘッダ
+│   │   └── Raycast.cpp      ★ レイキャスト実装
+│   │
+│   ├── Scene/
+│   │   └── Components/
+│   │       └── Camera.h     （更新）ScreenPointToRay追加
+│   │
+│   └── UI/
+│       ├── Canvas.h         （更新）HandleMouseClick追加
+│       └── UIElement.h      （更新）Contains/OnClick追加
+│
+└── Game/
+    └── Scenes/
+        ├── GameScene.h      ★ レイシステム使用例
+        └── GameScene.cpp    ★ レイシステム使用例
+```
