@@ -40,7 +40,7 @@ namespace Engine {
     }
 
     VertexInputLayout CreateSkinnedPosNormColorUvWeightsLayout() {
-        // �ʒu(12) �@��(12) �F(16) UV(8) = 48
+        // 位置(12) 法線(12) 色(16) UV(8) = 48
         // BoneIndices(uint4=16) -> 64
         // BoneWeights(float4=16) -> 80
         VertexInputLayout layout;
@@ -50,6 +50,32 @@ namespace Engine {
         layout.push_back({ "TEXCOORD",      0, DXGI_FORMAT_R32G32_FLOAT,          0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0 });
         layout.push_back({ "BLENDINDICES",  0, DXGI_FORMAT_R32G32B32A32_UINT,     0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0 });
         layout.push_back({ "BLENDWEIGHT",   0, DXGI_FORMAT_R32G32B32A32_FLOAT,    0, 64, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        return layout;
+    }
+
+    VertexInputLayout CreateExtendedPosNormTangentBitangentUvLayout() {
+        // 位置(12) 法線(12) タンジェント(12) バイタンジェント(12) UV(8) = 56
+        VertexInputLayout layout;
+        layout.push_back({ "POSITION",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "NORMAL",     0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "TANGENT",    0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "BINORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 36, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "TEXCOORD",   0, DXGI_FORMAT_R32G32_FLOAT,    0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        return layout;
+    }
+
+    VertexInputLayout CreateExtendedSkinnedLayout() {
+        // 位置(12) 法線(12) タンジェント(12) バイタンジェント(12) UV(8) = 56
+        // BoneIndices(uint4=16) -> 72
+        // BoneWeights(float4=16) -> 88
+        VertexInputLayout layout;
+        layout.push_back({ "POSITION",      0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 0,  D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "NORMAL",        0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "TANGENT",       0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "BINORMAL",      0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 36, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "TEXCOORD",      0, DXGI_FORMAT_R32G32_FLOAT,       0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "BLENDINDICES",  0, DXGI_FORMAT_R32G32B32A32_UINT,  0, 56, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+        layout.push_back({ "BLENDWEIGHT",   0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 72, D3D11_INPUT_PER_VERTEX_DATA, 0 });
         return layout;
     }
 

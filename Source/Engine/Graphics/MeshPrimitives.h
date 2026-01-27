@@ -10,12 +10,25 @@
 namespace Engine {
 
     /**
-     * @brief �W�����_�iDefaultVS �ɍ��킹��FPos/Normal/Color/UV�j
+     * @brief 標準頂点（DefaultVS に合わせる：Pos/Normal/Color/UV）
      */
     struct VertexPosNormColorUv final {
         Vector3 m_pos;
         Vector3 m_normal;
         Vector4 m_color;
+        Vector2 m_uv;
+    };
+
+    /**
+     * @brief 拡張頂点（PBR対応：Pos/Normal/Tangent/Bitangent/UV）
+     * 
+     * タンジェント空間の計算をサポートし、法線マッピングやPBRレンダリングに使用
+     */
+    struct VertexPosNormTangentBitangentUv final {
+        Vector3 m_pos;
+        Vector3 m_normal;
+        Vector3 m_tangent;
+        Vector3 m_bitangent;
         Vector2 m_uv;
     };
 

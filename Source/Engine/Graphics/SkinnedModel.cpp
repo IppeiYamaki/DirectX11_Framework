@@ -42,14 +42,14 @@ namespace Engine {
         m_clips = std::move(clips);
         m_rootNodeIndex = rootNodeIndex;
 
-        // node–¼¨index
+        // nodeï¿½ï¿½ï¿½ï¿½index
         m_nodeNameToIndex.clear();
         m_nodeNameToIndex.reserve(m_nodes.size());
         for (int i = 0; i < static_cast<int>(m_nodes.size()); ++i) {
             m_nodeNameToIndex[m_nodes[i].m_name] = i;
         }
 
-        // subsets‚ª‹ó‚È‚ç‘S‘Ì
+        // subsetsï¿½ï¿½ï¿½ï¿½È‚ï¿½Sï¿½ï¿½
         if (m_subsets.empty()) {
             SkinnedSubset s{};
             s.m_startIndex = 0;
@@ -70,12 +70,25 @@ namespace Engine {
 
     const std::vector<SkinnedSubset>& SkinnedModel::GetSubsets() const { return m_subsets; }
     const std::vector<SkinnedBone>& SkinnedModel::GetBones() const { return m_bones; }
+    const std::vector<SkinnedNode>& SkinnedModel::GetNodes() const { return m_nodes; }
 
     std::vector<std::string> SkinnedModel::GetClipNames() const {
         std::vector<std::string> names;
         names.reserve(m_clips.size());
         for (const auto& kv : m_clips) names.push_back(kv.first);
         return names;
+    }
+
+    int SkinnedModel::GetClipFrameCount(const std::string& clipName) const {
+        auto it = m_clips.find(clipName);
+        if (it == m_clips.end()) return 0;
+        return it->second.GetMaxKeyCount();
+    }
+
+    const SkinnedClip* SkinnedModel::GetClip(const std::string& clipName) const {
+        auto it = m_clips.find(clipName);
+        if (it == m_clips.end()) return nullptr;
+        return &it->second;
     }
 
     bool SkinnedModel::AddClip(const std::string& clipName, SkinnedClip&& clip) {
@@ -108,7 +121,7 @@ namespace Engine {
         return XMMatrixMultiply(XMMatrixMultiply(ms, mr), mt);
     }
 
-    // š•‰‚Ìframe‚Å‚àˆÀ‘S‚È index ‚ğì‚é
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½frameï¿½Å‚ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ index ï¿½ï¿½ï¿½ï¿½ï¿½
     static int WrapFrameIndex(int frame, int keyCount) {
         if (keyCount <= 0) return 0;
         int f = frame % keyCount;
@@ -233,6 +246,74 @@ namespace Engine {
         }
 
         return true;
+    }
+
+    bool SkinnedModel::EvaluateTime(
+        const std::string& clipName, float timeInSeconds,
+        std::vector<DirectX::XMFLOAT4X4>& outBoneMatrices
+    ) const {
+        auto it = m_clips.find(clipName);
+        if (it == m_clips.end()) return false;
+
+        const SkinnedClip& clip = it->second;
+        const int maxKeys = clip.GetMaxKeyCount();
+        if (maxKeys <= 0) return false;
+
+        // æ™‚é–“ã‹ã‚‰ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’è¨ˆç®—ï¼ˆè£œé–“ä»˜ãï¼‰
+        float ticksPerSecond = clip.m_ticksPerSecond > 0.0f ? clip.m_ticksPerSecond : 30.0f;
+        float frameFloat = timeInSeconds * ticksPerSecond;
+
+        int frame = static_cast<int>(frameFloat);
+        if (frame < 0) frame = 0;
+        if (frame >= maxKeys) frame = maxKeys - 1;
+
+        return EvaluateFrames(clipName, frame, outBoneMatrices);
+    }
+
+    bool SkinnedModel::EvaluateBlendTime(
+        const std::string& clipA, float timeA,
+        const std::string& clipB, float timeB,
+        float blendRate,
+        std::vector<DirectX::XMFLOAT4X4>& outBoneMatrices
+    ) const {
+        auto itA = m_clips.find(clipA);
+        auto itB = m_clips.find(clipB);
+        if (itA == m_clips.end() || itB == m_clips.end()) return false;
+
+        const SkinnedClip& a = itA->second;
+        const SkinnedClip& b = itB->second;
+
+        // æ™‚é–“ã‹ã‚‰ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’è¨ˆç®—
+        float ticksA = a.m_ticksPerSecond > 0.0f ? a.m_ticksPerSecond : 30.0f;
+        float ticksB = b.m_ticksPerSecond > 0.0f ? b.m_ticksPerSecond : 30.0f;
+
+        int frameA = static_cast<int>(timeA * ticksA);
+        int frameB = static_cast<int>(timeB * ticksB);
+
+        const int maxA = a.GetMaxKeyCount();
+        const int maxB = b.GetMaxKeyCount();
+
+        if (frameA < 0) frameA = 0;
+        if (maxA > 0 && frameA >= maxA) frameA = maxA - 1;
+        if (frameB < 0) frameB = 0;
+        if (maxB > 0 && frameB >= maxB) frameB = maxB - 1;
+
+        return EvaluateBlendFrames(clipA, frameA, clipB, frameB, blendRate, outBoneMatrices);
+    }
+
+    // BoneTransform implementation
+    DirectX::XMMATRIX BoneTransform::ToMatrix() const {
+        using namespace DirectX;
+
+        const XMVECTOR s = XMVectorSet(m_scale.x, m_scale.y, m_scale.z, 0.0f);
+        const XMVECTOR q = XMQuaternionNormalize(XMVectorSet(m_rotation.x, m_rotation.y, m_rotation.z, m_rotation.w));
+        const XMVECTOR t = XMVectorSet(m_position.x, m_position.y, m_position.z, 0.0f);
+
+        const XMMATRIX ms = XMMatrixScalingFromVector(s);
+        const XMMATRIX mr = XMMatrixRotationQuaternion(q);
+        const XMMATRIX mt = XMMatrixTranslationFromVector(t);
+
+        return XMMatrixMultiply(XMMatrixMultiply(ms, mr), mt);
     }
 
 } // namespace Engine

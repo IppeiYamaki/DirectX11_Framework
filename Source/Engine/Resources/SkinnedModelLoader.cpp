@@ -169,6 +169,7 @@ namespace Engine {
             aiProcess_Triangulate |
             aiProcess_JoinIdenticalVertices |
             aiProcess_GenSmoothNormals |
+            aiProcess_CalcTangentSpace |
             aiProcess_LimitBoneWeights |
             aiProcess_ImproveCacheLocality |
             aiProcess_ConvertToLeftHanded;
@@ -368,7 +369,7 @@ namespace Engine {
         return model;
     }
 
-    // š•Êƒtƒ@ƒCƒ‹‚©‚çƒAƒjƒ‚ð’Ç‰Á‚·‚é
+    // ï¿½ï¿½ï¿½Êƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½jï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½
     bool AddAnimationFromFile(
         SkinnedModel& model,
         AssetManager& assets,
@@ -403,13 +404,13 @@ namespace Engine {
             const aiAnimation* anim = scene->mAnimations[a];
             if (!anim) continue;
 
-            // –¼‘OŒˆ’èFˆø”—DæA‹ó‚È‚çƒtƒ@ƒCƒ‹“à–¼A‚³‚ç‚É‹ó‚È‚çAnimN
+            // ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½Fï¿½ï¿½ï¿½ï¿½ï¿½Dï¿½ï¿½Aï¿½ï¿½È‚ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½É‹ï¿½È‚ï¿½AnimN
             std::string outName = clipName;
             if (outName.empty()) {
                 outName = (anim->mName.length > 0) ? anim->mName.C_Str() : ("Anim" + std::to_string(a));
             }
             else {
-                // ƒtƒ@ƒCƒ‹‚É•¡”ƒAƒjƒ‚ª‚ ‚éê‡‚Í”í‚ç‚È‚¢‚æ‚¤‚É suffix
+                // ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É•ï¿½ï¿½ï¿½ï¿½Aï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Í”ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½ï¿½ suffix
                 if (scene->mNumAnimations > 1) {
                     std::string suffix = (anim->mName.length > 0) ? anim->mName.C_Str() : std::to_string(a);
                     outName = outName + "_" + suffix;
@@ -425,7 +426,7 @@ namespace Engine {
                 const std::string nodeName = ch->mNodeName.C_Str();
                 const int nodeIndex = model.FindNodeIndexByName(nodeName);
                 if (nodeIndex < 0) {
-                    // œ–¼/ƒm[ƒh–¼‚ªˆê’v‚µ‚È‚¢‚à‚Ì‚Í–³Ž‹iƒŠƒ^[ƒQƒbƒg‚µ‚È‚¢•ûjj
+                    // ï¿½ï¿½ï¿½ï¿½/ï¿½mï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Ì‚Í–ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½jï¿½j
                     continue;
                 }
 

@@ -190,6 +190,9 @@
     <ClCompile Include="Source\Engine\Graphics\SkinnedModel.cpp">
       <Filter>Source\Engine\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Graphics\AnimationController.cpp">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Engine\Resources\SkinnedModelLoader.cpp">
       <Filter>Source\Engine\Resources</Filter>
     </ClCompile>
@@ -400,6 +403,9 @@
       <Filter>Source\Engine\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Graphics\SkinnedModel.h">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphics\AnimationController.h">
       <Filter>Source\Engine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Resources\SkinnedModelLoader.h">

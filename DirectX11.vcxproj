@@ -193,6 +193,7 @@
     <ClCompile Include="Source\Engine\Graphics\Shader.cpp" />
     <ClCompile Include="Source\Engine\Graphics\ShaderLibrary.cpp" />
     <ClCompile Include="Source\Engine\Graphics\SkinnedModel.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\AnimationController.cpp" />
     <ClCompile Include="Source\Engine\Graphics\Texture.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector2.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector3.cpp" />
@@ -262,6 +263,7 @@
     <ClInclude Include="Source\Engine\Graphics\ShaderConstants.h" />
     <ClInclude Include="Source\Engine\Graphics\ShaderLibrary.h" />
     <ClInclude Include="Source\Engine\Graphics\SkinnedModel.h" />
+    <ClInclude Include="Source\Engine\Graphics\AnimationController.h" />
     <ClInclude Include="Source\Engine\Graphics\Texture.h" />
     <ClInclude Include="Source\Engine\Math\Color.h" />
     <ClInclude Include="Source\Engine\Math\Easing.h" />
