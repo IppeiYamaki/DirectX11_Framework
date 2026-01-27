@@ -243,6 +243,9 @@ namespace Engine {
         ASSERT(m_isInitialized);
         ASSERT(m_graphicsDevice != nullptr);
 
+        // フレーム開始時にRTV/DSVとビューポートをバインド
+        m_graphicsDevice->BeginFrame();
+
         m_graphicsDevice->Clear(kDefaultClearColor);
 
         ID3D11DeviceContext* ctx = m_graphicsDevice->GetContext();
@@ -250,7 +253,7 @@ namespace Engine {
 
         BindFrameConstants(ctx);
 
-        // ��Layer/Order�Ń\�[�g�iUnity���ۂ��j
+        // ��Layer/Order�Ń\�[�g�iUnity���ۂ��j
         std::stable_sort(m_items.begin(), m_items.end(),
             [](const RenderItem& a, const RenderItem& b) {
                 if (a.m_layer != b.m_layer) {
