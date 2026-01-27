@@ -103,6 +103,20 @@ namespace Engine {
         /// @return Canvas
         [[nodiscard]] Canvas* GetCanvas() const;
 
+        //============================================================
+        // Hit Testing / Click
+        //============================================================
+
+        /// @brief 指定座標がこの要素の領域内にあるか判定
+        /// @param x スクリーンX座標
+        /// @param y スクリーンY座標
+        /// @return 領域内ならtrue
+        [[nodiscard]] virtual bool Contains(float x, float y) const;
+
+        /// @brief クリック時に呼ばれるコールバック
+        /// @note  派生クラスでオーバーライドして独自のクリック処理を実装可能
+        virtual void OnClick();
+
     protected:
         Vector2 m_position{ 0.0f, 0.0f };   ///< スクリーン座標での位置
         Vector2 m_size{ 100.0f, 100.0f };   ///< サイズ

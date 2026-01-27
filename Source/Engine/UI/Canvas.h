@@ -118,6 +118,22 @@ namespace Engine {
         /// @return 有効ならtrue
         [[nodiscard]] bool IsEnabled() const;
 
+        //============================================================
+        // Mouse Input
+        //============================================================
+
+        /// @brief マウスクリックを処理
+        /// @param mouseX マウスX座標（スクリーン座標）
+        /// @param mouseY マウスY座標（スクリーン座標）
+        /// @return クリックがUI要素に当たった場合true
+        bool HandleMouseClick(float mouseX, float mouseY);
+
+        /// @brief 指定座標にあるUI要素を取得
+        /// @param mouseX マウスX座標
+        /// @param mouseY マウスY座標
+        /// @return 座標上にあるUI要素（最前面のもの、なければnullptr）
+        [[nodiscard]] UIElement* GetElementAt(float mouseX, float mouseY) const;
+
     private:
         /// @brief 描画順序でUI要素をソート
         void SortElements();

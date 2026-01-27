@@ -79,6 +79,9 @@
     <Filter Include="Source\Engine\UI">
       <UniqueIdentifier>{f7b8c4d9-2a1e-4b5c-9d8f-3e6a7b0c1d2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Engine\Physics">
+      <UniqueIdentifier>{a1b2c3d4-e5f6-7890-abcd-ef1234567890}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\Core\Logger.cpp">
@@ -228,6 +231,12 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\UI\Button.cpp">
       <Filter>Source\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Physics\Ray.cpp">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Physics\Raycast.cpp">
+      <Filter>Source\Engine\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -443,6 +452,12 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\UI\Button.h">
       <Filter>Source\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\Ray.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\Raycast.h">
+      <Filter>Source\Engine\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

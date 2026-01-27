@@ -163,6 +163,53 @@ namespace Engine {
     }
 
     //============================================================
+    // Mouse Input
+    //============================================================
+
+    bool Canvas::HandleMouseClick(float mouseX, float mouseY) {
+        if (!m_isInitialized || !m_isEnabled) {
+            return false;
+        }
+
+        // ソート順序で後ろ（手前に表示されている）から順にチェック
+        if (m_needsSort) {
+            SortElements();
+            m_needsSort = false;
+        }
+
+        // 逆順にイテレート（手前の要素から順にチェック）
+        for (auto it = m_elements.rbegin(); it != m_elements.rend(); ++it) {
+            auto& element = *it;
+            if (element && element->IsEnabled() && element->IsVisible()) {
+                if (element->Contains(mouseX, mouseY)) {
+                    element->OnClick();
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    UIElement* Canvas::GetElementAt(float mouseX, float mouseY) const {
+        if (!m_isInitialized || !m_isEnabled) {
+            return nullptr;
+        }
+
+        // 逆順にイテレート（手前の要素から順にチェック）
+        for (auto it = m_elements.rbegin(); it != m_elements.rend(); ++it) {
+            const auto& element = *it;
+            if (element && element->IsEnabled() && element->IsVisible()) {
+                if (element->Contains(mouseX, mouseY)) {
+                    return element.get();
+                }
+            }
+        }
+
+        return nullptr;
+    }
+
+    //============================================================
     // Private
     //============================================================
 
