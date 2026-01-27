@@ -6,9 +6,10 @@
 #include <vector>
 #include <algorithm>
 
+#include "Engine/UI/UIElement.h"
+
 namespace Engine {
 
-    class UIElement;
     class RenderSystem;
 
     /// @brief UI要素を管理するCanvas
