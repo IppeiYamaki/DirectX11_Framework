@@ -10,6 +10,38 @@ namespace Engine {
         DestroyComponents();
     }
 
+    //============================================================
+    // Identification
+    //============================================================
+
+    EntityId Entity::GetId() const {
+        return m_identity.GetId();
+    }
+
+    void Entity::SetName(const std::string& name) {
+        m_identity.SetName(name);
+    }
+
+    const std::string& Entity::GetName() const {
+        return m_identity.GetName();
+    }
+
+    void Entity::AddTag(const Tag& tag) {
+        m_identity.AddTag(tag);
+    }
+
+    void Entity::RemoveTag(const Tag& tag) {
+        m_identity.RemoveTag(tag);
+    }
+
+    bool Entity::HasTag(const Tag& tag) const {
+        return m_identity.HasTag(tag);
+    }
+
+    //============================================================
+    // Enable
+    //============================================================
+
     void Entity::Enable() {
         m_isEnabled = true;
     }
@@ -21,6 +53,10 @@ namespace Engine {
     bool Entity::IsEnabled() const {
         return m_isEnabled;
     }
+
+    //============================================================
+    // Internal (called by World)
+    //============================================================
 
     void Entity::StartIfNeeded() {
         if (m_hasStarted) return;
@@ -64,7 +100,6 @@ namespace Engine {
     }
 
     void Entity::DestroyComponents() {
-        // OnDestroy ‚ðŒÄ‚ñ‚Å‚©‚ç”jŠü
         for (auto& c : m_components) {
             c->OnDestroy();
         }
