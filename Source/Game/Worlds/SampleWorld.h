@@ -35,8 +35,7 @@ namespace Game {
         /// @brief ワールド用ライティング設定を適用
         /// @param ctx World利用コンテキスト情報
         void ApplyWorldLighting(WorldContext& ctx);
-        /// @brief ワールド内オブジェクトを生成・配置
-        /// @brief Worldの開始時にPrefabを並べるだけ
+        /// @brief ワールド内オブジェクトを生成・配置（Worldの開始時にPrefabを並べるだけ）
         /// @param ctx World利用コンテキスト情報
         void BuildWorld(WorldContext& ctx);
 
@@ -44,15 +43,11 @@ namespace Game {
         // カメラEntity（ワールド切替時に破棄するため保持しておく）
         Engine::Entity* m_cameraEntity = nullptr;
 
-
         // "後で触る対象" は Slot に入れて管理する
         // PrefabSlot m_player;
         // PrefabSlot m_cameraTarget; // 例：追従対象（playerと別でもOK）
 
         // 複数に増えるなら vector で管理
-         std::vector<PrefabSlot> m_characters;
-
-
-    };
+        std::vector<PrefabSlot> m_characters;
 
 } // namespace Game
