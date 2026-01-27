@@ -4,13 +4,8 @@ namespace Engine {
 
     class Entity;
 
-    /**
-     * @brief Component Šî’êƒNƒ‰ƒXi‹@”\’PˆÊ‚Ì“y‘äj
-     *
-     * - owneriŠ‘® Entityj‚Æ enabled ‚ğ‚Â
-     * - Unity•—ƒ‰ƒCƒtƒTƒCƒNƒ‹ŠÖ”‚ğ’ñ‹ŸiƒfƒtƒHƒ‹ƒg‚Í‹ój
-     * - ŠO•”‚©‚ç owner ‚ğŸè‚É·‚µ‘Ö‚¦‚ç‚ê‚È‚¢İŒv
-     */
+    /// @brief  æ©Ÿèƒ½å˜ä½ã®åŸºåº•Component
+    /// @note   owner(Entity)ã¨enabledã‚’ä¿æŒã—ã€ãƒ©ã‚¤ãƒ•ã‚µã‚¤ã‚¯ãƒ«ã‚’æä¾›ã™ã‚‹
     class Component {
     public:
         Component() = default;
@@ -22,35 +17,54 @@ namespace Engine {
         //============================================================
         // Owner
         //============================================================
-              Entity* GetOwner();
+        /// @brief  æ‰€å±Entityã‚’å–å¾—
+        /// @return æ‰€å±Entityã¸ã®ãƒã‚¤ãƒ³ã‚¿
+        Entity* GetOwner();
+        /// @brief  æ‰€å±Entityã‚’å–å¾—ï¼ˆconstç‰ˆï¼‰
+        /// @return æ‰€å±Entityã¸ã®constãƒã‚¤ãƒ³ã‚¿
         const Entity* GetOwner() const;
 
         //============================================================
         // Enable
         //============================================================
+        /// @brief Componentã‚’æœ‰åŠ¹åŒ–
         void Enable();
+        /// @brief Componentã‚’ç„¡åŠ¹åŒ–
         void Disable();
+        /// @brief  ComponentãŒæœ‰åŠ¹ã‹ç¢ºèª
+        /// @return æœ‰åŠ¹ãªã‚‰true
         bool IsEnabled() const;
 
         //============================================================
         // Lifecycle hooks (override in derived components)
         //============================================================
+        /// @brief Awakeæ™‚ã«å‘¼ã°ã‚Œã‚‹
         virtual void OnAwake();
+        /// @brief Startæ™‚ã«å‘¼ã°ã‚Œã‚‹
         virtual void OnStart();
+        /// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
+        /// @param deltaTime ãƒ•ãƒ¬ãƒ¼ãƒ çµŒéæ™‚é–“
         virtual void Update(float deltaTime);
+        /// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ é…å»¶æ›´æ–°
+        /// @param deltaTime ãƒ•ãƒ¬ãƒ¼ãƒ çµŒéæ™‚é–“
         virtual void LateUpdate(float deltaTime);
+        /// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æç”»
         virtual void Draw();
+        /// @brief ç ´æ£„æ™‚ã«å‘¼ã°ã‚Œã‚‹
         virtual void OnDestroy();
 
     private:
-        // Entity ‚ªŠ—L‚Æ•R•t‚¯‚ğŠÇ—‚·‚é‚½‚ßASetOwner ‚ÍŠO‚Éo‚³‚È‚¢
+        /// @brief  æ‰€å±Entityã‚’è¨­å®š
+        /// @param  owner æ‰€å±Entity
         void SetOwner(Entity* owner);
 
     private:
-        Entity* m_owner     = nullptr;  // Š—L EntityiØ—pj
-		bool    m_isEnabled = true;     // —LŒø‰»ƒtƒ‰ƒO
+        /// @brief æ‰€å±Entityï¼ˆå€Ÿç”¨ï¼‰
+        Entity* m_owner = nullptr;
+        /// @brief æœ‰åŠ¹ãƒ•ãƒ©ã‚°
+        bool m_isEnabled = true;
 
-        // Entity ‚¾‚¯‚ª owner ‚ğİ’è‚Å‚«‚é‚æ‚¤‚É‚·‚é
+        // Entity ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ owner ï¿½ï¿½İ’ï¿½Å‚ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
         friend class Entity;
     };
 
