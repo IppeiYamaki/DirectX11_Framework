@@ -1,10 +1,10 @@
-#include "SceneManager.h"
+#include "WorldManager.h"
 
 namespace Game {
 
-    void SceneManager::Initialize(SceneContext ctx, std::unique_ptr<IScene> firstScene) {
+    void WorldManager::Initialize(WorldContext ctx, std::unique_ptr<IWorld> firstWorld) {
         m_ctx = ctx;
-        m_current = std::move(firstScene);
+        m_current = std::move(firstWorld);
         m_next.reset();
 
         m_isInitialized = true;
@@ -14,7 +14,7 @@ namespace Game {
         }
     }
 
-    void SceneManager::Finalize() {
+    void WorldManager::Finalize() {
         if (!m_isInitialized) return;
 
         if (m_current) {
@@ -26,11 +26,11 @@ namespace Game {
         m_isInitialized = false;
     }
 
-    void SceneManager::ChangeScene(std::unique_ptr<IScene> nextScene) {
-        m_next = std::move(nextScene);
+    void WorldManager::ChangeWorld(std::unique_ptr<IWorld> nextWorld) {
+        m_next = std::move(nextWorld);
     }
 
-    void SceneManager::ApplyPendingSceneIfNeeded() {
+    void WorldManager::ApplyPendingWorldIfNeeded() {
         if (!m_next) return;
 
         if (m_current) {
@@ -44,18 +44,18 @@ namespace Game {
         }
     }
 
-    void SceneManager::Update(float deltaTime) {
+    void WorldManager::Update(float deltaTime) {
         if (!m_isInitialized) return;
 
-        // ƒtƒŒ[ƒ€‚Ìæ“ª‚ÅØ‘ÖiˆÀ‘Sj
-        ApplyPendingSceneIfNeeded();
+        // ãƒ•ãƒ¬ãƒ¼ãƒ ã®å…ˆé ­ã§åˆ‡æ›¿ï¼ˆå®‰å…¨ï¼‰
+        ApplyPendingWorldIfNeeded();
 
         if (m_current) {
             m_current->Update(m_ctx, deltaTime);
         }
     }
 
-    void SceneManager::Draw() {
+    void WorldManager::Draw() {
         if (!m_isInitialized) return;
 
         if (m_current) {

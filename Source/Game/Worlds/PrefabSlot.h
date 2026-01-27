@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <utility>
 
-#include "Game/Scenes/SceneContext.h"
+#include "Game/Worlds/WorldContext.h"
 #include "Engine/Scene/World.h"
 
 namespace Engine { class Entity; }
@@ -13,13 +13,13 @@ namespace Engine { class Entity; }
 namespace Game {
 
     /**
-     * @brief PrefabƒCƒ“ƒXƒ^ƒ“ƒXŠÇ——p‚Ì˜g
-     * - Scene‚ªu‚ ‚Æ‚ÅÁ‚·/Ä¶¬/’Ç]v‚µ‚½‚¢‘ÎÛ‚ğ‚Ü‚Æ‚ß‚Äˆµ‚¦‚é
-     * - Spawn‚Ìˆø”‚ğ•Û‘¶‚µARespawn‚Å“¯ğŒ‚ÅÄ¶¬‚Å‚«‚é
+     * @brief Prefabã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç®¡ç†ç”¨ã®æ 
+     * - Worldã§ã€Œã‚ã¨ã§å‰Šé™¤/å†ç”Ÿæˆ/è¿½å¾“ã€ã—ãŸã„å¯¾è±¡ã‚’ã¾ã¨ã‚ã¦æ‰±ãˆã‚‹
+     * - Spawnæ™‚ã®å¼•æ•°ã‚’ä¿å­˜ã—ã€Respawnã§åŒå¼•æ•°ã§å†ç”Ÿæˆã§ãã‚‹
      *
-     * ’ˆÓF
-     * - Destroy() ‚Í World::DestroyEntity() ‚ğŒÄ‚Ôi‘¦íœj
-     * - Component Update’†‚È‚ÇAWorld‚ª‘–¸’†‚ÉDestroy‚µ‚È‚¢‚±‚ÆiScene Update’†‚È‚çOKj
+     * æ³¨æ„ï¼š
+     * - Destroy() ã¯ World::DestroyEntity() ã‚’å‘¼ã¶ï¼ˆå³æ™‚å‰Šé™¤ï¼‰
+     * - Component Updateå†…ãªã©ã€Worldå†…ã‹ã‚‰ã®Destroyã—ãªã„ã“ã¨ï¼ˆWorld Updateå†…ãªã‚‰OKï¼‰
      */
     class PrefabSlot final {
     public:
@@ -29,12 +29,12 @@ namespace Game {
         bool IsAlive() const { return m_entity != nullptr; }
 
         template<class TPrefab, class... Args>
-        Engine::Entity* Spawn(SceneContext& ctx, Args&&... args) {
-            // ˆø”‚ğ’l‚Æ‚µ‚Ä•Ûi‚ ‚Æ‚Å“¯ğŒ‚ÅÄ¶¬‚·‚é‚½‚ßj
+        Engine::Entity* Spawn(WorldContext& ctx, Args&&... args) {
+            // å¼•æ•°ã‚’å€¤ã¨ã—ã¦ä¿æŒï¼ˆã‚ã¨ã§åŒå¼•æ•°ã§å†ç”Ÿæˆã™ã‚‹ãŸã‚ï¼‰
             auto argsTuple = std::make_shared<std::tuple<std::decay_t<Args>...>>(
                 std::forward<Args>(args)...);
 
-            m_respawn = [argsTuple](SceneContext& c) -> Engine::Entity* {
+            m_respawn = [argsTuple](WorldContext& c) -> Engine::Entity* {
                 return std::apply(
                     [&](auto&&... a) -> Engine::Entity* {
                         return c.Spawn<TPrefab>(a...);
@@ -42,13 +42,13 @@ namespace Game {
                     *argsTuple);
                 };
 
-            // ‚·‚Å‚É¶‚«‚Ä‚¢‚é‚È‚çˆê’U”jŠü‚µ‚Ä‚©‚ç¶¬i‰^—p‚ğƒVƒ“ƒvƒ‹‚Éj
+            // æ—¢ã«ç”Ÿæˆã—ã¦ã‚‹ãªã‚‰ç ´æ£„ã—ã¦ã‹ã‚‰ç”Ÿæˆï¼ˆè»¢ç”¨ã‚’ã‚·ãƒ³ãƒ—ãƒ«ã«ï¼‰
             Destroy(ctx);
             m_entity = m_respawn(ctx);
             return m_entity;
         }
 
-        void Destroy(SceneContext& ctx) {
+        void Destroy(WorldContext& ctx) {
             if (!m_entity) return;
             if (ctx.m_world) {
                 ctx.m_world->DestroyEntity(m_entity);
@@ -56,7 +56,7 @@ namespace Game {
             m_entity = nullptr;
         }
 
-        Engine::Entity* Respawn(SceneContext& ctx) {
+        Engine::Entity* Respawn(WorldContext& ctx) {
             Destroy(ctx);
             if (!m_respawn) return nullptr;
             m_entity = m_respawn(ctx);
@@ -70,7 +70,7 @@ namespace Game {
 
     private:
         Engine::Entity* m_entity = nullptr; // non-owning
-        std::function<Engine::Entity* (SceneContext&)> m_respawn;
+        std::function<Engine::Entity* (WorldContext&)> m_respawn;
     };
 
 } // namespace Game

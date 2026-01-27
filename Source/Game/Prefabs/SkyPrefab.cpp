@@ -1,6 +1,6 @@
 #include "SkyPrefab.h"
 
-#include "Game/Scenes/SceneContext.h"
+#include "Game/Worlds/WorldContext.h"
 
 #include "Engine/Core/Logger.h"
 #include "Engine/Scene/World.h"
@@ -15,7 +15,7 @@
 
 namespace Game {
 
-    Engine::Entity* SkyPrefab::Spawn(SceneContext& ctx, const SpawnDesc& desc) {
+    Engine::Entity* SkyPrefab::Spawn(WorldContext& ctx, const SpawnDesc& desc) {
         if (!ctx.m_world || !ctx.m_renderSystem || !ctx.m_device || !ctx.m_materials) {
             Engine::Logger::Error("SkyDomePrefab::Spawn failed: ctx invalid.");
             return nullptr;
@@ -34,11 +34,11 @@ namespace Game {
         auto* mr = e->AddComponent<Engine::MeshRenderer>(ctx.m_device, ctx.m_renderSystem);
         mr->SetMeshType(Engine::MeshType::Sphere);
 
-        // š”wŒi‚Æ‚µ‚Ä•`‚­
+        // ï¿½ï¿½ï¿½wï¿½iï¿½Æ‚ï¿½ï¿½Ä•`ï¿½ï¿½
         mr->SetRenderLayer(Engine::RenderLayer::Background);
         mr->SetOrderInLayer(0);
 
-        // šSky—pƒXƒe[ƒgi“à‘¤•\Ž¦ + [“x‘‚«ž‚ÝOFFj
+        // ï¿½ï¿½Skyï¿½pï¿½Xï¿½eï¿½[ï¿½gï¿½iï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ + ï¿½[ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½OFFï¿½j
         mr->SetRenderStateFlags(Engine::kRenderStateDepthWriteOff | Engine::kRenderStateCullFront);
 
         // Material

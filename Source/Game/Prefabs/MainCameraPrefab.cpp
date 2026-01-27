@@ -1,6 +1,6 @@
 #include "MainCameraPrefab.h"
 
-#include "Game/Scenes/SceneContext.h"
+#include "Game/Worlds/WorldContext.h"
 
 #include "Engine/Core/Logger.h"
 #include "Engine/Scene/World.h"
@@ -10,7 +10,7 @@
 
 namespace Game {
 
-    Engine::Entity* MainCameraPrefab::Spawn(SceneContext& ctx, const SpawnDesc& desc) {
+    Engine::Entity* MainCameraPrefab::Spawn(WorldContext& ctx, const SpawnDesc& desc) {
         if (!ctx.m_world || !ctx.m_renderSystem) {
             Engine::Logger::Error("MainCameraPrefab::Spawn failed: ctx invalid.");
             return nullptr;

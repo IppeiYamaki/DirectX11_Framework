@@ -3,14 +3,14 @@
 #include "Engine/Math/Vector3.h"
 
 namespace Engine { class Entity; }
-namespace Game { struct SceneContext; }
+namespace Game { struct WorldContext; }
 
 namespace Game {
 
     /**
-     * @brief Skyƒh[ƒ€i”wŒiƒŒƒCƒ„[j
-     * - Sphere ‚ğ‹‘å‰»‚µ‚Ä“à‘¤‚ğ•`‚­iCullFrontj
-     * - DepthWriteOffi‰œ‚É‚ ‚é”wŒi‚Æ‚µ‚Äˆµ‚¤j
+     * @brief Skyï¿½hï¿½[ï¿½ï¿½ï¿½iï¿½wï¿½iï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½j
+     * - Sphere ï¿½ï¿½ï¿½ï¿½ï¿½å‰»ï¿½ï¿½ï¿½Ä“ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½iCullFrontï¿½j
+     * - DepthWriteOffï¿½iï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½wï¿½iï¿½Æ‚ï¿½ï¿½Äˆï¿½ï¿½ï¿½ï¿½j
      */
     class SkyPrefab final {
     public:
@@ -24,7 +24,7 @@ namespace Game {
             }
         };
 
-        static Engine::Entity* Spawn(SceneContext& ctx, const SpawnDesc& desc);
+        static Engine::Entity* Spawn(WorldContext& ctx, const SpawnDesc& desc);
     };
 
 } // namespace Game
