@@ -76,6 +76,9 @@
     <Filter Include="Source\Engine\Scene\Scripting">
       <UniqueIdentifier>{a2eaf970-d1e6-43be-8f65-26b55f05f06b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Engine\UI">
+      <UniqueIdentifier>{f7b8c4d9-2a1e-4b5c-9d8f-3e6a7b0c1d2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\Core\Logger.cpp">
@@ -201,6 +204,30 @@
     </ClCompile>
     <ClCompile Include="Assets\Materials\SkyMaterial.cpp">
       <Filter>Assets\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\Scene.cpp">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\SceneManager.cpp">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\GameObject.cpp">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\CameraSystem.cpp">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\UI\Canvas.cpp">
+      <Filter>Source\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\UI\UIElement.cpp">
+      <Filter>Source\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\UI\TextElement.cpp">
+      <Filter>Source\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\UI\Button.cpp">
+      <Filter>Source\Engine\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -386,6 +413,36 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Scene\EntityId.h">
       <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\Scene.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\SceneBase.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\SceneContext.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\SceneManager.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\GameObject.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\CameraSystem.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\UI\Canvas.h">
+      <Filter>Source\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\UI\UIElement.h">
+      <Filter>Source\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\UI\TextElement.h">
+      <Filter>Source\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\UI\Button.h">
+      <Filter>Source\Engine\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
