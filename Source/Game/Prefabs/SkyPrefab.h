@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Engine/Math/Vector3.h"
+#include "Engine/Scene/SceneContext.h"
 
 namespace Engine { class GameObject; }
-namespace Engine { struct SceneContext; }
 
 namespace Game {
 

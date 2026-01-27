@@ -3,8 +3,6 @@
 #include "Engine/Scene/SceneBase.h"
 #include "Game/Scenes/PrefabSlot.h"
 
-namespace Engine { struct SceneContext; }
-
 namespace Game {
     /**
      * @brief シーンのひな型（ベース）
