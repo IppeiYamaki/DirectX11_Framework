@@ -7,7 +7,6 @@
 namespace Engine {
     class Application;
     class Entity;
-    class GameObject;
     class World;
     class RenderSystem;
     class AssetManager;
@@ -41,21 +40,11 @@ namespace Game {
         MaterialLibrary* m_materials = nullptr;
 
         /// @brief Prefabを生成する（引数は Prefab::SpawnDesc のコンストラクタ引数に転送される）
-        /// @tparam TPrefab Prefabクラス
-        /// @param args SpawnDescのコンストラクタ引数
-        /// @return 生成されたEntity
+        /// @param pos 生成位置
+        /// @param scale 生成スケール
+        /// @param rot 生成回転
         template<class TPrefab, class... Args>
         Engine::Entity* Spawn(Args&&... args) {
-            using Desc = typename TPrefab::SpawnDesc;
-            return TPrefab::Spawn(*this, Desc{ std::forward<Args>(args)... });
-        }
-
-        /// @brief GameObjectベースのPrefabを生成する
-        /// @tparam TPrefab GameObjectPrefabクラス
-        /// @param args SpawnDescのコンストラクタ引数
-        /// @return 生成されたGameObject（派生型）
-        template<class TPrefab, class... Args>
-        auto SpawnGameObject(Args&&... args) -> decltype(TPrefab::Spawn(*this, typename TPrefab::SpawnDesc{})) {
             using Desc = typename TPrefab::SpawnDesc;
             return TPrefab::Spawn(*this, Desc{ std::forward<Args>(args)... });
         }
