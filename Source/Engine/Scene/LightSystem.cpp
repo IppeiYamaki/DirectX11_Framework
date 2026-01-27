@@ -166,8 +166,7 @@ namespace Engine {
     // Frame
     //============================================================
 
-    void LightSystem::Update(float deltaTime) {
-        (void)deltaTime;
+    void LightSystem::Update([[maybe_unused]] float deltaTime) {
         // 現在は追加の更新処理なし
         // 将来の拡張予定:
         // - ライトアニメーション
