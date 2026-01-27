@@ -25,7 +25,6 @@
 #include "Engine/UI/Button.h"
 
 // Prefabs
-#include "Game/Prefabs/MainCameraPrefab.h"
 #include "Game/Prefabs/SkyPrefab.h"
 #include "Game/Prefabs/SamplePrefab.h"
 
@@ -113,9 +112,7 @@ namespace Game {
             auto* mainCamera = ctx.m_cameraSystem->AddCamera(cameraParams);
             ctx.m_cameraSystem->SetMainCamera(mainCamera);
         }
-        else {
-            m_cameraObject = ctx.Spawn<MainCameraPrefab>(Engine::Vector3(0, 5, -10), 0.0f, -15.0f);
-        }
+
 
         //========================
         // Sky 生成

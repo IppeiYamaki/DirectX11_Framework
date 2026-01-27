@@ -209,7 +209,6 @@
     <ClCompile Include="Source\Engine\Scene\Components\MeshRenderer.cpp" />
     <ClCompile Include="Source\Engine\Scene\Components\StaticModelRenderer.cpp" />
     <ClCompile Include="Source\Engine\Scene\Components\Transform.cpp" />
-
     <ClCompile Include="Source\Engine\Scene\World.cpp" />
     <ClCompile Include="Source\Engine\Scene\CameraSystem.cpp" />
     <ClCompile Include="Source\Engine\Scene\Light.cpp" />
@@ -228,13 +227,11 @@
     <ClCompile Include="Source\Game\GameMain.cpp" />
     <ClCompile Include="Source\Game\GameObjects\EnemyObject.cpp" />
     <ClCompile Include="Source\Game\GameObjects\PlayerObject.cpp" />
-    <ClCompile Include="Source\Game\Prefabs\MainCameraPrefab.cpp" />
     <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp" />
     <ClCompile Include="Source\Game\Prefabs\SkyPrefab.cpp" />
     <ClCompile Include="Source\Game\Rendering\DefaultLighting.cpp" />
     <ClCompile Include="Source\Game\Scenes\GameScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\SampleScene.cpp" />
-
     <ClCompile Include="Source\Game\Scripts\SampleRotateComponent.cpp" />
     <ClCompile Include="Source\Game\Scripts\SelectUI.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -287,7 +284,6 @@
     <ClInclude Include="Source\Engine\Scene\Components\ScriptComponent.h" />
     <ClInclude Include="Source\Engine\Scene\Components\StaticModelRenderer.h" />
     <ClInclude Include="Source\Engine\Scene\Components\Transform.h" />
-
     <ClInclude Include="Source\Engine\Scene\EntityId.h" />
     <ClInclude Include="Source\Engine\Scene\World.h" />
     <ClInclude Include="Source\Engine\Scene\CameraSystem.h" />
@@ -308,7 +304,6 @@
     <ClInclude Include="Source\Game\GameMain.h" />
     <ClInclude Include="Source\Game\GameObjects\EnemyObject.h" />
     <ClInclude Include="Source\Game\GameObjects\PlayerObject.h" />
-    <ClInclude Include="Source\Game\Prefabs\MainCameraPrefab.h" />
     <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h" />
     <ClInclude Include="Source\Game\Prefabs\SkyPrefab.h" />
     <ClInclude Include="Source\Game\Rendering\DefaultLighting.h" />
@@ -316,7 +311,6 @@
     <ClInclude Include="Source\Game\Scenes\GameScene.h" />
     <ClInclude Include="Source\Game\Scenes\PrefabSlot.h" />
     <ClInclude Include="Source\Game\Scenes\SampleScene.h" />
-
     <ClInclude Include="Source\Game\Scripts\SampleRotateComponent.h" />
     <ClInclude Include="Source\Game\Scripts\SelectUI.h" />
     <ClInclude Include="Source\Engine\Platform\MouseInputManager.h" />
