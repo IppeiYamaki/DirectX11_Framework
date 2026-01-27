@@ -6,6 +6,7 @@
 #include "Engine/Resources/AssetManager.h"
 #include "Engine/Scene/SceneManager.h"
 #include "Engine/Scene/CameraSystem.h"
+#include "Engine/Scene/LightSystem.h"
 #include "Engine/UI/Canvas.h"
 #include "Materials/MaterialLibrary.h"
 
@@ -41,6 +42,9 @@ namespace Game {
 
         // Camera管理システム
         Engine::CameraSystem m_cameraSystem;
+
+        // Light管理システム
+        Engine::LightSystem m_lightSystem;
 
         // Canvas UI管理システム
         Engine::Canvas m_canvas;

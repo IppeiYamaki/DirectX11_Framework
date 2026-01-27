@@ -220,6 +220,12 @@
     <ClCompile Include="Source\Engine\Scene\CameraSystem.cpp">
       <Filter>Source\Engine\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\Light.cpp">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\LightSystem.cpp">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Engine\UI\Canvas.cpp">
       <Filter>Source\Engine\UI</Filter>
     </ClCompile>
@@ -448,6 +454,12 @@
       <Filter>Source\Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Scene\CameraSystem.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\Light.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\LightSystem.h">
       <Filter>Source\Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\UI\Canvas.h">
