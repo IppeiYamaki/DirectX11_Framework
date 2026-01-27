@@ -8,7 +8,6 @@
 #include <vector>
 
 namespace Engine { 
-    struct SceneContext;
     class Button;
 }
 
