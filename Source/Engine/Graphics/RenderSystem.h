@@ -134,7 +134,7 @@ namespace Engine {
         Microsoft::WRL::ComPtr<ID3D11BlendState> m_bsAlpha;
 
     private:
-        static constexpr float kDefaultClearColor[4] = { 0.10f, 0.10f, 0.18f, 1.0f };
+        static constexpr float kDefaultClearColor[4] = { 0.2f, 1.0f, 0.2f, 1.0f };
     };
 
 } // namespace Engine

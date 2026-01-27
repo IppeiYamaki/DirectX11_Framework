@@ -19,7 +19,6 @@
 #include "Engine/UI/Button.h"
 
 // Prefabs
-#include "Game/Prefabs/MainCameraPrefab.h"
 #include "Game/Prefabs/SkyPrefab.h"
 #include "Game/Prefabs/SamplePrefab.h"
 
@@ -116,10 +115,7 @@ namespace Game {
             auto* mainCamera = ctx.m_cameraSystem->AddCamera(cameraParams);
             ctx.m_cameraSystem->SetMainCamera(mainCamera);
         }
-        else {
-            // フォールバック：旧来のPrefab方式
-            m_cameraObject = ctx.Spawn<MainCameraPrefab>(Engine::Vector3(0, 3, -8), /*yaw*/0.0f, /*pitch*/-5.0f);
-        }
+
 
         //========================
         // Canvas UI セットアップ例
