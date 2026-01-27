@@ -1,256 +1,134 @@
 # DirectX11_Framework
 
-C++ / DirectX11 でゲーム制作を行うためのフレームワークです。  
-このリポジトリでは「用途ごとに cpp を分けやすい構造」「語彙（関数名）を固定して意味を統一」「外部から状態を壊せない設計」を最優先にします。
+C++20とDirectX11を使用してゲーム制作を行うためのフレームワークです。  
+このリポジトリでは「用途ごとの分割」と「汎用性のある設計」を重視し、ゲーム制作を効率化することを目的としています。
+
+本フレームワークは、Unity風のアーキテクチャ（Entity + Componentモデル）を参考に設計され、柔軟性やカスタマイズ性を確保しつつ直感的な実装を可能にすることを目指しています。
 
 ---
 
 ## 目標
 
-- **用途ごとに分離**：Window / GraphicsDevice / Render / Shader / Texture / Material / World / Entity / Component … を責務で分割
-- **語彙（関数名）を固定**：全クラスで同じ意味・同じタイミングで呼ばれるように統一
-- **カプセル化の徹底**：変数は private が基本。状態変更は用途別の関数経由のみ
-- **DirectX11 の COM は ComPtr 統一**：手動 Release() をしない。借用は raw pointer 返しOK
+1. **用途ごとの分離**  
+   各機能（Window、GraphicsDevice、RenderSystem、Shader、Texture、Material、Scene、Entity、Componentなど）を役割ごとに明確に管理する構成を採用します。
+
+2. **語彙（関数名）の固定化**  
+   全クラスで同じ意味の関数を同じタイミングで呼び出せるよう統一的な命名規則を採用。
+
+3. **カプセル化の徹底**  
+   保守性と安全性を高めるため、変数はprivateを基本とし、状態の変更は用途別の関数を通じて行います。
+
+4. **DirectX11環境に最適化**  
+   DirectX11のCOMは`ComPtr`で統一し、手動`Release()`は行わず、メモリ管理の安全性を確保しています。
+
+5. **最新のC++20を活用**  
+   C++20の新機能（concepts、coroutines、range-based forなど）を活用し、モダンなC++スタイルを実現。
 
 ---
 
-## アーキテクチャ概要（Unity 風：Entity + Component）
+## アーキテクチャ概要
 
-- **Application** がメインループと全体初期化を司る
-- **World** が Entity 群を管理し、Update/Draw の呼び出しを統括
-- **Entity(GameObject相当)** は Component の器
-- **Component** は機能単位（Transform / MeshRenderer / Camera / ScriptComponent など）
-- **ScriptComponent** はゲームロジックを書くための Component（MonoBehaviour の代替）
+- **Application**: ゲームのメインループを管理し、全体の初期化・終了処理を司る。
+- **Scene**: UnityのWorldに相当するクラスであり、通常のエンティティやゲーム内の管理を行う。
+- **Entity (GameObject)**: ゲーム内オブジェクトを表現するクラスであり、Componentを組み合わせて機能を定義。
+- **Component**: 機能単位を表すクラス。例としてTransform、MeshRenderer、Camera、ScriptComponentなどがある。
 
-> 重たい基盤（Window / GraphicsDevice / RenderSystem / AssetManager）は Engine 側が保持し、  
-> ScriptComponent は「使う側」に徹します（D3D11 の内部実装を直接触らない設計）。
+**特記事項**:
+- 「重たい処理」（Window、GraphicsDevice、RenderSystem、AssetManagerなど）を含む基盤の実装は`Engine`側が担当。
+- ゲームロジックを記述する`ScriptComponent`では、ゲーム開発者が直接エンジン内部のリソース（D3D11など）を操作しなくてもよいように設計されています。
 
 ---
 
-## ディレクトリ構成（例）
+## 主要機能と設計指針
 
+### **Graphics (DirectX11基盤)**
+
+- **GraphicsDevice**: D3D11の`device`や`context`、`swapchain`を管理。
+- **RenderSystem**: 描画手順や状態切り替えを統括し、将来的なポストエフェクトの拡張も想定済み。
+- **Material / Shader / Texture / Mesh**: GPUリソースの管理を担当し、高い柔軟性を実現。
+
+### **Scene/Entity/Component**
+
+- **Scene（SceneBase）**:  
+  ゲームの状態を管理するベースクラスです。それぞれのSceneはPrefabやEntityを生成し、描画や更新処理を一元管理します。ゲーム固有のSceneごとに継承して作成可能です。
+
+- **Entity**:  
+  ゲームオブジェクトを表現するクラスで、`Component`を組み合わせて機能を拡張可能です。
+
+- **Transform / Component**:  
+  すべてのエンティティが保持するコンポーネントで、位置、回転、拡縮の管理を行います。  
+  各種機能単位（MeshRendererやCameraなど）はComponentとして実装されています。
+
+- **PrefabとPrefabManager**:  
+  UnityのPrefab用の仕組みを参考に設計されており、Prefabごとのスナップショットを元に動的なエンティティ生成を行えます。
+
+### **Camera（カメラ管理システム）**
+
+カメラの生成・利用方法を統一するため、次の仕組みを用意しました：
+- エンジン内で`CameraSystem`を設計し、カメラの生成・削除・設定を統一。
+- メインカメラの切り替え機能を提供し、ゲーム内でメインの視点を動的に切り替えることをサポート。
+
+```cpp
+// カメラの使用例
+Engine::Camera* mainCamera = ctx.m_cameraSystem->AddCamera({position, rotation, fov, nearZ, farZ});
+ctx.m_cameraSystem->SetMainCamera(mainCamera); // メインカメラを設定
+```
+
+### **Canvas UIシステム**
+
+UnityのCanvas機能を参考に、UI要素を手軽に管理・配置できる`Canvas`システムを設計しました：
+- UIがゲーム内オブジェクトよりも手前に表示されるよう、描画順序を管理。
+- `Canvas`を利用することで、ボタンやテキスト、イメージなどを簡単に扱える。
+```cpp
+// Canvas の利用例
+auto canvas = std::make_unique<Engine::Canvas>();
+
+// ボタンやテキストなどを Canvas に追加
+auto button = std::make_unique<MyButton>();
+canvas->AddElement(std::move(button));
+
+// 描画
+canvas->Render();
+```
+
+---
+
+## ディレクトリ構成
+
+```
 DirectX11_Framework/
 Engine/
-Core/
-Application.h / Application.cpp
-Time.h / Time.cpp
-Logger.h / Logger.cpp
-Platform/
-Window.h / Window.cpp
-Input.h / Input.cpp
-Graphics/
-GraphicsDevice.h / GraphicsDevice.cpp
-RenderSystem.h / RenderSystem.cpp
-Shader.h / Shader.cpp
-Texture.h / Texture.cpp
-Mesh.h / Mesh.cpp
-Material.h / Material.cpp
-Resources/
-AssetManager.h / AssetManager.cpp
-Scene/
-World.h / World.cpp
-Entity.h / Entity.cpp
-Component.h / Component.cpp
-Components/
-Transform.h / Transform.cpp
-MeshRenderer.h / MeshRenderer.cpp
-Camera.h / Camera.cpp
-ScriptComponent.h / ScriptComponent.cpp
+  Core/
+  Platform/
+  Graphics/
+  Resources/
+  Scene/
+    SceneBase.h / SceneBase.cpp
+    CameraSystem.h / CameraSystem.cpp
+  UI/
+    Canvas.h / Canvas.cpp
+    UIElement.h / UIElement.cpp
 Game/
-Scripts/
-PlayerController.h / PlayerController.cpp
-
-
----
-
-## クラスの責務（要点）
-
-### Core
-- **Application**
-  - 初期化 / ループ / 終了の順序を管理（司令塔）
-  - Window / GraphicsDevice / RenderSystem / World / Time を所有
-
-- **Time**
-  - deltaTime、FPS、フレーム計測など
-
-### Platform
-- **Window**
-  - Win32 ウィンドウ生成、メッセージポンプ、サイズ変更通知など
-
-### Graphics
-- **GraphicsDevice**
-  - D3D11 device / context / swapchain / RTV / DSV の管理
-  - Present, Resize, Clear などの低レベル API
-
-- **RenderSystem**
-  - 1フレームの描画手順（Clear → RenderQueue処理 → Present）
-  - 描画順序、状態（State）切替、必要なら将来ポストエフェクトもここ
-
-- **Shader / Texture / Mesh / Material**
-  - GPUリソースの薄いラッパ（中身は ComPtr を持つ）
-
-### Resources
-- **AssetManager**
-  - 読み込みとキャッシュ（同一パスは同一リソースを返す）
-  - Load と管理の入口を統一する
-
-### Scene / Components
-- **World**
-  - Entity 群の更新と描画を統括（生成・破棄の安全管理もここ）
-
-- **Entity**
-  - Component の器
-  - Add / Remove / Get を提供
-  - Transform は標準で必須扱いにする設計が推奨
-
-- **Component（基底）**
-  - owner（所属 Entity）と enabled を持つ
-  - OnAwake / OnStart / Update / LateUpdate / Draw / OnDestroy を提供
-
-- **Transform**
-  - 位置/回転/拡縮の管理（行列生成）
-  - 値は private で保持し、用途別関数（Translate / LookAt 等）経由で操作
-
-- **MeshRenderer**
-  - Mesh + Material を保持し、RenderSystem に「描画要求」を出す
-
-- **Camera**
-  - View/Projection の管理
-
-- **ScriptComponent**
-  - ユーザーが継承してゲームロジックを書く場所（Updateなど）
+  Scenes/
+    TitleScene.h / TitleScene.cpp
+    GameScene.h / GameScene.cpp
+  Prefabs/
+    MainCameraPrefab.h / SamplePrefab.h
+  Scripts/
+    PlayerLogic.h / PlayerLogic.cpp
+```
 
 ---
 
-## 固定語彙（関数名）ルール
+## 活用技術
 
-### ライフサイクル（推奨）
-- **Initialize()**
-  - 依存関係の準備・初期化（※生成とは別）
-- **Finalize()**
-  - 後始末（安全に複数回呼べる設計が望ましい）
-- **Reset()**
-  - 状態の初期化へ戻す（ゲーム内リトライ等を想定）
-- **Update(float deltaTime)**
-  - 毎フレーム更新（ロジック）
-- **Draw()**
-  - 毎フレーム描画（描画要求の送出）
-
-### リソース系（責務の意味を固定）
-- **Load() / Unload()**
-  - ファイルや外部資産の読み込み/解放
-- **Register() / Unregister()**
-  - システムへ登録/解除（RenderSystem へ登録、イベント購読、管理対象追加など）
-- **Enable() / Disable() / IsEnabled()**
-  - 有効/無効切替（Update/Drawの対象制御）
-
-### コンテナ/所有物操作
-- **AddXxx() / RemoveXxx() / ClearXxx()**
-  - 要素の追加/削除/全消去
-
-### 生成・破棄（意味を固定）
-- **Create() / Destroy()**
-  - “生成・破棄” だけを意味する  
-  - **Create に Load/Register を含めない（混在禁止）**
-
----
-
-## 呼び出し順序（Application 例）
-
-1. `Application::Initialize()`
-2. `World::Initialize()`, `RenderSystem::Initialize()`, etc...
-3. 必要に応じて `Load()` → `Register()`
-4. ループ
-   - `Window::PumpMessages()`
-   - `Time::Tick()`
-   - `World::Update(dt)`
-   - `World::LateUpdate(dt)`（必要なら）
-   - `RenderSystem::Draw(World)`（RenderQueue収集→描画）
-5. `Unregister()` → `Unload()`（必要に応じて）
-6. `Application::Finalize()`
-
----
-
-## 命名規則（厳守）
-
-### 型
-- クラス / 構造体 / enum：`UpperCamelCase`
-  - 例：`GraphicsDevice`, `RenderSystem`, `ComponentType`
-
-### 変数
-- ローカル / 引数：`lowerCamelCase`
-  - 例：`deltaTime`, `assetPath`
-- メンバ変数：`m_lowerCamelCase`
-  - 例：`m_device`, `m_isEnabled`
-- static（可変の共有）：`s_lowerCamelCase`
-  - 例：`s_instanceCount`
-- 定数（不変）：`kUpperCamelCase`
-  - 例：`kMaxSpeed`, `kDefaultFov`
-- bool 型は **Is を付ける**
-  - 例：`IsVisible()`, `m_isActive`, `m_isEnabled`
-
-### ファイル名
-- ファイル名：`UpperCamelCase`
-  - 例：`GraphicsDevice.cpp`, `ScriptComponent.h`
-
----
-
-## const ルール
-
-### 関数 const
-- **状態を変えない関数は必ず const**
-  - 例：`int GetHp() const;`
-
-### 引数 const
-- 小さい型（int/float/bool/enum/ポインタなど）：**値渡し**
-- 大きい型（std::string / std::vector / 行列 / 大きい構造体など）：**const&**
-
-### Get の返し方
-- 小さい型（int/float/bool/enum/ポインタ）：**値返し**
-  - 例：`int GetHp() const;`
-- 大きい型（Vector/Matrix/string/コンテナ）：**const参照返し**
-  - 例：`const Matrix4& GetWorldMatrix() const;`
-- **非const参照 Get は原則禁止**
-
----
-
-## DirectX11 / COM ルール（統一）
-
-- COM は **ComPtr** を基本とする
-- **手動 Release() はしない**
-- Getter で外へ出す場合は “借用” として raw pointer を返してよい
-  - 例：`ID3D11Device* GetDevice() const { return m_device.Get(); }`
-- 外部で保持が必要なら、保持側も **ComPtr** で受ける（プロジェクト内統一）
-
----
-
-## カプセル化（状態を壊せない設計）
-
-- 変数は基本 **private**
-- 状態変更は用途別の関数でのみ行う（整合性を守る）
-  - 悪い例：`SetPosition(Vector3 p)` を乱用してどこでも瞬間移動
-  - 良い例：`TeleportTo()` / `MoveBy()` / `ClampToArea()` など **意図が分かる API**
-- “不変条件” をクラス内で守る（例：Scale が 0 にならない、角度正規化、範囲 clamp 等）
-
----
-
-## ScriptComponent（ゲームロジック）の方針
-
-- ScriptComponent は **ゲームロジックを書く場所**
-- Window / GraphicsDevice / Shader の管理は Engine 側へ寄せる
-- Script からは Entity/Component 経由で必要なものへアクセスする
-  - 例：`GetOwner()->GetComponent<Transform>()`
-
----
-
-## コーディングメモ（推奨）
-
-- 可能な限り `override` を付ける
-- 破棄系は安全に多重呼び出し可能にする（Finalize/Destroy など）
-- `Create()` と `Initialize()` の意味を混ぜない（ルール固定）
+- 言語: **C++20**
+- グラフィックスAPI: **DirectX11**
+- アーキテクチャ: Unity風 **Entity + Componentモデル**
+- メモリ管理: **ComPtrベースで安全性を確保**
 
 ---
 
 ## ライセンス
 
-- 現状無し
+- 現在、本リポジトリに対して適用されるライセンスは設定されていません。
