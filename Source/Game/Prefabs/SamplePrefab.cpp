@@ -1,9 +1,9 @@
 #include "SamplePrefab.h"
 
-#include "Game/Worlds/WorldContext.h"
+#include "Engine/Scene/SceneContext.h"
 
 #include "Engine/Core/Logger.h"
-#include "Engine/Scene/World.h"
+#include "Engine/Scene/Scene.h"
 #include "Engine/Scene/Entity.h"
 #include "Engine/Scene/Components/Transform.h"
 #include "Engine/Scene/Components/MeshRenderer.h"
@@ -14,13 +14,13 @@
 
 namespace Game {
 
-    Engine::Entity* SamplePrefab::Spawn(WorldContext& ctx, const SpawnDesc& desc) {
-        if (!ctx.m_world || !ctx.m_renderSystem || !ctx.m_device) {
+    Engine::Entity* SamplePrefab::Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc) {
+        if (!ctx.m_scene || !ctx.m_renderSystem || !ctx.m_device) {
             Engine::Logger::Error("SamplePrefab::Spawn failed: ctx invalid.");
             return nullptr;
         }
 
-        auto* e = ctx.m_world->CreateEntity();
+        auto* e = ctx.m_scene->CreateEntity();
         if (!e) return nullptr;
 
         // Transform 初期値
@@ -29,7 +29,7 @@ namespace Game {
             tr->SetUniformScale(desc.m_uniformScale);
         }
 
-        // MeshRenderer（依存情報は WorldContext から）
+        // MeshRenderer（依存情報は SceneContext から）
         auto* mr = e->AddComponent<Engine::MeshRenderer>(ctx.m_device, ctx.m_renderSystem);
         mr->SetMeshType(Engine::MeshType::Cube);
 

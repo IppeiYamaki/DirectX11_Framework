@@ -1,8 +1,8 @@
-#include "SampleWorld.h"
+#include "SampleScene.h"
 
 #include <DirectXMath.h>
 
-#include "Game/Worlds/WorldContext.h"
+#include "Engine/Scene/SceneContext.h"
 #include "Game/Rendering/DefaultLighting.h"
 
 // Engine Components
@@ -16,12 +16,12 @@
 
 namespace Game {
 
-    void SampleWorld::OnEnter(WorldContext& ctx) {
-        ApplyWorldLighting(ctx);
-        BuildWorld(ctx);
+    void SampleScene::Initialize(Engine::SceneContext& ctx) {
+        ApplySceneLighting(ctx);
+        BuildScene(ctx);
     }
 
-    void SampleWorld::OnExit(WorldContext& ctx) {
+    void SampleScene::Finalize(Engine::SceneContext& ctx) {
         // キャラ破棄
         for (auto& slot : m_characters) {
             slot.Destroy(ctx);
@@ -29,28 +29,28 @@ namespace Game {
         m_characters.clear();
 
         // カメラ破棄（ワールドを切り替えるたびに残るのを防ぐ）
-        if (m_cameraEntity && ctx.m_world) {
-            ctx.m_world->DestroyEntity(m_cameraEntity);
+        if (m_cameraEntity && ctx.m_scene) {
+            ctx.m_scene->DestroyEntity(m_cameraEntity);
             m_cameraEntity = nullptr;
         }
     }
 
-    void SampleWorld::Update(WorldContext& ctx, float deltaTime) {
+    void SampleScene::Update(Engine::SceneContext& ctx, float deltaTime) {
         (void)ctx;
         (void)deltaTime;
     }
 
-    void SampleWorld::Draw(WorldContext& ctx) {
+    void SampleScene::Render(Engine::SceneContext& ctx) {
         (void)ctx;
     }
 
-    void SampleWorld::ApplyWorldLighting(WorldContext& ctx) {
+    void SampleScene::ApplySceneLighting(Engine::SceneContext& ctx) {
         if (!ctx.m_renderSystem) return;
         ApplyDefaultLighting(*ctx.m_renderSystem);
     }
 
-    void SampleWorld::BuildWorld(WorldContext& ctx) {
-        if (!ctx.m_world || !ctx.m_renderSystem) return;
+    void SampleScene::BuildScene(Engine::SceneContext& ctx) {
+        if (!ctx.m_scene || !ctx.m_renderSystem) return;
 
         //========================
         // MainCamera 生成

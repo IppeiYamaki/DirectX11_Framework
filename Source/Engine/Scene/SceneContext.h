@@ -7,7 +7,7 @@
 namespace Engine {
     class Application;
     class Entity;
-    class World;
+    class Scene;
     class RenderSystem;
     class AssetManager;
     class Material;
@@ -18,22 +18,22 @@ namespace Game {
     class MaterialLibrary;
 
     /**
-     * @brief World利用に最低限のサービスをまとめたコンテキスト
-     * - WorldはEngineの具象クラスに直接依存しない（依存を最小限に）
+     * @brief Scene利用に最低限のサービスをまとめたコンテキスト
+     * - SceneはEngineの具象クラスに直接依存しない（依存を最小限に）
      */
-    struct WorldContext final {
+    struct SceneContext final {
         // Engine側サービス（最小）
         Engine::Application* m_app = nullptr;
-        Engine::World* m_world = nullptr;
+        Engine::Scene* m_scene = nullptr;
         Engine::RenderSystem* m_renderSystem = nullptr;
 
         // 一部依存：借用D3Dデバイス（借用）
         ID3D11Device* m_device = nullptr;
 
-        // 共有リソース（GameMainが用意してWorldに渡す）
+        // 共有リソース（GameMainが用意してSceneに渡す）
         Engine::AssetManager* m_assets = nullptr;
 
-        // 共有Material（World側で直接使いたい場合）
+        // 共有Material（Scene側で直接使いたい場合）
         std::shared_ptr<Engine::Material> m_sharedMaterial;
 
         // Material資産管理

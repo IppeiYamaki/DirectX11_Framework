@@ -4,12 +4,12 @@
 
 #include "Engine/Core/IGame.h"
 #include "Engine/Resources/AssetManager.h"
-#include "Game/Worlds/WorldManager.h"
+#include "Engine/Scene/SceneManager.h"
 #include "Materials/MaterialLibrary.h"
 
 namespace Engine {
     class Application;
-    class World;
+    class Scene;
     class Material;
 }
 
@@ -25,7 +25,7 @@ namespace Game {
 
     private:
         Engine::Application* m_app = nullptr; // non-owning
-        Engine::World* m_world = nullptr;     // non-owning
+        Engine::Scene* m_scene = nullptr;     // non-owning
 
         Engine::AssetManager m_assets;
 
@@ -35,7 +35,7 @@ namespace Game {
         // 共有Material（SampleWorldで直接使いたい場合にも渡せる）
         std::shared_ptr<Engine::Material> m_sharedMaterial;
 
-        WorldManager m_worldManager;
+        Engine::SceneManager m_sceneManager;
     };
 
 } // namespace Game

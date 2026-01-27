@@ -1,4 +1,4 @@
-#include "World.h"
+#include "Scene.h"
 
 #include "Engine/Core/Logger.h"
 #include "Engine/Core/Assert.h"
@@ -10,7 +10,7 @@
 
 namespace Engine {
 
-    World::~World() {
+    Scene::~Scene() {
         Finalize();
     }
 
@@ -18,18 +18,18 @@ namespace Engine {
     // Lifecycle
     //============================================================
 
-    bool World::Initialize() {
+    bool Scene::Initialize() {
         if (m_isInitialized) return true;
 
         m_entities.clear();
         m_pendingDestruction.clear();
         m_isInitialized = true;
 
-        Logger::Info("World initialized.");
+        Logger::Info("Scene initialized.");
         return true;
     }
 
-    void World::Finalize() {
+    void Scene::Finalize() {
         if (!m_isInitialized) {
             m_entities.clear();
             m_pendingDestruction.clear();
@@ -40,10 +40,10 @@ namespace Engine {
         m_entities.clear();
 
         m_isInitialized = false;
-        Logger::Info("World finalized.");
+        Logger::Info("Scene finalized.");
     }
 
-    void World::Reset() {
+    void Scene::Reset() {
         if (!m_isInitialized) return;
 
         m_pendingDestruction.clear();
@@ -54,7 +54,7 @@ namespace Engine {
     // Frame
     //============================================================
 
-    void World::Update(float deltaTime) {
+    void Scene::Update(float deltaTime) {
         if (!m_isInitialized) return;
 
         for (auto& e : m_entities) {
@@ -65,7 +65,7 @@ namespace Engine {
         ProcessPendingDestructions();
     }
 
-    void World::LateUpdate(float deltaTime) {
+    void Scene::LateUpdate(float deltaTime) {
         if (!m_isInitialized) return;
 
         for (auto& e : m_entities) {
@@ -73,7 +73,7 @@ namespace Engine {
         }
     }
 
-    void World::Draw() {
+    void Scene::Draw() {
         if (!m_isInitialized) return;
 
         for (auto& e : m_entities) {
@@ -81,7 +81,7 @@ namespace Engine {
         }
     }
 
-    bool World::IsInitialized() const {
+    bool Scene::IsInitialized() const {
         return m_isInitialized;
     }
 
@@ -89,7 +89,7 @@ namespace Engine {
     // Entity API
     //============================================================
 
-    Entity* World::CreateEntity() {
+    Entity* Scene::CreateEntity() {
         if (!m_isInitialized) return nullptr;
 
         auto entity = std::make_unique<Entity>();
@@ -101,7 +101,7 @@ namespace Engine {
         return raw;
     }
 
-    Entity* World::CreateEntity(const std::string& name) {
+    Entity* Scene::CreateEntity(const std::string& name) {
         Entity* entity = CreateEntity();
         if (entity) {
             entity->SetName(name);
@@ -109,7 +109,7 @@ namespace Engine {
         return entity;
     }
 
-    void World::DestroyEntity(Entity* entity) {
+    void Scene::DestroyEntity(Entity* entity) {
         if (!m_isInitialized) return;
         if (entity == nullptr) return;
 
@@ -121,7 +121,7 @@ namespace Engine {
         }
     }
 
-    void World::DestroyEntityDeferred(Entity* entity) {
+    void Scene::DestroyEntityDeferred(Entity* entity) {
         if (!m_isInitialized) return;
         if (entity == nullptr) return;
 
@@ -132,7 +132,7 @@ namespace Engine {
         }
     }
 
-    std::uint32_t World::GetEntityCount() const {
+    std::uint32_t Scene::GetEntityCount() const {
         return static_cast<std::uint32_t>(m_entities.size());
     }
 
@@ -140,7 +140,7 @@ namespace Engine {
     // Entity Query
     //============================================================
 
-    Entity* World::FindEntityByName(const std::string& name) {
+    Entity* Scene::FindEntityByName(const std::string& name) {
         for (auto& e : m_entities) {
             if (e->GetName() == name) {
                 return e.get();
@@ -149,7 +149,7 @@ namespace Engine {
         return nullptr;
     }
 
-    Entity* World::FindEntityById(EntityId id) {
+    Entity* Scene::FindEntityById(EntityId id) {
         for (auto& e : m_entities) {
             if (e->GetId() == id) {
                 return e.get();
@@ -158,7 +158,7 @@ namespace Engine {
         return nullptr;
     }
 
-    std::vector<Entity*> World::FindEntitiesWithTag(const Tag& tag) {
+    std::vector<Entity*> Scene::FindEntitiesWithTag(const Tag& tag) {
         std::vector<Entity*> result;
         for (auto& e : m_entities) {
             if (e->HasTag(tag)) {
@@ -172,7 +172,7 @@ namespace Engine {
     // Private
     //============================================================
 
-    void World::ProcessPendingDestructions() {
+    void Scene::ProcessPendingDestructions() {
         for (Entity* entity : m_pendingDestruction) {
             DestroyEntity(entity);
         }
