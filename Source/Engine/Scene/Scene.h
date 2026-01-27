@@ -1,4 +1,4 @@
-/// @file   World.h
+/// @file   Scene.h
 /// @brief  Entity群を管理し、Update/Drawを統括するクラス
 #pragma once
 
@@ -14,13 +14,13 @@ namespace Engine {
 
     /// @brief Entity群を管理し、Update/Drawを統括する
     /// @note  破棄の安全管理（遅延破棄）は将来的に実装予定
-    class World final {
+    class Scene final {
     public:
-        World() = default;
-        ~World();
+        Scene() = default;
+        ~Scene();
 
-        World(const World&) = delete;
-        World& operator=(const World&) = delete;
+        Scene(const Scene&) = delete;
+        Scene& operator=(const Scene&) = delete;
 
         //============================================================
         // Lifecycle

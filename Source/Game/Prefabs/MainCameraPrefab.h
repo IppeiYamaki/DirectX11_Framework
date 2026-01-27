@@ -5,7 +5,7 @@
 #include "Engine/Math/Vector3.h"
 
 namespace Engine { class Entity; }
-namespace Game { struct WorldContext; }
+namespace Engine { struct SceneContext; }
 
 namespace Game {
 
@@ -48,7 +48,7 @@ namespace Game {
             }
         };
 
-        static Engine::Entity* Spawn(WorldContext& ctx, const SpawnDesc& desc);
+        static Engine::Entity* Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc);
     };
 
 } // namespace Game

@@ -1,9 +1,9 @@
 #include "SkyPrefab.h"
 
-#include "Game/Worlds/WorldContext.h"
+#include "Engine/Scene/SceneContext.h"
 
 #include "Engine/Core/Logger.h"
-#include "Engine/Scene/World.h"
+#include "Engine/Scene/Scene.h"
 #include "Engine/Scene/Entity.h"
 #include "Engine/Scene/Components/Transform.h"
 #include "Engine/Scene/Components/MeshRenderer.h"
@@ -15,13 +15,13 @@
 
 namespace Game {
 
-    Engine::Entity* SkyPrefab::Spawn(WorldContext& ctx, const SpawnDesc& desc) {
-        if (!ctx.m_world || !ctx.m_renderSystem || !ctx.m_device || !ctx.m_materials) {
+    Engine::Entity* SkyPrefab::Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc) {
+        if (!ctx.m_scene || !ctx.m_renderSystem || !ctx.m_device || !ctx.m_materials) {
             Engine::Logger::Error("SkyDomePrefab::Spawn failed: ctx invalid.");
             return nullptr;
         }
 
-        auto* e = ctx.m_world->CreateEntity();
+        auto* e = ctx.m_scene->CreateEntity();
         if (!e) return nullptr;
 
         // Transform

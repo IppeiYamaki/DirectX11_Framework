@@ -5,8 +5,8 @@
 #include <type_traits>
 #include <utility>
 
-#include "Game/Worlds/WorldContext.h"
-#include "Engine/Scene/World.h"
+#include "Engine/Scene/SceneContext.h"
+#include "Engine/Scene/Scene.h"
 
 namespace Engine { class Entity; }
 
@@ -14,12 +14,12 @@ namespace Game {
 
     /**
      * @brief Prefabインスタンス管理用の枠
-     * - Worldで「あとで削除/再生成/追従」したい対象をまとめて扱える
+     * - Sceneで「あとで削除/再生成/追従」したい対象をまとめて扱える
      * - Spawn時の引数を保存し、Respawnで同引数で再生成できる
      *
      * 注意：
-     * - Destroy() は World::DestroyEntity() を呼ぶ（即時削除）
-     * - Component Update内など、World内からのDestroyしないこと（World Update内ならOK）
+     * - Destroy() は Scene::DestroyEntity() を呼ぶ（即時削除）
+     * - Component Update内など、Scene内からのDestroyしないこと（Scene Update内ならOK）
      */
     class PrefabSlot final {
     public:
@@ -29,12 +29,12 @@ namespace Game {
         bool IsAlive() const { return m_entity != nullptr; }
 
         template<class TPrefab, class... Args>
-        Engine::Entity* Spawn(WorldContext& ctx, Args&&... args) {
+        Engine::Entity* Spawn(Engine::SceneContext& ctx, Args&&... args) {
             // 引数を値として保持（あとで同引数で再生成するため）
             auto argsTuple = std::make_shared<std::tuple<std::decay_t<Args>...>>(
                 std::forward<Args>(args)...);
 
-            m_respawn = [argsTuple](WorldContext& c) -> Engine::Entity* {
+            m_respawn = [argsTuple](Engine::SceneContext& c) -> Engine::Entity* {
                 return std::apply(
                     [&](auto&&... a) -> Engine::Entity* {
                         return c.Spawn<TPrefab>(a...);
@@ -48,15 +48,15 @@ namespace Game {
             return m_entity;
         }
 
-        void Destroy(WorldContext& ctx) {
+        void Destroy(Engine::SceneContext& ctx) {
             if (!m_entity) return;
-            if (ctx.m_world) {
-                ctx.m_world->DestroyEntity(m_entity);
+            if (ctx.m_scene) {
+                ctx.m_scene->DestroyEntity(m_entity);
             }
             m_entity = nullptr;
         }
 
-        Engine::Entity* Respawn(WorldContext& ctx) {
+        Engine::Entity* Respawn(Engine::SceneContext& ctx) {
             Destroy(ctx);
             if (!m_respawn) return nullptr;
             m_entity = m_respawn(ctx);
@@ -70,7 +70,7 @@ namespace Game {
 
     private:
         Engine::Entity* m_entity = nullptr; // non-owning
-        std::function<Engine::Entity* (WorldContext&)> m_respawn;
+        std::function<Engine::Entity* (Engine::SceneContext&)> m_respawn;
     };
 
 } // namespace Game

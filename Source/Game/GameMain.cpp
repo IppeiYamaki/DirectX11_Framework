@@ -8,11 +8,11 @@
 #include "Engine/Graphics/RenderSystem.h"
 #include "Engine/Graphics/Material.h"
 
-#include "Engine/Scene/World.h"
+#include "Engine/Scene/Scene.h"
 #include "Engine/Math/Vector4.h"
 
-#include "Game/Worlds/WorldContext.h"
-#include "Game/Worlds/SampleWorld.h"
+#include "Engine/Scene/SceneContext.h"
+#include "Game/Scenes/SampleScene.h"
 
 // Material資産
 #include "Materials/MaterialBuildContext.h"
@@ -24,8 +24,8 @@ namespace Game {
         Engine::Logger::Info("GameMain Initialize");
 
         m_app = &app;
-        m_world = app.GetWorld();
-        if (!m_world) return false;
+        m_scene = app.GetScene();
+        if (!m_scene) return false;
 
         auto* gd = app.GetGraphicsDevice();
         auto* rs = app.GetRenderSystem();
@@ -54,27 +54,27 @@ namespace Game {
 
 
         //========================
-        // WorldContext
+        // SceneContext
         //========================
-        WorldContext ctx{};
+        Engine::SceneContext ctx{};
         ctx.m_app = m_app;
-        ctx.m_world = m_world;
+        ctx.m_scene = m_scene;
         ctx.m_renderSystem = rs;
 
         // 一部依存：借用D3Dデバイスを渡す
         ctx.m_device = gd->GetDevice();
 
-        // 任意：Worldが必要なら参照できるように渡す
+        // 任意：Sceneが必要なら参照できるように渡す
         ctx.m_assets = &m_assets;
 
-        // 共有Material（SampleWorldが直接使う場合）
+        // 共有Material（SampleSceneが直接使う場合）
         ctx.m_sharedMaterial = m_sharedMaterial;
 
         // PrefabがMaterialLibraryを使うために渡す
         ctx.m_materials = &m_materialLibrary;
 
-        // 最初の空間はSampleWorld
-        m_worldManager.Initialize(ctx, std::make_unique<SampleWorld>());
+        // 最初の空間はSampleScene
+        m_sceneManager.Initialize(ctx, std::make_unique<Game::SampleScene>());
 
         return true;
     }
@@ -83,35 +83,34 @@ namespace Game {
         Engine::Logger::Info("GameMain Finalize");
 
 
-        m_worldManager.Finalize();
+        m_sceneManager.Finalize();
         m_sharedMaterial.reset();
         m_materialLibrary.Finalize();
         m_assets.Finalize();
 
-
-        m_world = nullptr;
+        m_scene = nullptr;
         m_app = nullptr;
 
     }
 
     void GameMain::Update(float deltaTime) {
-        // World（状態）更新（遷移予約など）
-        m_worldManager.Update(deltaTime);
+        // Scene（状態）更新（遷移予約など）
+        m_sceneManager.Update(deltaTime);
 
-        // World更新（Component処理）
-        if (m_world) {
-            m_world->Update(deltaTime);
-            m_world->LateUpdate(deltaTime);
+        // Scene更新（Component処理）
+        if (m_scene) {
+            m_scene->Update(deltaTime);
+            m_scene->LateUpdate(deltaTime);
         }
     }
 
     void GameMain::Draw() {
-        // World固有UIなど
-        m_worldManager.Draw();
+        // Scene固有UIなど
+        m_sceneManager.Render();
 
-        // World::Draw -> MeshRenderer::Draw -> RenderSystem に RenderItem を積む
-        if (m_world) {
-            m_world->Draw();
+        // Scene::Draw -> MeshRenderer::Draw -> RenderSystem に RenderItem を積む
+        if (m_scene) {
+            m_scene->Draw();
         }
     }
 
