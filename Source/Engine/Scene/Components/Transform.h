@@ -10,45 +10,45 @@ namespace Engine {
 
     class Transform final : public Component {
     private:
-		Vector3 m_position;                                 /// ƒ[ƒJƒ‹À•W‚Å‚ÌˆÊ’u
-		Vector3 m_rotation;                                 /// ƒ[ƒJƒ‹À•W‚Å‚Ì‰ñ“]iƒIƒCƒ‰[ŠpF“x’PˆÊj
-		Vector3 m_scale;                                    /// ƒ[ƒJƒ‹À•W‚Å‚ÌƒXƒP[ƒ‹
+		Vector3 m_position;                                 /// ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’u
+		Vector3 m_rotation;                                 /// ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Å‚Ì‰ï¿½]ï¿½iï¿½Iï¿½Cï¿½ï¿½ï¿½[ï¿½pï¿½Fï¿½xï¿½Pï¿½Êj
+		Vector3 m_scale{ 1.0f, 1.0f, 1.0f };                /// ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Å‚ÌƒXï¿½Pï¿½[ï¿½ï¿½
 
-        Transform* m_parent;                                /// eTransform‚Ö‚Ìƒ|ƒCƒ“ƒ^
-        std::list<Transform*> m_children;                   /// qTransform‚ÌƒŠƒXƒg
+        Transform* m_parent = nullptr;                      /// ï¿½eTransformï¿½Ö‚Ìƒ|ï¿½Cï¿½ï¿½ï¿½^
+        std::list<Transform*> m_children;                   /// ï¿½qTransformï¿½Ìƒï¿½ï¿½Xï¿½g
 
-		mutable DirectX::XMFLOAT4X4 m_localToWorldMatrix{}; /// ƒ[ƒJƒ‹‚©‚çƒ[ƒ‹ƒh‚Ö‚Ì•ÏŠ·s—ñ
-		mutable DirectX::XMFLOAT4X4 m_worldToLocalMatrix{}; /// ƒ[ƒ‹ƒh‚©‚çƒ[ƒJƒ‹‚Ö‚Ì•ÏŠ·s—ñ
-		mutable bool                m_isDirty = true;       /// •ÏŠ·s—ñ‚Ö‚ÌXV‚ª•K—v‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+		mutable DirectX::XMFLOAT4X4 m_localToWorldMatrix{}; /// ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½çƒï¿½[ï¿½ï¿½ï¿½hï¿½Ö‚Ì•ÏŠï¿½ï¿½sï¿½ï¿½
+		mutable DirectX::XMFLOAT4X4 m_worldToLocalMatrix{}; /// ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½çƒï¿½[ï¿½Jï¿½ï¿½ï¿½Ö‚Ì•ÏŠï¿½ï¿½sï¿½ï¿½
+		mutable bool                m_isDirty = true;       /// ï¿½ÏŠï¿½ï¿½sï¿½ï¿½Ö‚ÌXï¿½Vï¿½ï¿½ï¿½Kï¿½vï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½O
 
 		//============================================================
-		// ³‹K‰»
+		// ï¿½ï¿½ï¿½Kï¿½ï¿½
 		//============================================================
-		/// @brief Šp“x‚ğ0`360“x‚Ì”ÍˆÍ‚É³‹K‰»
-		/// @param angle ³‹K‰»‚·‚éŠp“xi“x’PˆÊj
-		/// @return ³‹K‰»Œã‚ÌŠp“xi“x’PˆÊj
+		/// @brief ï¿½pï¿½xï¿½ï¿½0ï¿½`360ï¿½xï¿½Ì”ÍˆÍ‚Éï¿½ï¿½Kï¿½ï¿½
+		/// @param angle ï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½xï¿½iï¿½xï¿½Pï¿½Êj
+		/// @return ï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½ï¿½ÌŠpï¿½xï¿½iï¿½xï¿½Pï¿½Êj
 		static float NormalizeAngle(float angle);
 
-		/// @brief Vector3‚ÌŠe²‚ÌŠp“x‚ğ0`360“x‚Ì”ÍˆÍ‚É³‹K‰»
-		/// @param angles ³‹K‰»‚·‚éŠp“xƒxƒNƒgƒ‹i“x’PˆÊj
-		/// @return ³‹K‰»Œã‚ÌŠp“xƒxƒNƒgƒ‹i“x’PˆÊj
+		/// @brief Vector3ï¿½ÌŠeï¿½ï¿½ï¿½ÌŠpï¿½xï¿½ï¿½0ï¿½`360ï¿½xï¿½Ì”ÍˆÍ‚Éï¿½ï¿½Kï¿½ï¿½
+		/// @param angles ï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pï¿½xï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½iï¿½xï¿½Pï¿½Êj
+		/// @return ï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½ï¿½ÌŠpï¿½xï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½iï¿½xï¿½Pï¿½Êj
 		static Vector3 NormalizeAngle(const Vector3& angles);
 
 		//============================================================
-		// q/e‚Ìİ’èEæ“¾
+		// ï¿½q/ï¿½eï¿½Ìİ’ï¿½Eï¿½æ“¾
 		//============================================================
-		/// @brief qTransform‚ğƒŠƒXƒg‚É’Ç‰Á
-		/// @param child ’Ç‰Á‚·‚éqTransform
-		/// @note Entity::SetParent() Œo—R‚Å“à•”‚©‚çŒÄ‚Î‚ê‚é‘z’è
+		/// @brief ï¿½qTransformï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½É’Ç‰ï¿½
+		/// @param child ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½qTransform
+		/// @note Entity::SetParent() ï¿½oï¿½Rï¿½Å“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½zï¿½ï¿½
 		void AddChild(Transform* child);
 
-		/// @brief qTransform‚ğƒŠƒXƒg‚©‚çíœ
-		/// @param child íœ‚·‚éqTransform
-		/// @note Entity::SetParent() Œo—R‚Å“à•”‚©‚çŒÄ‚Î‚ê‚é‘z’è
+		/// @brief ï¿½qTransformï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½íœ
+		/// @param child ï¿½íœï¿½ï¿½ï¿½ï¿½qTransform
+		/// @note Entity::SetParent() ï¿½oï¿½Rï¿½Å“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½zï¿½ï¿½
 		void RemoveChild(Transform* child);
 
-		/// @brief •ÏŠ·s—ñ‚ÌÄŒvZ‚ª•K—v‚È‚±‚Æ‚ğƒ}[ƒN‚·‚é
-		/// @brief ƒ}[ƒN‚ğq‚É‚à“`”d‚·‚é
+		/// @brief ï¿½ÏŠï¿½ï¿½sï¿½ï¿½ÌÄŒvï¿½Zï¿½ï¿½ï¿½Kï¿½vï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½}ï¿½[ï¿½Nï¿½ï¿½ï¿½ï¿½
+		/// @brief ï¿½}ï¿½[ï¿½Nï¿½ï¿½ï¿½qï¿½É‚ï¿½ï¿½`ï¿½dï¿½ï¿½ï¿½ï¿½
 		void SetDirty();
 
     public:
@@ -61,44 +61,44 @@ namespace Engine {
         //============================================================
         // Position
         //============================================================
-		/// @brief ƒ[ƒJƒ‹À•W‚Å‚ÌˆÊ’u‚Ìİ’è
-        /// @param position ˆÊ’u
+		/// @brief ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’uï¿½Ìİ’ï¿½
+        /// @param position ï¿½Ê’u
         void SetPosition(const Vector3& position);
-        /// @brief ƒ[ƒJƒ‹À•W‚Å‚ÌˆÊ’u‚Ìİ’èiŒÂ•Êİ’èj
-		/// @param x XÀ•W
-		/// @param y YÀ•W
-		/// @param z ZÀ•W
+        /// @brief ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’uï¿½Ìİ’ï¿½iï¿½Â•Êİ’ï¿½j
+		/// @param x Xï¿½ï¿½ï¿½W
+		/// @param y Yï¿½ï¿½ï¿½W
+		/// @param z Zï¿½ï¿½ï¿½W
 		void SetPosition(float x, float y, float z);
 
-		/// @brief ƒ[ƒJƒ‹À•W‚Å‚ÌˆÊ’u‚Ì‰ÁZ
-        /// @param delta ‰ÁZˆÊ’u
+		/// @brief ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’uï¿½Ì‰ï¿½ï¿½Z
+        /// @param delta ï¿½ï¿½ï¿½Zï¿½Ê’u
         void AddPosition(const Vector3& delta);
-		/// @brief ƒ[ƒJƒ‹À•W‚Å‚ÌˆÊ’u‚Ì‰ÁZiŒÂ•Êw’èj
-		/// @param deltaX XÀ•W‰ÁZ’l
-		/// @param deltaY YÀ•W‰ÁZ’l
-		/// @param deltaZ ZÀ•W‰ÁZ’l
+		/// @brief ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’uï¿½Ì‰ï¿½ï¿½Zï¿½iï¿½Â•Êwï¿½ï¿½j
+		/// @param deltaX Xï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Zï¿½l
+		/// @param deltaY Yï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Zï¿½l
+		/// @param deltaZ Zï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½Zï¿½l
 		void AddPosition(float deltaX, float deltaY, float deltaZ);
 
-		/// @brief ƒ[ƒJƒ‹À•W‚Å‚ÌˆÊ’u‚Ìæ“¾
-		/// @return ƒ[ƒJƒ‹À•W‚Å‚ÌˆÊ’u‚ÌQÆ
+		/// @brief ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’uï¿½Ìæ“¾
+		/// @return ï¿½ï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’uï¿½ÌQï¿½ï¿½
         const Vector3& GetPosition() const;
 
-		/// @brief ƒ[ƒ‹ƒhÀ•W‚Å‚ÌˆÊ’u‚Ìİ’è
-		/// @param worldPosition ƒ[ƒ‹ƒhÀ•W‚Å‚ÌˆÊ’u
-		/// @note e‚ª‚¢‚éê‡‚Íƒ[ƒJƒ‹À•W‚É•ÏŠ·‚µ‚Äİ’è‚·‚é
+		/// @brief ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’uï¿½Ìİ’ï¿½
+		/// @param worldPosition ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’u
+		/// @note ï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Íƒï¿½ï¿½[ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½É•ÏŠï¿½ï¿½ï¿½ï¿½Äİ’è‚·ï¿½ï¿½
 		void SetWorldPosition(const Vector3& worldPosition);
-		/// @brief ƒ[ƒ‹ƒhÀ•W‚Å‚ÌˆÊ’u‚Ìİ’èiŒÂ•Êw’èj
-		/// @param x ƒ[ƒ‹ƒhXÀ•W
-		/// @param y ƒ[ƒ‹ƒhYÀ•W
-		/// @param z ƒ[ƒ‹ƒhZÀ•W
+		/// @brief ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’uï¿½Ìİ’ï¿½iï¿½Â•Êwï¿½ï¿½j
+		/// @param x ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hXï¿½ï¿½ï¿½W
+		/// @param y ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hYï¿½ï¿½ï¿½W
+		/// @param z ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hZï¿½ï¿½ï¿½W
 		void SetWorldPosition(float x, float y, float z);
 
         
-		/// @brief ƒ[ƒ‹ƒhÀ•W‚Å‚ÌˆÊ’u‚Ì‰ÁZ
-		/// @param deltaWorldPosition ƒ[ƒ‹ƒhÀ•W‚Å‚Ì‰ÁZˆÊ’u
+		/// @brief ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’uï¿½Ì‰ï¿½ï¿½Z
+		/// @param deltaWorldPosition ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Wï¿½Å‚Ì‰ï¿½ï¿½Zï¿½Ê’u
 		void AddWorldPosition(const Vector3& deltaWorldPosition);
-		/// @brief ƒ[ƒ‹ƒhÀ•W‚Å‚ÌˆÊ’u‚Ìæ“¾
-		/// @return ƒ[ƒ‹ƒhÀ•W‚Å‚ÌˆÊ’u
+		/// @brief ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’uï¿½Ìæ“¾
+		/// @return ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½Wï¿½Å‚ÌˆÊ’u
 		const Vector3 GetWorldPosition() const;
 
 
@@ -106,72 +106,72 @@ namespace Engine {
         // Rotation (Euler degrees)
         // x = pitch, y = yaw, z = roll
         //============================================================
-        /// @brief ‰ñ“]‚Ìİ’èiƒIƒCƒ‰[ŠpF“x’PˆÊj
-        /// @param eulerDegrees ƒIƒCƒ‰[Špi“x’PˆÊj
+        /// @brief ï¿½ï¿½]ï¿½Ìİ’ï¿½iï¿½Iï¿½Cï¿½ï¿½ï¿½[ï¿½pï¿½Fï¿½xï¿½Pï¿½Êj
+        /// @param eulerDegrees ï¿½Iï¿½Cï¿½ï¿½ï¿½[ï¿½pï¿½iï¿½xï¿½Pï¿½Êj
         void SetRotationEulerDegrees(const Vector3& eulerDegrees);
-		/// @brief ‰ñ“]‚Ì‰ÁZiƒIƒCƒ‰[ŠpF“x’PˆÊj
-		/// @param deltaDegrees ‰ÁZƒIƒCƒ‰[Špi“x’PˆÊj
+		/// @brief ï¿½ï¿½]ï¿½Ì‰ï¿½ï¿½Zï¿½iï¿½Iï¿½Cï¿½ï¿½ï¿½[ï¿½pï¿½Fï¿½xï¿½Pï¿½Êj
+		/// @param deltaDegrees ï¿½ï¿½ï¿½Zï¿½Iï¿½Cï¿½ï¿½ï¿½[ï¿½pï¿½iï¿½xï¿½Pï¿½Êj
         void AddRotationEulerDegrees(const Vector3& deltaDegrees);
-        /// @brief ‰ñ“]‚Ìæ“¾iƒIƒCƒ‰[ŠpF“x’PˆÊj
-        /// @return ƒIƒCƒ‰[Špi“x’PˆÊj‚ÌQÆ
+        /// @brief ï¿½ï¿½]ï¿½Ìæ“¾ï¿½iï¿½Iï¿½Cï¿½ï¿½ï¿½[ï¿½pï¿½Fï¿½xï¿½Pï¿½Êj
+        /// @return ï¿½Iï¿½Cï¿½ï¿½ï¿½[ï¿½pï¿½iï¿½xï¿½Pï¿½Êjï¿½ÌQï¿½ï¿½
         const Vector3& GetRotationEulerDegrees() const;
 
 		//============================================================
-		//camera—p‚Ì Yaw/Pitch/Roll w’èŠÖ”
+		//cameraï¿½pï¿½ï¿½ Yaw/Pitch/Roll ï¿½wï¿½ï¿½Öï¿½
 
-        /// @brief ‰ñ“]‚Ìİ’èiYaw/Pitch/RollF“x’PˆÊj
-        /// @param yawDegrees           Yaw’li“x’PˆÊj
-        /// @param pitchDegrees         Pitch’li“x’PˆÊj
-        /// @param rollDegrees          Roll’li“x’PˆÊj
+        /// @brief ï¿½ï¿½]ï¿½Ìİ’ï¿½iYaw/Pitch/Rollï¿½Fï¿½xï¿½Pï¿½Êj
+        /// @param yawDegrees           Yawï¿½lï¿½iï¿½xï¿½Pï¿½Êj
+        /// @param pitchDegrees         Pitchï¿½lï¿½iï¿½xï¿½Pï¿½Êj
+        /// @param rollDegrees          Rollï¿½lï¿½iï¿½xï¿½Pï¿½Êj
         void SetYawPitchRollDegrees(float yawDegrees, float pitchDegrees, float rollDegrees = 0.0f);
-		/// @brief ‰ñ“]‚Ì‰ÁZiYaw/Pitch/RollF“x’PˆÊj
-		/// @param yawDeltaDegrees      Yaw‰ÁZ’li“x’PˆÊj
-		/// @param pitchDeltaDegrees    Pitch‰ÁZ’li“x’PˆÊj
-		/// @param rollDeltaDegrees     Roll‰ÁZ’li“x’PˆÊj
+		/// @brief ï¿½ï¿½]ï¿½Ì‰ï¿½ï¿½Zï¿½iYaw/Pitch/Rollï¿½Fï¿½xï¿½Pï¿½Êj
+		/// @param yawDeltaDegrees      Yawï¿½ï¿½ï¿½Zï¿½lï¿½iï¿½xï¿½Pï¿½Êj
+		/// @param pitchDeltaDegrees    Pitchï¿½ï¿½ï¿½Zï¿½lï¿½iï¿½xï¿½Pï¿½Êj
+		/// @param rollDeltaDegrees     Rollï¿½ï¿½ï¿½Zï¿½lï¿½iï¿½xï¿½Pï¿½Êj
         void AddYawPitchRollDegrees(float yawDeltaDegrees, float pitchDeltaDegrees, float rollDeltaDegrees = 0.0f);
 
         //============================================================
         // Scale
         //============================================================
-        /// @brief ƒXƒP[ƒ‹‚Ìİ’è
-        /// @param scale ƒXƒP[ƒ‹
+        /// @brief ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½Ìİ’ï¿½
+        /// @param scale ï¿½Xï¿½Pï¿½[ï¿½ï¿½
         void SetScale(const Vector3& scale);
-        /// @brief ƒXƒP[ƒ‹‚Ì‹Ïˆêİ’è
-        /// @param uniformScale ‹ÏˆêƒXƒP[ƒ‹’l
+        /// @brief ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½Ì‹Ïˆï¿½İ’ï¿½
+        /// @param uniformScale ï¿½Ïˆï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½l
         void SetUniformScale(float uniformScale);
-        /// @brief ƒXƒP[ƒ‹‚Ì‰ÁZ
-        /// @param delta ‰ÁZƒXƒP[ƒ‹’l
+        /// @brief ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½Z
+        /// @param delta ï¿½ï¿½ï¿½Zï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½l
 		void AddScale(const Vector3& deltaScale);
-        /// @brief ƒXƒP[ƒ‹‚Ìæ“¾
-        /// @return ƒXƒP[ƒ‹’l‚ÌQÆ
+        /// @brief ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½Ìæ“¾
+        /// @return ï¿½Xï¿½Pï¿½[ï¿½ï¿½ï¿½lï¿½ÌQï¿½ï¿½
         const Vector3& GetScale() const;
 
         //============================================================
         // Matrix / Direction
         //============================================================
-		/// @brief ƒ[ƒ‹ƒhs—ñ‚Ìæ“¾
-		/// @return ƒ[ƒ‹ƒhs—ñ‚ÌQÆ
+		/// @brief ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½sï¿½ï¿½Ìæ“¾
+		/// @return ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½sï¿½ï¿½ÌQï¿½ï¿½
         const DirectX::XMFLOAT4X4& GetWorldMatrix() const;
 
-		/// @brief ‰E•ûŒüƒxƒNƒgƒ‹‚Ìæ“¾
-		/// @return ‰E•ûŒüƒxƒNƒgƒ‹
+		/// @brief ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½Ìæ“¾
+		/// @return ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
         Vector3 GetRight() const;
-		/// @brief ã•ûŒüƒxƒNƒgƒ‹‚Ìæ“¾
-		/// @return ã•ûŒüƒxƒNƒgƒ‹
+		/// @brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½Ìæ“¾
+		/// @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
         Vector3 GetUp() const;
-		/// @brief ‘O•ûŒüƒxƒNƒgƒ‹‚Ìæ“¾
-		/// @return ‘O•ûŒüƒxƒNƒgƒ‹
+		/// @brief ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½Ìæ“¾
+		/// @return ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½
         Vector3 GetForward() const;
 
     private:
-		/// @brief ƒ[ƒ‹ƒhs—ñÄ\’zƒtƒ‰ƒO‚ğ—§‚Ä‚é
+		/// @brief ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½sï¿½ï¿½Ä\ï¿½zï¿½tï¿½ï¿½ï¿½Oï¿½ğ—§‚Ä‚ï¿½
         void MarkDirty();
-		/// @brief ƒ[ƒ‹ƒhs—ñ‚ğÄ\’z‚·‚é
+		/// @brief ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½hï¿½sï¿½ï¿½ï¿½ï¿½Ä\ï¿½zï¿½ï¿½ï¿½ï¿½
         void RebuildWorldIfDirty() const;
 
-		/// @brief ƒIƒCƒ‰[Špi“x’PˆÊj‚©‚ç‰ñ“]ƒNƒH[ƒ^ƒjƒIƒ“‚ğì¬‚·‚é
-		/// @param eulerDegrees ƒIƒCƒ‰[Špi“x’PˆÊj
-		/// @return ‰ñ“]ƒNƒH[ƒ^ƒjƒIƒ“
+		/// @brief ï¿½Iï¿½Cï¿½ï¿½ï¿½[ï¿½pï¿½iï¿½xï¿½Pï¿½Êjï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½Nï¿½Hï¿½[ï¿½^ï¿½jï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½
+		/// @param eulerDegrees ï¿½Iï¿½Cï¿½ï¿½ï¿½[ï¿½pï¿½iï¿½xï¿½Pï¿½Êj
+		/// @return ï¿½ï¿½]ï¿½Nï¿½Hï¿½[ï¿½^ï¿½jï¿½Iï¿½ï¿½
         static DirectX::XMVECTOR MakeRotationQuaternion(const Vector3& eulerDegrees);
 
     };
