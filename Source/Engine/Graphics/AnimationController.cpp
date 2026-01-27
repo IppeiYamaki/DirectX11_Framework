@@ -102,7 +102,8 @@ namespace Engine {
             if (currentClip) {
                 float clipDuration = currentClip->m_duration;
                 if (clipDuration <= 0.0f) {
-                    clipDuration = static_cast<float>(currentClip->GetMaxKeyCount()) / currentClip->m_ticksPerSecond;
+                    float ticksPerSecond = currentClip->m_ticksPerSecond > 0.0f ? currentClip->m_ticksPerSecond : 30.0f;
+                    clipDuration = static_cast<float>(currentClip->GetMaxKeyCount()) / ticksPerSecond;
                 }
                 if (clipDuration > 0.0f && m_isLooping) {
                     while (m_currentTime >= clipDuration) {
@@ -114,7 +115,8 @@ namespace Engine {
             if (nextClip) {
                 float clipDuration = nextClip->m_duration;
                 if (clipDuration <= 0.0f) {
-                    clipDuration = static_cast<float>(nextClip->GetMaxKeyCount()) / nextClip->m_ticksPerSecond;
+                    float ticksPerSecond = nextClip->m_ticksPerSecond > 0.0f ? nextClip->m_ticksPerSecond : 30.0f;
+                    clipDuration = static_cast<float>(nextClip->GetMaxKeyCount()) / ticksPerSecond;
                 }
                 if (clipDuration > 0.0f && m_nextLooping) {
                     while (m_nextTime >= clipDuration) {
@@ -131,7 +133,8 @@ namespace Engine {
             if (currentClip) {
                 float clipDuration = currentClip->m_duration;
                 if (clipDuration <= 0.0f) {
-                    clipDuration = static_cast<float>(currentClip->GetMaxKeyCount()) / currentClip->m_ticksPerSecond;
+                    float ticksPerSecond = currentClip->m_ticksPerSecond > 0.0f ? currentClip->m_ticksPerSecond : 30.0f;
+                    clipDuration = static_cast<float>(currentClip->GetMaxKeyCount()) / ticksPerSecond;
                 }
 
                 if (clipDuration > 0.0f) {
