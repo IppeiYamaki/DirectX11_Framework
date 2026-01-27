@@ -218,6 +218,8 @@
     <ClCompile Include="Source\Engine\UI\UIElement.cpp" />
     <ClCompile Include="Source\Engine\UI\TextElement.cpp" />
     <ClCompile Include="Source\Engine\UI\Button.cpp" />
+    <ClCompile Include="Source\Engine\Physics\Ray.cpp" />
+    <ClCompile Include="Source\Engine\Physics\Raycast.cpp" />
     <ClCompile Include="Source\Game\GameMain.cpp" />
     <ClCompile Include="Source\Game\Prefabs\MainCameraPrefab.cpp" />
     <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp" />
@@ -288,6 +290,8 @@
     <ClInclude Include="Source\Engine\UI\UIElement.h" />
     <ClInclude Include="Source\Engine\UI\TextElement.h" />
     <ClInclude Include="Source\Engine\UI\Button.h" />
+    <ClInclude Include="Source\Engine\Physics\Ray.h" />
+    <ClInclude Include="Source\Engine\Physics\Raycast.h" />
     <ClInclude Include="Source\Game\GameMain.h" />
     <ClInclude Include="Source\Game\Prefabs\MainCameraPrefab.h" />
     <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h" />

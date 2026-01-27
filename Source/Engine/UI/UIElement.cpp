@@ -94,4 +94,22 @@ namespace Engine {
         return m_canvas;
     }
 
+    //============================================================
+    // Hit Testing / Click
+    //============================================================
+
+    bool UIElement::Contains(float x, float y) const {
+        // 矩形領域内判定
+        float left = m_position.x;
+        float top = m_position.y;
+        float right = m_position.x + m_size.x;
+        float bottom = m_position.y + m_size.y;
+
+        return (x >= left && x <= right && y >= top && y <= bottom);
+    }
+
+    void UIElement::OnClick() {
+        // 派生クラスでオーバーライド
+    }
+
 } // namespace Engine

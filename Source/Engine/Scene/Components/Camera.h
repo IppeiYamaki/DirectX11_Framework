@@ -7,6 +7,7 @@
 namespace Engine {
 
     class RenderSystem;
+    class Ray;
 
     /// @brief  メインカメラ（View/ProjectionをRenderSystemへ通知）
     /// @note   Transformの逆行列をViewとして用い、LateUpdateで反映する
@@ -36,6 +37,18 @@ namespace Engine {
         /// @param  nearZ 近クリップ
         /// @param  farZ 遠クリップ
         void SetPerspective(float fovYRadians, float aspect, float nearZ, float farZ);
+
+        //============================================================
+        // Screen / Ray
+        //============================================================
+
+        /// @brief スクリーン座標からワールド空間のレイを生成
+        /// @param screenX スクリーンX座標（ピクセル）
+        /// @param screenY スクリーンY座標（ピクセル）
+        /// @param screenWidth スクリーン幅
+        /// @param screenHeight スクリーン高さ
+        /// @return ワールド空間のレイ
+        [[nodiscard]] Ray ScreenPointToRay(float screenX, float screenY, float screenWidth, float screenHeight) const;
 
     private:
         /// @brief RenderSystemへカメラ定数を適用
