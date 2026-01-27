@@ -252,7 +252,7 @@ SceneManager
 ```cpp
 void SampleScene::BuildScene(Engine::SceneContext& ctx) {
     // 既存のEntity方式（互換性維持）
-    m_cameraEntity = ctx.Spawn<MainCameraPrefab>(
+    m_cameraEntity = ctx.SpawnPrefab<MainCameraPrefab>(
         Engine::Vector3(0, 3, -8), 0.0f, -5.0f);
 
     // 新規のGameObject方式

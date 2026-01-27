@@ -73,6 +73,9 @@ namespace Game {
         // PrefabがMaterialLibraryを使うために渡す
         ctx.m_materials = &m_materialLibrary;
 
+        // PrefabManager（Prefabのキャッシュ）
+        ctx.m_prefabs = &m_prefabManager;
+
         // 最初の空間はSampleScene
         m_sceneManager.Initialize(ctx, std::make_unique<Game::SampleScene>());
 
@@ -84,6 +87,7 @@ namespace Game {
 
 
         m_sceneManager.Finalize();
+        m_prefabManager.Clear();
         m_sharedMaterial.reset();
         m_materialLibrary.Finalize();
         m_assets.Finalize();

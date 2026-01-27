@@ -38,4 +38,8 @@ namespace Game {
         return player;
     }
 
+    Engine::Entity* PlayerPrefab::Spawn(Engine::SceneContext& ctx, const SpawnDesc& desc) {
+        return SpawnObject(ctx, desc);
+    }
+
 } // namespace Game

@@ -4,6 +4,8 @@
 #include <utility>
 #include <d3d11.h> // ID3D11Device
 
+#include "Engine/Scene/PrefabManager.h"
+
 namespace Engine {
     class Application;
     class Entity;
@@ -12,6 +14,7 @@ namespace Engine {
     class RenderSystem;
     class AssetManager;
     class Material;
+    class PrefabManager;
 }
 
 namespace Game {
@@ -40,14 +43,21 @@ namespace Game {
         // Material資産管理
         MaterialLibrary* m_materials = nullptr;
 
-        /// @brief Prefabを生成する（引数は Prefab::SpawnDesc のコンストラクタ引数に転送される）
-        /// @tparam TPrefab Prefabクラス
+        // Prefab管理（キャッシュ）
+        Engine::PrefabManager* m_prefabs = nullptr;
+
+        /// @brief PrefabManager経由でPrefabを生成する
+        /// @tparam TPrefab Prefab派生型
+        /// @tparam Args Prefab::SpawnDescのコンストラクタ引数
         /// @param args Prefab::SpawnDescのコンストラクタ引数
         /// @return 生成されたEntity
         template<class TPrefab, class... Args>
-        Engine::Entity* Spawn(Args&&... args) {
+        Engine::Entity* SpawnPrefab(Args&&... args) {
             using Desc = typename TPrefab::SpawnDesc;
-            return TPrefab::Spawn(*this, Desc{ std::forward<Args>(args)... });
+            if (!m_prefabs) return nullptr;
+
+            auto& prefab = m_prefabs->GetOrCreate<TPrefab>();
+            return prefab.Spawn(*this, Desc{ std::forward<Args>(args)... });
         }
 
         /// @brief GameObjectベースのPrefabを生成する

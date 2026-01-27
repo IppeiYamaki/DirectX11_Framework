@@ -5,6 +5,7 @@
 #include "Engine/Core/IGame.h"
 #include "Engine/Resources/AssetManager.h"
 #include "Engine/Scene/SceneManager.h"
+#include "Engine/Scene/PrefabManager.h"
 #include "Materials/MaterialLibrary.h"
 
 namespace Engine {
@@ -35,6 +36,7 @@ namespace Game {
         // 共有Material（SampleWorldで直接使いたい場合にも渡せる）
         std::shared_ptr<Engine::Material> m_sharedMaterial;
 
+        Engine::PrefabManager m_prefabManager;
         Engine::SceneManager m_sceneManager;
     };
 

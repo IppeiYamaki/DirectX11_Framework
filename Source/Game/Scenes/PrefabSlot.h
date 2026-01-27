@@ -37,7 +37,7 @@ namespace Game {
             m_respawn = [argsTuple](Engine::SceneContext& c) -> Engine::Entity* {
                 return std::apply(
                     [&](auto&&... a) -> Engine::Entity* {
-                        return c.Spawn<TPrefab>(a...);
+                        return c.SpawnPrefab<TPrefab>(a...);
                     },
                     *argsTuple);
                 };

@@ -55,12 +55,12 @@ namespace Game {
         //========================
         // MainCamera 生成
         //========================
-        m_cameraEntity = ctx.Spawn<MainCameraPrefab>(Engine::Vector3(0, 3, -8), /*yaw*/0.0f, /*pitch*/-5.0f);
+        m_cameraEntity = ctx.SpawnPrefab<MainCameraPrefab>(Engine::Vector3(0, 3, -8), /*yaw*/0.0f, /*pitch*/-5.0f);
        
         //========================
         // Sky 生成
         //========================
-        ctx.Spawn<SkyPrefab>(Engine::Vector3(0, 0, 0), 200.0f);
+        ctx.SpawnPrefab<SkyPrefab>(Engine::Vector3(0, 0, 0), 200.0f);
 
         //========================
         // その他の Prefab 生成
