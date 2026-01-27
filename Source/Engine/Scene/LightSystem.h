@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Engine/Math/Vector3.h"
+#include "Engine/Scene/Light.h"
 
 namespace Engine {
 
