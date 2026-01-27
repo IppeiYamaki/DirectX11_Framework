@@ -62,7 +62,7 @@ namespace Engine {
     }
 
     void Transform::SetWorldPosition(const Vector3& worldPosition){
-        if(m_parent) return m_parent->T
+        //if(m_parent) return m_parent->T
     }
 
     void Transform::SetWorldPosition(float x, float y, float z)

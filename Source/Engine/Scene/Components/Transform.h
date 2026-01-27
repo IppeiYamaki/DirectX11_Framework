@@ -49,7 +49,6 @@ namespace Engine {
 
 		/// @brief 変換行列の再計算が必要なことをマークする
 		/// @brief マークを子にも伝播する
-		/// @note 
 		void SetDirty();
 
     public:
