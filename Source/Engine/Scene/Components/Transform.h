@@ -39,12 +39,12 @@ namespace Engine {
 		//============================================================
 		/// @brief 子Transformをリストに追加
 		/// @param child 追加する子Transform
-		/// @note Entity::SetParent() 経由で内部から呼ばれる想定
+		/// @note GameObject::SetParent() 経由で内部から呼ばれる想定
 		void AddChild(Transform* child);
 
 		/// @brief 子Transformをリストから削除
 		/// @param child 削除する子Transform
-		/// @note Entity::SetParent() 経由で内部から呼ばれる想定
+		/// @note GameObject::SetParent() 経由で内部から呼ばれる想定
 		void RemoveChild(Transform* child);
 
 		/// @brief 変換行列の再計算が必要なことをマークする
