@@ -220,6 +220,8 @@
     <ClCompile Include="Source\Engine\UI\Button.cpp" />
     <ClCompile Include="Source\Engine\Physics\Ray.cpp" />
     <ClCompile Include="Source\Engine\Physics\Raycast.cpp" />
+    <ClCompile Include="Source\Engine\Physics\RayManager.cpp" />
+    <ClCompile Include="Source\Engine\Platform\MouseInputManager.cpp" />
     <ClCompile Include="Source\Game\GameMain.cpp" />
     <ClCompile Include="Source\Game\Prefabs\MainCameraPrefab.cpp" />
     <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp" />
@@ -228,6 +230,7 @@
     <ClCompile Include="Source\Game\Worlds\SampleWorld.cpp" />
     <ClCompile Include="Source\Game\Worlds\WorldManager.cpp" />
     <ClCompile Include="Source\Game\Scripts\SampleRotateComponent.cpp" />
+    <ClCompile Include="Source\Game\Scripts\SelectUI.cpp" />
     <ClCompile Include="Source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +295,7 @@
     <ClInclude Include="Source\Engine\UI\Button.h" />
     <ClInclude Include="Source\Engine\Physics\Ray.h" />
     <ClInclude Include="Source\Engine\Physics\Raycast.h" />
+    <ClInclude Include="Source\Engine\Physics\RayManager.h" />
     <ClInclude Include="Source\Game\GameMain.h" />
     <ClInclude Include="Source\Game\Prefabs\MainCameraPrefab.h" />
     <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h" />
@@ -303,6 +307,8 @@
     <ClInclude Include="Source\Game\Worlds\WorldContext.h" />
     <ClInclude Include="Source\Game\Worlds\WorldManager.h" />
     <ClInclude Include="Source\Game\Scripts\SampleRotateComponent.h" />
+    <ClInclude Include="Source\Game\Scripts\SelectUI.h" />
+    <ClInclude Include="Source\Engine\Platform\MouseInputManager.h" />
     <ClInclude Include="Source\ThirdParty\DirectXTex\DirectXTex.h" />
   </ItemGroup>
   <ItemGroup>
