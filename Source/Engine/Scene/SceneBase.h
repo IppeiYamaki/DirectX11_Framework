@@ -1,8 +1,12 @@
 #pragma once
 
+namespace Game {
+    struct SceneContext;
+}
+
 namespace Engine {
 
-    struct SceneContext;
+    using SceneContext = Game::SceneContext;
 
     /**
      * @brief Scene = State（状態/空間）

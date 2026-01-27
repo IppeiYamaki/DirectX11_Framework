@@ -7,6 +7,8 @@
 
 namespace Engine {
 
+    using SceneContext = Game::SceneContext;
+
     /**
      * @brief Scene（State）を管理する
      *
