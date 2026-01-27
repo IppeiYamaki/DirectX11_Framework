@@ -60,7 +60,9 @@ namespace Engine {
     //============================================================
 
     void TextElement::SetFontSize(float fontSize) {
-        m_fontSize = fontSize;
+        if (fontSize > 0.0f) {
+            m_fontSize = fontSize;
+        }
     }
 
     float TextElement::GetFontSize() const {

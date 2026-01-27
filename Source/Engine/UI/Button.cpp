@@ -59,7 +59,9 @@ namespace Engine {
     }
 
     void Button::SetFontSize(float fontSize) {
-        m_fontSize = fontSize;
+        if (fontSize > 0.0f) {
+            m_fontSize = fontSize;
+        }
     }
 
     float Button::GetFontSize() const {
