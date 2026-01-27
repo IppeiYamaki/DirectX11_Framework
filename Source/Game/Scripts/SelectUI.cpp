@@ -56,14 +56,12 @@ namespace Game {
                 if (scene) {
                     Engine::RaycastResult result;
                     if (Engine::Physics::Raycast(ray, scene, result)) {
-                        // ヒットしたオブジェクトがUIElementを持っているか確認
-                        Engine::GameObject* hitObject = result.GetHitObject();
-                        if (hitObject && hitObject->HasComponent<Engine::UIElement>()) {
-                            auto* uiElement = hitObject->GetComponent<Engine::UIElement>();
-                            if (uiElement && uiElement->IsEnabled()) {
-                                uiElement->OnClick();
-                            }
-                        }
+                        // ヒットしたオブジェクトを取得
+                        // NOTE: 3Dオブジェクトへのヒット処理は
+                        //       派生クラスでオーバーライドするか、
+                        //       別のコンポーネントで処理する
+                        // Engine::GameObject* hitObject = result.GetHitObject();
+                        (void)result; // 将来の拡張用
                     }
                 }
             }
