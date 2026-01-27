@@ -216,6 +216,8 @@
     <ClCompile Include="Source\Engine\Scene\GameObject.cpp" />
     <ClCompile Include="Source\Engine\UI\Canvas.cpp" />
     <ClCompile Include="Source\Engine\UI\UIElement.cpp" />
+    <ClCompile Include="Source\Engine\UI\TextElement.cpp" />
+    <ClCompile Include="Source\Engine\UI\Button.cpp" />
     <ClCompile Include="Source\Game\GameMain.cpp" />
     <ClCompile Include="Source\Game\Prefabs\MainCameraPrefab.cpp" />
     <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp" />
@@ -284,6 +286,8 @@
     <ClInclude Include="Source\Engine\Scene\GameObject.h" />
     <ClInclude Include="Source\Engine\UI\Canvas.h" />
     <ClInclude Include="Source\Engine\UI\UIElement.h" />
+    <ClInclude Include="Source\Engine\UI\TextElement.h" />
+    <ClInclude Include="Source\Engine\UI\Button.h" />
     <ClInclude Include="Source\Game\GameMain.h" />
     <ClInclude Include="Source\Game\Prefabs\MainCameraPrefab.h" />
     <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h" />
