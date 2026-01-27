@@ -9,6 +9,7 @@
 #include <functional>
 
 #include "Engine/Scene/Entity.h"
+#include "Engine/Scene/GameObject.h"
 
 namespace Engine {
 
@@ -82,6 +83,47 @@ namespace Engine {
         [[nodiscard]] std::uint32_t GetEntityCount() const;
 
         //============================================================
+        // GameObject API
+        //============================================================
+
+        /// @brief  GameObjectを生成して追加
+        /// @tparam T GameObjectを継承した型
+        /// @tparam Args コンストラクタ引数型
+        /// @param  args コンストラクタ引数
+        /// @return 生成されたGameObjectへのポインタ
+        template <class T, class... Args>
+        [[nodiscard]] T* CreateGameObject(Args&&... args) {
+            static_assert(std::is_base_of_v<GameObject, T>, "T must derive from GameObject");
+
+            auto obj = std::make_unique<T>(std::forward<Args>(args)...);
+            T* raw = obj.get();
+
+            raw->SetWorld(this);
+            raw->InternalInitialize();
+
+            m_gameObjects.emplace_back(std::move(obj));
+            return raw;
+        }
+
+        /// @brief  既存のGameObjectを追加
+        /// @param  object GameObjectのunique_ptr
+        /// @return 追加されたGameObjectへのポインタ
+        [[nodiscard]] GameObject* AddGameObject(std::unique_ptr<GameObject> object);
+
+        /// @brief GameObjectを破棄（即時削除）
+        /// @param object 破棄するGameObject
+        /// @warning Update中に呼ぶとイテレータ破壊の危険あり
+        void DestroyGameObject(GameObject* object);
+
+        /// @brief GameObjectを遅延破棄予約
+        /// @param object 破棄するGameObject
+        void DestroyGameObjectDeferred(GameObject* object);
+
+        /// @brief  GameObject数を取得
+        /// @return GameObject数
+        [[nodiscard]] std::uint32_t GetGameObjectCount() const;
+
+        //============================================================
         // Entity Query
         //============================================================
 
@@ -141,6 +183,48 @@ namespace Engine {
             return nullptr;
         }
 
+        //============================================================
+        // GameObject Query
+        //============================================================
+
+        /// @brief  名前でGameObjectを検索
+        /// @param  name 検索する名前
+        /// @return 見つかったGameObject（存在しなければnullptr）
+        [[nodiscard]] GameObject* FindGameObjectByName(const std::string& name);
+
+        /// @brief  タグでGameObjectを検索
+        /// @param  tag 検索するタグ
+        /// @return 見つかったGameObjectのベクター
+        [[nodiscard]] std::vector<GameObject*> FindGameObjectsWithTag(const std::string& tag);
+
+        /// @brief  特定のComponentを持つGameObjectを検索
+        /// @tparam T 検索するComponent型
+        /// @return 見つかったGameObjectのベクター
+        template <typename T>
+        [[nodiscard]] std::vector<GameObject*> FindGameObjectsWithComponent() {
+            std::vector<GameObject*> result;
+            for (auto& obj : m_gameObjects) {
+                if (obj->HasComponent<T>()) {
+                    result.push_back(obj.get());
+                }
+            }
+            return result;
+        }
+
+        /// @brief  条件を満たすGameObjectを検索
+        /// @param  predicate 検索条件
+        /// @return 見つかったGameObjectのベクター
+        template <typename Predicate>
+        [[nodiscard]] std::vector<GameObject*> FindGameObjectsWhere(Predicate predicate) {
+            std::vector<GameObject*> result;
+            for (auto& obj : m_gameObjects) {
+                if (predicate(obj.get())) {
+                    result.push_back(obj.get());
+                }
+            }
+            return result;
+        }
+
     private:
         /// @brief フレーム終了時に遅延破棄を処理
         void ProcessPendingDestructions();
@@ -150,6 +234,9 @@ namespace Engine {
 
         std::vector<std::unique_ptr<Entity>> m_entities;    ///< 所有Entity群
         std::vector<Entity*> m_pendingDestruction;          ///< 遅延破棄待ちリスト
+
+        std::vector<std::unique_ptr<GameObject>> m_gameObjects;     ///< 所有GameObject群
+        std::vector<GameObject*> m_pendingGameObjectDestruction;    ///< GameObject遅延破棄待ちリスト
     };
 
 } // namespace Engine

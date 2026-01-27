@@ -3,9 +3,10 @@
 namespace Engine {
 
     class Entity;
+    class GameObject;
 
     /// @brief  機能単位の基底Component
-    /// @note   owner(Entity)とenabledを保持し、ライフサイクルを提供する
+    /// @note   owner(Entity or GameObject)とenabledを保持し、ライフサイクルを提供する
     class Component {
     public:
         Component() = default;
@@ -15,7 +16,7 @@ namespace Engine {
         Component& operator=(const Component&) = delete;
 
         //============================================================
-        // Owner
+        // Owner (Entity)
         //============================================================
         /// @brief  所属Entityを取得
         /// @return 所属Entityへのポインタ
@@ -23,6 +24,16 @@ namespace Engine {
         /// @brief  所属Entityを取得（const版）
         /// @return 所属Entityへのconstポインタ
         const Entity* GetOwner() const;
+
+        //============================================================
+        // Owner (GameObject)
+        //============================================================
+        /// @brief  所属GameObjectを取得
+        /// @return 所属GameObjectへのポインタ
+        GameObject* GetGameObject();
+        /// @brief  所属GameObjectを取得（const版）
+        /// @return 所属GameObjectへのconstポインタ
+        const GameObject* GetGameObject() const;
 
         //============================================================
         // Enable
@@ -58,14 +69,21 @@ namespace Engine {
         /// @param  owner 所属Entity
         void SetOwner(Entity* owner);
 
+        /// @brief  所属GameObjectを設定
+        /// @param  owner 所属GameObject
+        void SetOwner(GameObject* owner);
+
     private:
         /// @brief 所属Entity（借用）
         Entity* m_owner = nullptr;
+        /// @brief 所属GameObject（借用）
+        GameObject* m_gameObject = nullptr;
         /// @brief 有効フラグ
         bool m_isEnabled = true;
 
-        // Entity ������ owner ��ݒ�ł���悤�ɂ���
+        // Entity/GameObject が owner を設定できるようにする
         friend class Entity;
+        friend class GameObject;
     };
 
 } // namespace Engine

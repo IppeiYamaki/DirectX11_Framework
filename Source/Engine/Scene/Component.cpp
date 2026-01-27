@@ -10,6 +10,14 @@ namespace Engine {
         return m_owner;
     }
 
+    GameObject* Component::GetGameObject() {
+        return m_gameObject;
+    }
+
+    const GameObject* Component::GetGameObject() const {
+        return m_gameObject;
+    }
+
     void Component::Enable() {
         m_isEnabled = true;
     }
@@ -31,6 +39,10 @@ namespace Engine {
 
     void Component::SetOwner(Entity* owner) {
         m_owner = owner;
+    }
+
+    void Component::SetOwner(GameObject* owner) {
+        m_gameObject = owner;
     }
 
 } // namespace Engine
