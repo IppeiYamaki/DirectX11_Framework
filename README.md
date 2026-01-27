@@ -3,7 +3,7 @@
 C++20 / DirectX11 でのゲーム制作を効率化するために構築されたフレームワークです。  
 このリポジトリは、モジュールごとの役割分担や命名規則の統一、コードの再利用性を最優先に設計されています。
 
-本フレームワークは、Unity風のアーキテクチャ（Entity + Componentモデル）を参考に設計され、柔軟性やカスタマイズ性を確保しつつ直感的な実装を可能にすることを目指しています。
+本フレームワークは、Unity風のアーキテクチャ（GameObject + Componentモデル）を参考に設計され、柔軟性やカスタマイズ性を確保しつつ直感的な実装を可能にすることを目指しています。
 
 ---
 
@@ -21,17 +21,18 @@ C++20 / DirectX11 でのゲーム制作を効率化するために構築され�
 
 ---
 
-## アーキテクチャ概要（Unity風：Entity + Componentモデル）
+## アーキテクチャ概要（Unity風：GameObject + Componentモデル）
 
 - **Application**  
   メインループ、全体初期化、および終了処理を司り、エンジンのエントリポイントを管理します。
 - **Scene**  
-  Sceneはゲーム内の状態やオブジェクトを管理するクラスで、Prefabやエンティティの生成、イベントの管理を行います。  
+  Sceneはゲーム内の状態やオブジェクトを管理するクラスで、PrefabやGameObjectの生成、イベントの管理を行います。  
   各ゲーム固有のロジックは`SceneBase`の派生クラス内に記述。
-- **Entity (GameObject)**  
-  オブジェクトはすべて`Entity`クラスで表現され、必要な機能は任意の`Component`によって拡張可能です。
+- **GameObject**  
+  オブジェクトはすべて`GameObject`クラスで表現され、必要な機能は任意の`Component`によって拡張可能です。
+  派生クラス（PlayerObject, EnemyObjectなど）を作成してオブジェクト固有の挙動を実装することも可能です。
 - **Component**  
-  各エンティティに機能を追加する「部品」。例: `Transform`（位置やスケール管理）、`MeshRenderer`、`Camera`、`ScriptComponent`（ロジック記述用）など。
+  各GameObjectに機能を追加する「部品」。例: `Transform`（位置やスケール管理）、`MeshRenderer`、`Camera`、`ScriptComponent`（ロジック記述用）など。
 - **Prefab**  
   プレハブシステムは事前にテンプレート化されたゲームオブジェクトを管理し、動的にゲーム内でインスタンス化する仕組み。
 
@@ -58,20 +59,21 @@ C++20 / DirectX11 でのゲーム制作を効率化するために構築され�
 - **RenderSystem**: 描画手順や状態切り替えを統括し、将来的なポストエフェクトの拡張も想定済み。
 - **Material / Shader / Texture / Mesh**: GPUリソースの管理を担当し、高い柔軟性を実現。
 
-### **Scene/Entity/Component**
+### **Scene/GameObject/Component**
 
 - **Scene（SceneBase）**:  
-  ゲームの状態を管理するベースクラスです。それぞれのSceneはPrefabやEntityを生成し、描画や更新処理を一元管理します。ゲーム固有のSceneごとに継承して作成可能です。
+  ゲームの状態を管理するベースクラスです。それぞれのSceneはPrefabやGameObjectを生成し、描画や更新処理を一元管理します。ゲーム固有のSceneごとに継承して作成可能です。
 
-- **Entity**:  
-  ゲームオブジェクトを表現するクラスで、`Component`を組み合わせて機能を拡張可能です。
+- **GameObject**:  
+  ゲームオブジェクトを表現する基底クラスで、`Component`を組み合わせて機能を拡張可能です。
+  派生クラスを作成してオブジェクト固有の挙動を実装することも可能です。
 
 - **Transform / Component**:  
-  すべてのエンティティが保持するコンポーネントで、位置、回転、拡縮の管理を行います。  
+  すべてのGameObjectが保持するコンポーネントで、位置、回転、拡縮の管理を行います。  
   各種機能単位（MeshRendererやCameraなど）はComponentとして実装されています。
 
 - **PrefabとPrefabManager**:  
-  UnityのPrefab用の仕組みを参考に設計されており、Prefabごとのスナップショットを元に動的なエンティティ生成を行えます。
+  UnityのPrefab用の仕組みを参考に設計されており、Prefabごとのスナップショットを元に動的なGameObject生成を行えます。
 
 ### **Camera（カメラ管理システム）**
 
@@ -115,11 +117,15 @@ Engine/
   Resources/
   Scene/
     SceneBase.h / SceneBase.cpp
+    GameObject.h / GameObject.cpp
     CameraSystem.h / CameraSystem.cpp
   UI/
     Canvas.h / Canvas.cpp
     UIElement.h / UIElement.cpp
 Game/
+  GameObjects/
+    PlayerObject.h / PlayerObject.cpp
+    EnemyObject.h / EnemyObject.cpp
   Scenes/
     TitleScene.h / TitleScene.cpp
     GameScene.h / GameScene.cpp
@@ -135,7 +141,7 @@ Game/
 
 - 言語: **C++20**
 - グラフィックスAPI: **DirectX11**
-- アーキテクチャ: Unity風 **Entity + Componentモデル**
+- アーキテクチャ: Unity風 **GameObject + Componentモデル**
 - メモリ管理: **ComPtrベースで安全性を確保**
 
 ---
@@ -162,8 +168,8 @@ Game/
    - `Load()`/`Unload()`: 資源のロードまたはアンロード操作。
    - `Register()`/`Unregister()`: RenderQueueやイベント管理に追加/削除。
 
-3. **エンティティ操作**:
-   - `AddXxx() / RemoveXxx() / ClearXxx()`: エンティティやコンポーネントなどの追加/削除。
+3. **オブジェクト操作**:
+   - `AddXxx() / RemoveXxx() / ClearXxx()`: GameObjectやコンポーネントなどの追加/削除。
 
 4. **生成/破棄**:
    - `Create()`/`Destroy()`は、生成・破棄のみを意味し、混在操作を禁止。

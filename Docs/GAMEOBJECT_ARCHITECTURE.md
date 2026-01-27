@@ -20,14 +20,11 @@
 
 ### 1.1 背景
 
-従来のフレームワークでは、`Entity + Component`モデルを採用していましたが、以下の課題がありました：
-- Sceneで生成されるオブジェクトに統一的な基底クラスがない
-- 各オブジェクトの責務（Transform情報や挙動など）が分散している
-- オブジェクト固有のロジックを記述する場所が明確でない
+本フレームワークでは、Unity風の`GameObject + Component`モデルを採用しています。
 
-### 1.2 解決策
+### 1.2 設計方針
 
-`GameObject`基底クラスを導入し、UnityスタイルのGameObjectパターンを採用します：
+`GameObject`基底クラスを導入し、UnityスタイルのGameObjectパターンを採用：
 - すべてのゲームオブジェクトは`GameObject`を継承
 - `GameObject`は「器」として設計され、Transform、名前、タグ、コンポーネントリストを保持
 - 派生クラスでオブジェクト固有の挙動を自己完結的に記述
@@ -41,20 +38,20 @@
 1. **継承による拡張**: GameObjectを継承して具体的なオブジェクトを実装
 2. **コンポーネント合成**: 機能はコンポーネントとして追加可能
 3. **ライフサイクル管理**: Initialize → Update → LateUpdate → Render → OnDestroy
-4. **後方互換性**: 既存のEntity + Componentモデルと共存
 
-### 2.2 既存モデルとの関係
+### 2.2 Sceneでのオブジェクト管理
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                         Scene                                │
-│  ┌─────────────────────┐    ┌─────────────────────────────┐ │
-│  │  Entity群（既存）    │    │  GameObject群（新規）        │ │
-│  │  - m_entities       │    │  - m_gameObjects            │ │
-│  │  - CreateEntity()   │    │  - CreateObject<T>()        │ │
-│  │  - DestroyEntity()  │    │  - AddObject()              │ │
-│  │                     │    │  - DestroyObject()          │ │
-│  └─────────────────────┘    └─────────────────────────────┘ │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │                  GameObject群                            │ │
+│  │  - m_gameObjects                                         │ │
+│  │  - CreateObject<T>()                                     │ │
+│  │  - AddObject()                                           │ │
+│  │  - DestroyObject()                                       │ │
+│  │  - FindObjectByName() / FindObjectsWithTag()             │ │
+│  └─────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -105,6 +102,12 @@ public:
     const std::string& GetTag() const;
     bool CompareTag(const std::string& tag) const;
 
+    // マルチタグサポート
+    void AddTag(const Tag& tag);
+    void RemoveTag(const Tag& tag);
+    bool HasTag(const Tag& tag) const;
+    void ClearTags();
+
     // 有効/無効制御
     void SetActive(bool active);
     bool IsActive() const;
@@ -128,7 +131,7 @@ public:
 protected:
     EntityId m_id;
     std::string m_name;
-    std::string m_tag;
+    TagSet m_tags;
     bool m_isActive = true;
     std::vector<std::unique_ptr<Component>> m_components;
     Transform* m_transform = nullptr;
@@ -211,7 +214,7 @@ private:
 
 | クラス | 責務 |
 |--------|------|
-| **Scene** | Entity/GameObjectの生成・管理・破棄、Update/Draw統括 |
+| **Scene** | GameObjectの生成・管理・破棄、Update/Draw統括 |
 | **SceneBase** | Sceneステート（状態/空間）のインターフェース定義 |
 | **GameObject** | 器として機能、Transform/名前/タグ/コンポーネント保持 |
 | **PlayerObject** | プレイヤー固有ロジック（入力処理、HP管理など） |
@@ -230,8 +233,7 @@ SceneManager
             │
             └── SampleScene (具象実装)
                     │
-                    ├── Scene::CreateEntity() [既存]
-                    └── Scene::CreateObject<T>() [新規]
+                    └── Scene::CreateObject<T>()
                             │
                             ├── PlayerObject
                             ├── EnemyObject
@@ -251,18 +253,18 @@ SceneManager
 
 ```cpp
 void SampleScene::BuildScene(Engine::SceneContext& ctx) {
-    // 既存のEntity方式（互換性維持）
-    m_cameraEntity = ctx.Spawn<MainCameraPrefab>(
+    // Prefab経由でのGameObject生成
+    m_cameraObject = ctx.Spawn<MainCameraPrefab>(
         Engine::Vector3(0, 3, -8), 0.0f, -5.0f);
 
-    // 新規のGameObject方式
+    // 直接GameObjectを生成
     auto* player = ctx.m_scene->CreateObject<PlayerObject>("MainPlayer");
     player->SetPosition(Engine::Vector3(0, 0, 0));
     player->SetMoveSpeed(7.0f);
     player->SetHealth(150.0f);
 
     // Prefab経由でのGameObject生成
-    auto* enemy1 = ctx.SpawnObject<EnemyPrefab>(
+    auto* enemy1 = ctx.Spawn<EnemyPrefab>(
         Engine::Vector3(10, 0, 5), 1.0f, 3.0f, 50.0f);
     
     // 敵にプレイヤーをターゲットとして設定
@@ -356,10 +358,9 @@ Source/
 ├── Engine/
 │   └── Scene/
 │       ├── Component.h/cpp          # コンポーネント基底
-│       ├── Entity.h/cpp             # Entity（既存互換）
 │       ├── EntityId.h               # ID/タグシステム
-│       ├── GameObject.h/cpp         # ★ GameObject基底クラス
-│       ├── Scene.h/cpp              # Entity/GameObject管理
+│       ├── GameObject.h/cpp         # GameObject基底クラス
+│       ├── Scene.h/cpp              # GameObject管理
 │       ├── SceneBase.h              # Sceneインターフェース
 │       ├── SceneContext.h           # Sceneコンテキスト
 │       ├── SceneManager.h/cpp       # Scene切替管理
@@ -369,25 +370,25 @@ Source/
 │           └── ...
 │
 └── Game/
-    ├── GameObjects/                  # ★ GameObject派生クラス
+    ├── GameObjects/                  # GameObject派生クラス
     │   ├── PlayerObject.h/cpp
     │   ├── EnemyObject.h/cpp
     │   └── ...
     │
     ├── Prefabs/
-    │   ├── PlayerPrefab.h/cpp        # ★ GameObjectベースPrefab
-    │   ├── EnemyPrefab.h/cpp         # ★ GameObjectベースPrefab
-    │   ├── SamplePrefab.h/cpp        # 既存（Entityベース）
+    │   ├── PlayerPrefab.h/cpp        # GameObjectベースPrefab
+    │   ├── EnemyPrefab.h/cpp         # GameObjectベースPrefab
+    │   ├── SamplePrefab.h/cpp        # GameObjectベース
     │   └── ...
     │
     └── Scenes/
-        ├── GameObjectSlot.h          # ★ GameObject管理用Slot
-        ├── PrefabSlot.h              # 既存（Entityベース）
+        ├── GameObjectSlot.h          # GameObject管理用Slot
+        ├── PrefabSlot.h              # Prefab管理用Slot
         ├── SampleScene.h/cpp
         └── ...
 ```
 
-### 6.2 新規追加ファイル一覧
+### 6.2 主要ファイル一覧
 
 | ファイル | 説明 |
 |----------|------|
@@ -402,18 +403,6 @@ Source/
 | `Game/Prefabs/EnemyPrefab.h` | 敵Prefabヘッダ |
 | `Game/Prefabs/EnemyPrefab.cpp` | 敵Prefab実装 |
 | `Game/Scenes/GameObjectSlot.h` | GameObjectスロット管理 |
-
-### 6.3 変更ファイル一覧
-
-| ファイル | 変更内容 |
-|----------|----------|
-| `Engine/Scene/Component.h` | GameObject用のowner設定追加 |
-| `Engine/Scene/Component.cpp` | GetGameObject()実装追加 |
-| `Engine/Scene/Scene.h` | GameObject管理API追加 |
-| `Engine/Scene/Scene.cpp` | GameObject管理ロジック追加 |
-| `Engine/Scene/SceneBase.h` | namespace整理 |
-| `Engine/Scene/SceneContext.h` | SpawnObject()追加 |
-| `Engine/Scene/SceneManager.h` | namespace整理 |
 
 ---
 
@@ -484,129 +473,17 @@ void Test_GameObject_ActiveControl() {
 }
 ```
 
-#### 派生クラステスト
-```cpp
-// テスト5: PlayerObject
-void Test_PlayerObject_Functionality() {
-    Engine::Scene scene;
-    scene.Initialize();
-    
-    auto* player = scene.CreateObject<Game::PlayerObject>("Player1");
-    
-    ASSERT_EQ(player->GetTag(), "Player");
-    ASSERT_EQ(player->GetMoveSpeed(), 5.0f);
-    ASSERT_EQ(player->GetHealth(), 100.0f);
-    ASSERT_TRUE(player->IsAlive());
-    
-    player->TakeDamage(50.0f);
-    ASSERT_EQ(player->GetHealth(), 50.0f);
-    ASSERT_TRUE(player->IsAlive());
-    
-    player->TakeDamage(60.0f);
-    ASSERT_EQ(player->GetHealth(), 0.0f);
-    ASSERT_FALSE(player->IsAlive());
-}
-
-// テスト6: EnemyObject
-void Test_EnemyObject_StateTransitions() {
-    Engine::Scene scene;
-    scene.Initialize();
-    
-    auto* player = scene.CreateObject<Game::PlayerObject>("Player");
-    auto* enemy = scene.CreateObject<Game::EnemyObject>("Enemy");
-    
-    enemy->SetTarget(player);
-    enemy->SetDetectionRange(10.0f);
-    
-    // 初期状態はIdle
-    ASSERT_EQ(enemy->GetState(), Game::EnemyObject::State::Idle);
-    
-    // プレイヤーを検知範囲内に配置
-    player->SetPosition(Engine::Vector3(5.0f, 0, 0));
-    enemy->SetPosition(Engine::Vector3(0, 0, 0));
-    
-    // Update後に状態遷移
-    enemy->Update(0.016f);
-    ASSERT_EQ(enemy->GetState(), Game::EnemyObject::State::Chase);
-}
-```
-
-#### Scene統合テスト
-```cpp
-// テスト7: Sceneでの統合管理
-void Test_Scene_MixedEntityAndGameObject() {
-    Engine::Scene scene;
-    scene.Initialize();
-    
-    // Entity生成（既存方式）
-    auto* entity = scene.CreateEntity("TestEntity");
-    
-    // GameObject生成（新方式）
-    auto* gameObject = scene.CreateObject<Engine::GameObject>("TestGameObject");
-    
-    ASSERT_EQ(scene.GetEntityCount(), 1);
-    ASSERT_EQ(scene.GetObjectCount(), 1);
-    
-    // 両方がUpdate/Drawで処理される
-    scene.Update(0.016f);
-    scene.Draw();
-    
-    // 破棄
-    scene.DestroyEntity(entity);
-    scene.DestroyObject(gameObject);
-    
-    ASSERT_EQ(scene.GetEntityCount(), 0);
-    ASSERT_EQ(scene.GetObjectCount(), 0);
-}
-
-// テスト8: 検索機能
-void Test_Scene_ObjectQueries() {
-    Engine::Scene scene;
-    scene.Initialize();
-    
-    auto* player = scene.CreateObject<Game::PlayerObject>("MainPlayer");
-    auto* enemy1 = scene.CreateObject<Game::EnemyObject>("Enemy1");
-    auto* enemy2 = scene.CreateObject<Game::EnemyObject>("Enemy2");
-    
-    // 名前で検索
-    auto* found = scene.FindObjectByName("MainPlayer");
-    ASSERT_EQ(found, player);
-    
-    // タグで検索
-    auto enemies = scene.FindObjectsWithTag("Enemy");
-    ASSERT_EQ(enemies.size(), 2);
-}
-```
-
 ### 7.2 テスト実行方法
 
 1. **コンパイル確認**: すべてのファイルがコンパイルできることを確認
 2. **基本動作確認**: サンプルシーンでGameObjectが正しく生成・更新・描画されることを確認
-3. **既存機能の動作確認**: Entity方式の既存コードが引き続き動作することを確認
-4. **メモリリーク確認**: オブジェクトの生成・破棄でメモリリークがないことを確認
-
-### 7.3 影響範囲
-
-| 機能 | 影響 | 確認事項 |
-|------|------|----------|
-| 既存Entity/Component | 低 | 後方互換性あり、動作に変更なし |
-| Scene管理 | 中 | GameObject管理APIが追加、既存APIは維持 |
-| Prefab生成 | 中 | SpawnObject()追加、既存Spawn()は維持 |
-| シーン遷移 | 低 | SceneManagerの動作に変更なし |
+3. **メモリリーク確認**: オブジェクトの生成・破棄でメモリリークがないことを確認
 
 ---
 
 ## 付録
 
-### A. マイグレーションガイド
-
-既存のコードをGameObjectベースに移行する場合：
-
-1. **Entityベースのオブジェクト**: そのまま使用可能（互換性維持）
-2. **新規オブジェクト**: GameObjectを継承して実装
-3. **既存ScriptComponent**: GameObjectの派生クラス内に統合を検討
-
-### B. 将来の拡張予定
+### A. 将来の拡張予定
 
 - [ ] 親子階層（GameObject間の親子関係）
 - [ ] プーリングシステム（オブジェクトの再利用）

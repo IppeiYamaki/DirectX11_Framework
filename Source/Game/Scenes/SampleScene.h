@@ -40,8 +40,8 @@ namespace Game {
         void BuildScene(Engine::SceneContext& ctx);
 
     private:
-        // カメラEntity（シーン切替時に破棄するため保持しておく）
-        Engine::Entity* m_cameraEntity = nullptr;
+        // カメラGameObject（シーン切替時に破棄するため保持しておく）
+        Engine::GameObject* m_cameraObject = nullptr;
 
         // "後で触る対象" は Slot に入れて管理する
         // PrefabSlot m_player;

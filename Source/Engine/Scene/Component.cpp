@@ -2,19 +2,19 @@
 
 namespace Engine {
 
-    Entity* Component::GetOwner() {
-        return m_owner;
-    }
-
-    const Entity* Component::GetOwner() const {
-        return m_owner;
-    }
-
     GameObject* Component::GetGameObject() {
         return m_gameObject;
     }
 
     const GameObject* Component::GetGameObject() const {
+        return m_gameObject;
+    }
+
+    GameObject* Component::GetOwner() {
+        return m_gameObject;
+    }
+
+    const GameObject* Component::GetOwner() const {
         return m_gameObject;
     }
 
@@ -36,10 +36,6 @@ namespace Engine {
     void Component::LateUpdate(float deltaTime) { (void)deltaTime; }
     void Component::Draw() {}
     void Component::OnDestroy() {}
-
-    void Component::SetOwner(Entity* owner) {
-        m_owner = owner;
-    }
 
     void Component::SetOwner(GameObject* owner) {
         m_gameObject = owner;

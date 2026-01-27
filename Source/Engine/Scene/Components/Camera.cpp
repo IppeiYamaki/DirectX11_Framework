@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 #include "Engine/Graphics/RenderSystem.h"
-#include "Engine/Scene/Entity.h"
+#include "Engine/Scene/GameObject.h"
 #include "Engine/Scene/Components/Transform.h"
 #include "Engine/Physics/Ray.h"
 #include "Engine/Math/Vector3.h"

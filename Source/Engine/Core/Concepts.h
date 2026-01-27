@@ -9,7 +9,7 @@ namespace Engine {
 
     // Forward declaration
     class Component;
-    class Entity;
+    class GameObject;
 
     //============================================================
     // Component-related Concepts

@@ -7,7 +7,7 @@
 #include "Engine/Graphics/RenderSystem.h"
 #include "Engine/Graphics/SkinnedModel.h"
 
-#include "Engine/Scene/Entity.h"
+#include "Engine/Scene/GameObject.h"
 #include "Engine/Scene/Components/Transform.h"
 
 namespace Engine {
@@ -19,7 +19,7 @@ namespace Engine {
     }
 
     void AnimationModel::OnStart() {
-        // ‰½‚à‚µ‚È‚¢iLoadModelŒã‚É“®‚­j
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½iLoadModelï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½j
     }
 
     bool AnimationModel::LoadModel(const std::wstring& path) {
@@ -34,7 +34,7 @@ namespace Engine {
             return false;
         }
 
-        // ƒNƒŠƒbƒv‰ŠúiÅ‰‚Ì1‚Â‚ğ‘I‚Ôj
+        // ï¿½Nï¿½ï¿½ï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Åï¿½ï¿½ï¿½1ï¿½Â‚ï¿½Iï¿½Ôj
         const auto names = m_model->GetClipNames();
         if (!names.empty()) {
             m_clipA = names[0];
@@ -76,7 +76,7 @@ namespace Engine {
     void AnimationModel::Update(float deltaTime) {
         if (!m_model) return;
 
-        // ©“®ƒtƒŒ[ƒ€isi‹ŒƒR[ƒh‚Ì Frame++ ‘Š“–j
+        // ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½iï¿½sï¿½iï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ Frame++ ï¿½ï¿½ï¿½ï¿½ï¿½j
         m_frameAccA += deltaTime * m_fps;
         m_frameAccB += deltaTime * m_fps;
         m_frameA = static_cast<int>(m_frameAccA);
@@ -97,7 +97,7 @@ namespace Engine {
         );
 
         if (!ok) {
-            // ƒAƒjƒ–³‚µ‚Å‚à•`‚¯‚é‚æ‚¤‚É I ‚ğ“ü‚ê‚Ä‚¨‚­
+            // ï¿½Aï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½ï¿½ I ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
             m_boneMatrices.resize(m_model->GetBones().size());
             for (auto& m : m_boneMatrices) {
                 DirectX::XMStoreFloat4x4(&m, DirectX::XMMatrixIdentity());
@@ -127,9 +127,9 @@ namespace Engine {
             item.m_world = tr->GetWorldMatrix();
             item.m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-			item.m_layer = RenderLayer::Opaque; // TODO: ƒ}ƒeƒŠƒAƒ‹‚©‚çæ‚é
-			item.m_orderInLayer = 0;            // TODO: ƒ}ƒeƒŠƒAƒ‹‚©‚çæ‚é
-			item.m_stateFlags = 0;              // TODO: ƒ}ƒeƒŠƒAƒ‹‚©‚çæ‚é
+			item.m_layer = RenderLayer::Opaque; // TODO: ï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			item.m_orderInLayer = 0;            // TODO: ï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			item.m_stateFlags = 0;              // TODO: ï¿½}ï¿½eï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
 

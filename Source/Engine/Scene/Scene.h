@@ -1,5 +1,5 @@
 /// @file   Scene.h
-/// @brief  Entity群とGameObject群を管理し、Update/Drawを統括するクラス
+/// @brief  GameObject群を管理し、Update/Drawを統括するクラス
 #pragma once
 
 #include <cstdint>
@@ -8,12 +8,11 @@
 #include <string>
 #include <functional>
 
-#include "Engine/Scene/Entity.h"
 #include "Engine/Scene/GameObject.h"
 
 namespace Engine {
 
-    /// @brief Entity群とGameObject群を管理し、Update/Drawを統括する
+    /// @brief GameObject群を管理し、Update/Drawを統括する
     /// @note  破棄の安全管理（遅延破棄）は将来的に実装予定
     class Scene final {
     public:
@@ -34,7 +33,7 @@ namespace Engine {
         /// @brief 終了処理
         void Finalize();
 
-        /// @brief リセット（全Entity/GameObjectクリア）
+        /// @brief リセット（全GameObjectクリア）
         void Reset();
 
         //============================================================
@@ -57,33 +56,7 @@ namespace Engine {
         [[nodiscard]] bool IsInitialized() const;
 
         //============================================================
-        // Entity API（既存互換）
-        //============================================================
-
-        /// @brief  新しいEntityを生成
-        /// @return 生成されたEntity（Transformは自動追加）
-        [[nodiscard]] Entity* CreateEntity();
-
-        /// @brief  名前付きEntityを生成
-        /// @param  name エンティティ名
-        /// @return 生成されたEntity
-        [[nodiscard]] Entity* CreateEntity(const std::string& name);
-
-        /// @brief Entityを破棄（即時削除）
-        /// @param entity 破棄するEntity
-        /// @warning Update中に呼ぶとイテレータ破壊の危険あり
-        void DestroyEntity(Entity* entity);
-
-        /// @brief Entityを遅延破棄予約
-        /// @param entity 破棄するEntity
-        void DestroyEntityDeferred(Entity* entity);
-
-        /// @brief  Entity数を取得
-        /// @return Entity数
-        [[nodiscard]] std::uint32_t GetEntityCount() const;
-
-        //============================================================
-        // GameObject API（新規）
+        // GameObject API
         //============================================================
 
         /// @brief  GameObjectを追加
@@ -110,78 +83,39 @@ namespace Engine {
             return raw;
         }
 
+        /// @brief  新しいGameObjectを生成（後方互換用エイリアス）
+        /// @return 生成されたGameObject（Transformは自動追加）
+        [[nodiscard]] GameObject* CreateEntity();
+
+        /// @brief  名前付きGameObjectを生成（後方互換用エイリアス）
+        /// @param  name オブジェクト名
+        /// @return 生成されたGameObject
+        [[nodiscard]] GameObject* CreateEntity(const std::string& name);
+
         /// @brief GameObjectを破棄（即時削除）
         /// @param object 破棄するGameObject
         /// @warning Update中に呼ぶとイテレータ破壊の危険あり
         void DestroyObject(GameObject* object);
 
+        /// @brief GameObjectを破棄（即時削除、後方互換用エイリアス）
+        /// @param object 破棄するGameObject
+        void DestroyEntity(GameObject* object);
+
         /// @brief GameObjectを遅延破棄予約
         /// @param object 破棄するGameObject
         void DestroyObjectDeferred(GameObject* object);
+
+        /// @brief GameObjectを遅延破棄予約（後方互換用エイリアス）
+        /// @param object 破棄するGameObject
+        void DestroyEntityDeferred(GameObject* object);
 
         /// @brief  GameObject数を取得
         /// @return GameObject数
         [[nodiscard]] std::uint32_t GetObjectCount() const;
 
-        //============================================================
-        // Entity Query
-        //============================================================
-
-        /// @brief  名前でEntityを検索
-        /// @param  name 検索する名前
-        /// @return 見つかったEntity（存在しなければnullptr）
-        [[nodiscard]] Entity* FindEntityByName(const std::string& name);
-
-        /// @brief  IDでEntityを検索
-        /// @param  id 検索するEntityId
-        /// @return 見つかったEntity（存在しなければnullptr）
-        [[nodiscard]] Entity* FindEntityById(EntityId id);
-
-        /// @brief  タグを持つEntityを検索
-        /// @param  tag 検索するタグ
-        /// @return 見つかったEntityのベクター
-        [[nodiscard]] std::vector<Entity*> FindEntitiesWithTag(const Tag& tag);
-
-        /// @brief  特定のComponentを持つEntityを検索
-        /// @tparam T 検索するComponent型
-        /// @return 見つかったEntityのベクター
-        template <typename T>
-        [[nodiscard]] std::vector<Entity*> FindEntitiesWithComponent() {
-            std::vector<Entity*> result;
-            for (auto& e : m_entities) {
-                if (e->GetComponent<T>() != nullptr) {
-                    result.push_back(e.get());
-                }
-            }
-            return result;
-        }
-
-        /// @brief  条件を満たすEntityを検索
-        /// @param  predicate 検索条件
-        /// @return 見つかったEntityのベクター
-        template <typename Predicate>
-        [[nodiscard]] std::vector<Entity*> FindEntitiesWhere(Predicate predicate) {
-            std::vector<Entity*> result;
-            for (auto& e : m_entities) {
-                if (predicate(e.get())) {
-                    result.push_back(e.get());
-                }
-            }
-            return result;
-        }
-
-        /// @brief  条件を満たす最初のEntityを検索
-        /// @param  predicate 検索条件
-        /// @return 見つかったEntity（存在しなければnullptr）
-        template <typename Predicate>
-        [[nodiscard]] Entity* FindEntityWhere(Predicate predicate) {
-            for (auto& e : m_entities) {
-                if (predicate(e.get())) {
-                    return e.get();
-                }
-            }
-            return nullptr;
-        }
+        /// @brief  GameObject数を取得（後方互換用エイリアス）
+        /// @return GameObject数
+        [[nodiscard]] std::uint32_t GetEntityCount() const;
 
         //============================================================
         // GameObject Query
@@ -192,15 +126,30 @@ namespace Engine {
         /// @return 見つかったGameObject（存在しなければnullptr）
         [[nodiscard]] GameObject* FindObjectByName(const std::string& name);
 
+        /// @brief  名前でGameObjectを検索（後方互換用エイリアス）
+        /// @param  name 検索する名前
+        /// @return 見つかったGameObject（存在しなければnullptr）
+        [[nodiscard]] GameObject* FindEntityByName(const std::string& name);
+
         /// @brief  IDでGameObjectを検索
         /// @param  id 検索するEntityId
         /// @return 見つかったGameObject（存在しなければnullptr）
         [[nodiscard]] GameObject* FindObjectById(EntityId id);
 
+        /// @brief  IDでGameObjectを検索（後方互換用エイリアス）
+        /// @param  id 検索するEntityId
+        /// @return 見つかったGameObject（存在しなければnullptr）
+        [[nodiscard]] GameObject* FindEntityById(EntityId id);
+
         /// @brief  タグでGameObjectを検索
         /// @param  tag 検索するタグ
         /// @return 見つかったGameObjectのベクター
         [[nodiscard]] std::vector<GameObject*> FindObjectsWithTag(const std::string& tag);
+
+        /// @brief  タグを持つGameObjectを検索（後方互換用エイリアス）
+        /// @param  tag 検索するタグ
+        /// @return 見つかったGameObjectのベクター
+        [[nodiscard]] std::vector<GameObject*> FindEntitiesWithTag(const Tag& tag);
 
         /// @brief  特定のComponentを持つGameObjectを検索
         /// @tparam T 検索するComponent型
@@ -214,6 +163,14 @@ namespace Engine {
                 }
             }
             return result;
+        }
+
+        /// @brief  特定のComponentを持つGameObjectを検索（後方互換用エイリアス）
+        /// @tparam T 検索するComponent型
+        /// @return 見つかったGameObjectのベクター
+        template <typename T>
+        [[nodiscard]] std::vector<GameObject*> FindEntitiesWithComponent() {
+            return FindObjectsWithComponent<T>();
         }
 
         /// @brief  条件を満たすGameObjectを検索
@@ -243,23 +200,32 @@ namespace Engine {
             return nullptr;
         }
 
-    private:
-        /// @brief フレーム終了時に遅延破棄を処理
-        void ProcessPendingDestructions();
+        /// @brief  条件を満たすGameObjectを検索（後方互換用エイリアス）
+        /// @param  predicate 検索条件
+        /// @return 見つかったGameObjectのベクター
+        template <typename Predicate>
+        [[nodiscard]] std::vector<GameObject*> FindEntitiesWhere(Predicate predicate) {
+            return FindObjectsWhere(predicate);
+        }
 
+        /// @brief  条件を満たす最初のGameObjectを検索（後方互換用エイリアス）
+        /// @param  predicate 検索条件
+        /// @return 見つかったGameObject（存在しなければnullptr）
+        template <typename Predicate>
+        [[nodiscard]] GameObject* FindEntityWhere(Predicate predicate) {
+            return FindObjectWhere(predicate);
+        }
+
+    private:
         /// @brief フレーム終了時にGameObjectの遅延破棄を処理
-        void ProcessPendingObjectDestructions();
+        void ProcessPendingDestructions();
 
     private:
         bool m_isInitialized = false;                               ///< 初期化済みフラグ
 
-        // Entity管理（既存互換）
-        std::vector<std::unique_ptr<Entity>> m_entities;            ///< 所有Entity群
-        std::vector<Entity*> m_pendingDestruction;                  ///< 遅延破棄待ちリスト
-
-        // GameObject管理（新規）
+        // GameObject管理
         std::vector<std::unique_ptr<GameObject>> m_gameObjects;     ///< 所有GameObject群
-        std::vector<GameObject*> m_pendingObjectDestruction;        ///< 遅延破棄待ちリスト
+        std::vector<GameObject*> m_pendingDestruction;              ///< 遅延破棄待ちリスト
     };
 
 } // namespace Engine

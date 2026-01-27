@@ -1,6 +1,6 @@
 #include "SampleRotateComponent.h"
 
-#include "Engine/Scene/Entity.h"
+#include "Engine/Scene/GameObject.h"
 #include "Engine/Scene/Components/Transform.h"
 
 namespace Game {
