@@ -17,7 +17,7 @@ namespace Game {
         if (!tr) return;
 
         const float d = m_degreesPerSecond * deltaTime;
-        tr->RotateByEulerDegrees(Engine::Vector3(0.0f, d, 0.0f));
+        tr->AddRotationEulerDegrees(Engine::Vector3(0.0f, d, 0.0f));
     }
 
 } // namespace Game

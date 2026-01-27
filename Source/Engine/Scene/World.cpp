@@ -6,6 +6,7 @@
 #include "Engine/Scene/Entity.h"
 #include "Engine/Scene/Components/Transform.h"
 
+#include <algorithm>
 
 namespace Engine {
 
@@ -13,10 +14,15 @@ namespace Engine {
         Finalize();
     }
 
+    //============================================================
+    // Lifecycle
+    //============================================================
+
     bool World::Initialize() {
         if (m_isInitialized) return true;
 
         m_entities.clear();
+        m_pendingDestruction.clear();
         m_isInitialized = true;
 
         Logger::Info("World initialized.");
@@ -26,10 +32,11 @@ namespace Engine {
     void World::Finalize() {
         if (!m_isInitialized) {
             m_entities.clear();
+            m_pendingDestruction.clear();
             return;
         }
 
-        // Entity‘¤‚ÌƒfƒXƒgƒ‰ƒNƒ^‚Å Component::OnDestroy ¨ ”jŠü‚Ü‚Ås‚í‚ê‚é
+        m_pendingDestruction.clear();
         m_entities.clear();
 
         m_isInitialized = false;
@@ -39,19 +46,23 @@ namespace Engine {
     void World::Reset() {
         if (!m_isInitialized) return;
 
-        // ƒŠƒgƒ‰ƒC‘z’èFWorld‚ð‹ó‚É–ß‚·
+        m_pendingDestruction.clear();
         m_entities.clear();
     }
+
+    //============================================================
+    // Frame
+    //============================================================
 
     void World::Update(float deltaTime) {
         if (!m_isInitialized) return;
 
-        // Update’†‚É DestroyEntity ‚ð‘¦Žž‚ÅŒÄ‚Ô‚ÆƒCƒeƒŒ[ƒ^”j‰ó‚ÌŠëŒ¯‚ª‚ ‚é‚Ì‚ÅA
-        // «—ˆ“I‚É‚Íu”jŠü—\–ñ¨ƒ‹[ƒvŒã‚Éíœv‚ª„§B
-        // ¡‚ÍŠwK’iŠK‚Æ‚µ‚ÄAUpdate’†‚É DestroyEntity ‚ðŒÄ‚Î‚È‚¢‰^—p‚É‚µ‚Ä‚¨‚­B
         for (auto& e : m_entities) {
             e->UpdateComponents(deltaTime);
         }
+
+        // ãƒ•ãƒ¬ãƒ¼ãƒ çµ‚äº†æ™‚ã«é…å»¶ç ´æ£„ã‚’å‡¦ç†
+        ProcessPendingDestructions();
     }
 
     void World::LateUpdate(float deltaTime) {
@@ -74,6 +85,10 @@ namespace Engine {
         return m_isInitialized;
     }
 
+    //============================================================
+    // Entity API
+    //============================================================
+
     Entity* World::CreateEntity() {
         if (!m_isInitialized) return nullptr;
 
@@ -81,17 +96,23 @@ namespace Engine {
         Entity* raw = entity.get();
         m_entities.emplace_back(std::move(entity));
 
-        raw->AddComponent<Engine::Transform>(); // Transform•K{‰»
+        raw->AddComponent<Engine::Transform>();
 
         return raw;
     }
 
+    Entity* World::CreateEntity(const std::string& name) {
+        Entity* entity = CreateEntity();
+        if (entity) {
+            entity->SetName(name);
+        }
+        return entity;
+    }
 
     void World::DestroyEntity(Entity* entity) {
         if (!m_isInitialized) return;
         if (entity == nullptr) return;
 
-        // ¡‚Í‘¦ŽžíœiUpdate’†‚ÉŒÄ‚Ô‚ÆŠëŒ¯‚È‚Ì‚Å’ˆÓj
         for (auto it = m_entities.begin(); it != m_entities.end(); ++it) {
             if (it->get() == entity) {
                 m_entities.erase(it);
@@ -100,8 +121,62 @@ namespace Engine {
         }
     }
 
+    void World::DestroyEntityDeferred(Entity* entity) {
+        if (!m_isInitialized) return;
+        if (entity == nullptr) return;
+
+        // é‡è¤‡ãƒã‚§ãƒƒã‚¯
+        auto it = std::find(m_pendingDestruction.begin(), m_pendingDestruction.end(), entity);
+        if (it == m_pendingDestruction.end()) {
+            m_pendingDestruction.push_back(entity);
+        }
+    }
+
     std::uint32_t World::GetEntityCount() const {
         return static_cast<std::uint32_t>(m_entities.size());
+    }
+
+    //============================================================
+    // Entity Query
+    //============================================================
+
+    Entity* World::FindEntityByName(const std::string& name) {
+        for (auto& e : m_entities) {
+            if (e->GetName() == name) {
+                return e.get();
+            }
+        }
+        return nullptr;
+    }
+
+    Entity* World::FindEntityById(EntityId id) {
+        for (auto& e : m_entities) {
+            if (e->GetId() == id) {
+                return e.get();
+            }
+        }
+        return nullptr;
+    }
+
+    std::vector<Entity*> World::FindEntitiesWithTag(const Tag& tag) {
+        std::vector<Entity*> result;
+        for (auto& e : m_entities) {
+            if (e->HasTag(tag)) {
+                result.push_back(e.get());
+            }
+        }
+        return result;
+    }
+
+    //============================================================
+    // Private
+    //============================================================
+
+    void World::ProcessPendingDestructions() {
+        for (Entity* entity : m_pendingDestruction) {
+            DestroyEntity(entity);
+        }
+        m_pendingDestruction.clear();
     }
 
 } // namespace Engine
