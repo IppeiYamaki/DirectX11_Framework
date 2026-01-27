@@ -89,6 +89,7 @@ namespace Engine {
         /// @brief 画面サイズを更新
         /// @param width 画面幅
         /// @param height 画面高さ
+        /// @note  ウィンドウリサイズ時にApplication側から呼び出す必要がある
         void SetScreenSize(float width, float height);
 
         /// @brief  画面幅を取得

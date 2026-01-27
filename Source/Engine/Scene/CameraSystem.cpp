@@ -143,8 +143,13 @@ namespace Engine {
 
     void CameraSystem::Update(float deltaTime) {
         (void)deltaTime;
-        // カメラの更新はEntity/Componentシステム経由で行われるため、
-        // ここでは特に追加処理なし
+        // 現在、カメラの更新はEntity/Componentシステム経由で行われるため、
+        // ここでは特に追加処理なし。
+        // 
+        // 将来の拡張予定：
+        // - カメラ補間/スムージング
+        // - カメラシェイク効果
+        // - カメラ切り替えアニメーション
     }
 
 } // namespace Engine

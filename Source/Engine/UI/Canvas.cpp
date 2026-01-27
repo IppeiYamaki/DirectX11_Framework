@@ -32,18 +32,17 @@ namespace Engine {
     }
 
     void Canvas::Finalize() {
-        if (!m_isInitialized) {
-            m_elements.clear();
-            return;
-        }
-
-        // 全要素の破棄処理
+        // 初期化状態に関わらず、要素があれば破棄処理を行う
         for (auto& element : m_elements) {
             if (element) {
                 element->OnDestroy();
             }
         }
         m_elements.clear();
+
+        if (!m_isInitialized) {
+            return;
+        }
 
         m_isInitialized = false;
         Logger::Info("Canvas finalized.");
