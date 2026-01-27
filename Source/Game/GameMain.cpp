@@ -62,6 +62,14 @@ namespace Game {
         }
 
         //========================
+        // LightSystem初期化
+        //========================
+        if (!m_lightSystem.Initialize(rs)) {
+            Engine::Logger::Error("GameMain::Initialize failed: LightSystem initialize failed.");
+            return false;
+        }
+
+        //========================
         // Canvas初期化
         //========================
         const auto& settings = app.GetSettings();
@@ -78,6 +86,7 @@ namespace Game {
         ctx.m_scene = m_scene;
         ctx.m_renderSystem = rs;
         ctx.m_cameraSystem = &m_cameraSystem;
+        ctx.m_lightSystem = &m_lightSystem;
         ctx.m_canvas = &m_canvas;
 
         // 一部依存：借用D3Dデバイスを渡す
@@ -103,6 +112,7 @@ namespace Game {
 
         m_sceneManager.Finalize();
         m_canvas.Finalize();
+        m_lightSystem.Finalize();
         m_cameraSystem.Finalize();
         m_sharedMaterial.reset();
         m_materialLibrary.Finalize();
@@ -118,6 +128,10 @@ namespace Game {
 
         // CameraSystem更新
         m_cameraSystem.Update(deltaTime);
+
+        // LightSystem更新
+        m_lightSystem.Update(deltaTime);
+        m_lightSystem.ApplyToRenderSystem();
 
         // Canvas更新
         m_canvas.Update(deltaTime);

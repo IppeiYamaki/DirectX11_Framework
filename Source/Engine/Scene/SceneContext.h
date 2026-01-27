@@ -12,6 +12,7 @@ namespace Engine {
     class AssetManager;
     class Material;
     class CameraSystem;
+    class LightSystem;
     class Canvas;
 }
 
@@ -31,6 +32,9 @@ namespace Game {
 
         // Camera管理システム（エンジン側で管理）
         Engine::CameraSystem* m_cameraSystem = nullptr;
+
+        // Light管理システム（エンジン側で管理）
+        Engine::LightSystem* m_lightSystem = nullptr;
 
         // Canvas UI管理システム
         Engine::Canvas* m_canvas = nullptr;

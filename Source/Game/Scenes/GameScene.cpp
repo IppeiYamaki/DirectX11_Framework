@@ -8,6 +8,8 @@
 #include "Engine/Scene/SceneContext.h"
 #include "Engine/Scene/Scene.h"
 #include "Engine/Scene/CameraSystem.h"
+#include "Engine/Scene/LightSystem.h"
+#include "Engine/Scene/Light.h"
 #include "Game/Rendering/DefaultLighting.h"
 
 // Engine Components
@@ -65,7 +67,30 @@ namespace Game {
 
     void GameScene::ApplySceneLighting(Engine::SceneContext& ctx) {
         if (!ctx.m_renderSystem) return;
-        ApplyDefaultLighting(*ctx.m_renderSystem);
+
+        // LightSystemを使用してライトを設定
+        if (ctx.m_lightSystem) {
+            // Directional Light を追加
+            auto* dirLight = ctx.m_lightSystem->AddDirectionalLight({0.3f, -1.0f, 0.2f});
+            dirLight->SetColor({1.0f, 0.9f, 0.8f});
+            dirLight->SetIntensity(1.5f);
+            dirLight->SetAmbient({0.2f, 0.2f, 0.2f});
+
+            // Point Light を追加（オプションの例）
+            // auto* pointLight = ctx.m_lightSystem->AddPointLight({5.0f, 10.0f, 5.0f});
+            // pointLight->SetColor({0.8f, 0.8f, 1.0f});
+            // pointLight->SetIntensity(2.0f);
+            // pointLight->SetRange(20.0f);
+
+            // Spot Light を追加（オプションの例）
+            // auto* spotLight = ctx.m_lightSystem->AddSpotLight({0.0f, 5.0f, -5.0f}, {0.0f, -1.0f, 0.0f}, 30.0f, 40.0f);
+            // spotLight->SetColor({1.0f, 1.0f, 0.9f});
+            // spotLight->SetIntensity(3.5f);
+        }
+        else {
+            // フォールバック：従来のDefaultLightingを使用
+            ApplyDefaultLighting(*ctx.m_renderSystem);
+        }
     }
 
     void GameScene::BuildScene(Engine::SceneContext& ctx) {

@@ -87,6 +87,35 @@ Engine::Camera* mainCamera = ctx.m_cameraSystem->AddCamera({position, rotation, 
 ctx.m_cameraSystem->SetMainCamera(mainCamera); // メインカメラを設定
 ```
 
+### **Light（光源管理システム）**
+
+複数種類の光源を統一的に管理するための`LightSystem`を設計しました：
+- 方向性ライト（DirectionalLight）：太陽光のような無限遠からの光
+- 点光源（PointLight）：全方向に放射される光
+- スポットライト（SpotLight）：円錐状に放射される光
+
+```cpp
+// 光源の使用例
+void GameScene::BuildScene(Engine::SceneContext& ctx) {
+    // Directional Light を追加
+    auto* dirLight = ctx.m_lightSystem->AddDirectionalLight({1.0f, -1.0f, 1.0f});
+    dirLight->SetColor({1.0f, 0.9f, 0.8f});
+    dirLight->SetIntensity(1.5f);
+
+    // Point Light を追加
+    auto* pointLight = ctx.m_lightSystem->AddPointLight({5.0f, 10.0f, 5.0f});
+    pointLight->SetColor({0.8f, 0.8f, 1.0f});
+    pointLight->SetIntensity(2.0f);
+
+    // Spot Light を追加
+    auto* spotLight = ctx.m_lightSystem->AddSpotLight({0.0f, 5.0f, -5.0f}, {0.0f, -1.0f, 0.0f}, 30.0f, 40.0f);
+    spotLight->SetColor({1.0f, 1.0f, 0.9f});
+    spotLight->SetIntensity(3.5f);
+}
+```
+
+詳細については [LIGHTSYSTEM_DESIGN.md](Docs/LIGHTSYSTEM_DESIGN.md) を参照してください。
+
 ### **Canvas UIシステム**
 
 UnityのCanvas機能を参考に、UI要素を手軽に管理・配置できる`Canvas`システムを設計しました：
@@ -119,6 +148,8 @@ Engine/
     SceneBase.h / SceneBase.cpp
     GameObject.h / GameObject.cpp
     CameraSystem.h / CameraSystem.cpp
+    LightSystem.h / LightSystem.cpp
+    Light.h / Light.cpp
   UI/
     Canvas.h / Canvas.cpp
     UIElement.h / UIElement.cpp
@@ -133,6 +164,9 @@ Game/
     MainCameraPrefab.h / SamplePrefab.h
   Scripts/
     PlayerLogic.h / PlayerLogic.cpp
+Docs/
+  LIGHTSYSTEM_DESIGN.md
+  CAMERASYSTEM_CANVAS_DESIGN.md
 ```
 
 ---

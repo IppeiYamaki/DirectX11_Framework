@@ -211,6 +211,8 @@
     <ClCompile Include="Source\Engine\Scene\Entity.cpp" />
     <ClCompile Include="Source\Engine\Scene\World.cpp" />
     <ClCompile Include="Source\Engine\Scene\CameraSystem.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Light.cpp" />
+    <ClCompile Include="Source\Engine\Scene\LightSystem.cpp" />
     <ClCompile Include="Source\Engine\Scene\Scene.cpp" />
     <ClCompile Include="Source\Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\Engine\Scene\GameObject.cpp" />
@@ -284,6 +286,8 @@
     <ClInclude Include="Source\Engine\Scene\EntityId.h" />
     <ClInclude Include="Source\Engine\Scene\World.h" />
     <ClInclude Include="Source\Engine\Scene\CameraSystem.h" />
+    <ClInclude Include="Source\Engine\Scene\Light.h" />
+    <ClInclude Include="Source\Engine\Scene\LightSystem.h" />
     <ClInclude Include="Source\Engine\Scene\Scene.h" />
     <ClInclude Include="Source\Engine\Scene\SceneBase.h" />
     <ClInclude Include="Source\Engine\Scene\SceneContext.h" />
