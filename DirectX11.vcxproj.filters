@@ -423,6 +423,9 @@
     <ClInclude Include="Source\Engine\Scene\Scene.h">
       <Filter>Source\Engine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\ObjectSlot.h">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Scene\SceneBase.h">
       <Filter>Source\Engine\Scene</Filter>
     </ClInclude>
@@ -476,9 +479,6 @@
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\PlayerObject.h">
       <Filter>Source\Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Scenes\GameObjectSlot.h">
-      <Filter>Source\Game\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Scenes\GameScene.h">
       <Filter>Source\Game\Scenes</Filter>

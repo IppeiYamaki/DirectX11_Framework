@@ -215,14 +215,15 @@ private:
 | クラス | 責務 |
 |--------|------|
 | **Scene** | GameObjectの生成・管理・破棄、Update/Draw統括 |
-| **SceneBase** | Sceneステート（状態/空間）のインターフェース定義、共通GameObject管理機能 |
+| **SceneBase** | Sceneステート（状態/空間）のインターフェース定義、共通GameObject管理機能（ObjectSlotCollection使用） |
 | **GameObject** | 器として機能、Transform/名前/タグ/コンポーネント保持 |
 | **PlayerObject** | プレイヤー固有ロジック（入力処理、HP管理など） |
 | **EnemyObject** | 敵固有ロジック（AI、状態遷移など） |
 | **Component** | 機能単位の基底クラス、ライフサイクル提供 |
 | **Transform** | 位置/回転/スケール管理 |
 | **Prefab** | GameObjectの初期設定定義、生成ファクトリ |
-| **GameObjectSlot** | GameObjectインスタンスの管理（再生成/破棄） |
+| **ObjectSlot** | GameObjectインスタンスの管理（再生成/破棄） |
+| **ObjectSlotCollection** | 複数のGameObjectをshared_ptrで管理するコレクション |
 
 ### 4.2 依存関係図
 
@@ -274,13 +275,13 @@ void SampleScene::BuildScene(Engine::SceneContext& ctx) {
 }
 ```
 
-### 5.2 GameObjectSlotを使った管理
+### 5.2 ObjectSlotを使った管理
 
 ```cpp
 class GameplayScene : public Engine::SceneBase {
 private:
-    Game::GameObjectSlot m_playerSlot;
-    std::vector<Game::GameObjectSlot> m_enemySlots;
+    Engine::ObjectSlot m_playerSlot;
+    std::vector<Engine::ObjectSlot> m_enemySlots;
 
 public:
     void Initialize(Engine::SceneContext& ctx) override {
@@ -360,6 +361,7 @@ Source/
 │       ├── Component.h/cpp          # コンポーネント基底
 │       ├── EntityId.h               # ID/タグシステム
 │       ├── GameObject.h/cpp         # GameObject基底クラス
+│       ├── ObjectSlot.h             # GameObject管理用Slot（Engine共通）
 │       ├── Scene.h/cpp              # GameObject管理
 │       ├── SceneBase.h              # Sceneインターフェース
 │       ├── SceneContext.h           # Sceneコンテキスト
@@ -382,7 +384,6 @@ Source/
     │   └── ...
     │
     └── Scenes/
-        ├── GameObjectSlot.h          # GameObject管理用Slot
         ├── SampleScene.h/cpp
         └── ...
 ```
@@ -393,6 +394,7 @@ Source/
 |----------|------|
 | `Engine/Scene/GameObject.h` | GameObject基底クラスヘッダ |
 | `Engine/Scene/GameObject.cpp` | GameObject基底クラス実装 |
+| `Engine/Scene/ObjectSlot.h` | GameObjectスロット管理（Engine共通） |
 | `Game/GameObjects/PlayerObject.h` | プレイヤーオブジェクトヘッダ |
 | `Game/GameObjects/PlayerObject.cpp` | プレイヤーオブジェクト実装 |
 | `Game/GameObjects/EnemyObject.h` | 敵オブジェクトヘッダ |
@@ -401,7 +403,6 @@ Source/
 | `Game/Prefabs/PlayerPrefab.cpp` | プレイヤーPrefab実装 |
 | `Game/Prefabs/EnemyPrefab.h` | 敵Prefabヘッダ |
 | `Game/Prefabs/EnemyPrefab.cpp` | 敵Prefab実装 |
-| `Game/Scenes/GameObjectSlot.h` | GameObjectスロット管理 |
 
 ---
 

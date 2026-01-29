@@ -3,6 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "Engine/Scene/ObjectSlot.h"
+
 namespace Game {
     struct SceneContext;
 }
@@ -53,7 +55,7 @@ namespace Engine {
         /// @note  追加されたGameObjectはUpdateGameObjects/RenderGameObjectsで
         ///        自動的に更新・描画されます
         void AddGameObject(const std::shared_ptr<GameObject>& gameObject) {
-            m_gameObjects.push_back(gameObject);
+            m_objectSlot.Add(gameObject);
         }
 
         /// @brief 全GameObjectの更新処理
@@ -73,20 +75,20 @@ namespace Engine {
         /// @brief 全GameObjectをクリア
         /// @note  シーン終了時（Finalize）で呼び出すことを推奨します
         void ClearGameObjects() {
-            m_gameObjects.clear();
+            m_objectSlot.Clear();
         }
 
         /// @brief 管理しているGameObject数を取得
         /// @return GameObject数
         [[nodiscard]] std::size_t GetGameObjectCount() const {
-            return m_gameObjects.size();
+            return m_objectSlot.Count();
         }
 
     protected:
-        /// @brief SceneBaseが管理するGameObjectコンテナ
+        /// @brief SceneBaseが管理するGameObjectコレクション
         /// @note  派生クラスから直接アクセス可能ですが、
         ///        通常はAddGameObject()やClearGameObjects()を使用してください
-        std::vector<std::shared_ptr<GameObject>> m_gameObjects;
+        ObjectSlotCollection m_objectSlot;
     };
 
 } // namespace Engine

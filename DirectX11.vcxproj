@@ -290,6 +290,7 @@
     <ClInclude Include="Source\Engine\Scene\CameraSystem.h" />
     <ClInclude Include="Source\Engine\Scene\Light.h" />
     <ClInclude Include="Source\Engine\Scene\LightSystem.h" />
+    <ClInclude Include="Source\Engine\Scene\ObjectSlot.h" />
     <ClInclude Include="Source\Engine\Scene\Scene.h" />
     <ClInclude Include="Source\Engine\Scene\SceneBase.h" />
     <ClInclude Include="Source\Engine\Scene\SceneContext.h" />
@@ -308,7 +309,6 @@
     <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h" />
     <ClInclude Include="Source\Game\Prefabs\SkyPrefab.h" />
     <ClInclude Include="Source\Game\Rendering\DefaultLighting.h" />
-    <ClInclude Include="Source\Game\Scenes\GameObjectSlot.h" />
     <ClInclude Include="Source\Game\Scenes\GameScene.h" />
     <ClInclude Include="Source\Game\Scenes\SampleScene.h" />
     <ClInclude Include="Source\Game\Scripts\SampleRotateComponent.h" />
