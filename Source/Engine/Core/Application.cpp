@@ -3,8 +3,6 @@
 #include "Engine/Core/Assert.h"
 #include "Engine/Core/Logger.h"
 
-// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½h ï¿½ÅˆË‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÂiCoreï¿½wï¿½bï¿½_ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½Û‚Â‚ï¿½ï¿½ßj
-// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ÍŽï¿½ï¿½ï¿½ Platform/Graphics/Scene ï¿½ï¿½ï¿½Åì¬ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½Å‚ï¿½
 #include "Engine/Platform/Window.h"
 #include "Engine/Platform/Input.h"
 
@@ -21,6 +19,9 @@ namespace Engine {
     bool Application::Initialize(const ApplicationSettings& settings) {
         if (m_isInitialized) return true;
 
+		//============================================================
+		// Initialize subsystems
+        //============================================================
         m_settings = settings;
         if (!m_settings.IsValid()) {
             Logger::Error("ApplicationSettings is invalid.");
@@ -29,15 +30,21 @@ namespace Engine {
 
         m_time.Initialize();
 
-        // ï¿½ï¿½ï¿½ï¿½ï¿½iCreateï¿½jï¿½Æï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iInitializeï¿½jï¿½Íï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½ï¿½ï¿½A
-        // ï¿½ï¿½ï¿½ï¿½ï¿½Å‚Íuï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Initializeï¿½ï¿½ï¿½Ä‚Ôvï¿½Ì‚ï¿½ Application ï¿½ÌÓ–ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½OKï¿½B
+        //============================================================
+        // Create subsystems
+		//============================================================
+		// ‡”Ô‚ÉˆË‘¶ŠÖŒW‚ª‚ ‚é‚Ì‚Å’ˆÓ
+		// Window -> Input -> GraphicsDevice -> RenderSystem -> World
         m_window = std::make_unique<Window>();
         m_graphicsDevice = std::make_unique<GraphicsDevice>();
         m_renderSystem = std::make_unique<RenderSystem>();
         m_world = std::make_unique<World>();
 
-        // --- Window ---
-        // ï¿½zï¿½ï¿½: bool Window::Initialize(HINSTANCE, int cmdShow, const std::wstring& title, int w, int h, bool resizable);
+        //============================================================
+		// Initialize subsystems
+        //============================================================
+
+		// Window
         if (!m_window->Initialize(
             m_settings.m_hInstance,
             m_settings.m_cmdShow,
@@ -51,12 +58,11 @@ namespace Engine {
             return false;
         }
 
-        // --- Input ---
+		// Input
         Input::Initialize(m_window->GetHwnd());
 
 
-        // --- GraphicsDevice ---
-        // ï¿½zï¿½ï¿½: bool GraphicsDevice::Initialize(HWND hwnd, int w, int h, bool vsync);
+		// GraphicsDevice
         if (!m_graphicsDevice->Initialize(
             m_window->GetHwnd(),
             m_settings.m_width,
@@ -68,23 +74,22 @@ namespace Engine {
             return false;
         }
 
-        // --- RenderSystem ---
-        // ï¿½zï¿½ï¿½: bool RenderSystem::Initialize(GraphicsDevice& device);
+		// RenderSystem
         if (!m_renderSystem->Initialize(*m_graphicsDevice)) {
             Logger::Error("RenderSystem Initialize failed.");
             Finalize();
             return false;
         }
 
-        // --- World ---
+		// World
         if (!m_world->Initialize()) {
             Logger::Error("World Initialize failed.");
             Finalize();
             return false;
         }
 
-        m_isQuitRequested = false;
-        m_isInitialized = true;
+		m_isQuitRequested = false;      // I—¹—v‹ƒtƒ‰ƒOƒNƒŠƒA
+		m_isInitialized = true; 		// ‰Šú‰»Ï‚Ýƒtƒ‰ƒOƒZƒbƒg
 
         Logger::Info("Application initialized.");
         return true;
@@ -92,7 +97,7 @@ namespace Engine {
 
     void Application::Finalize() {
         if (!m_isInitialized) {
-            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Sï¿½É•ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚×‚ï¿½ÝŒv
+
             m_world.reset();
             m_renderSystem.reset();
             m_graphicsDevice.reset();
@@ -135,23 +140,23 @@ namespace Engine {
 
         m_time.Reset();
         if (m_world) m_world->Reset();
-        // RenderSystem/GraphicsDevice ï¿½ï¿½ Reset ï¿½Í•Kï¿½vï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
+
     }
 
     int Application::Run(IGame& game) {
         ASSERT(m_isInitialized);
 
-        // Game initializeï¿½iWorld/Assetsï¿½È‚Ç‚ï¿½ app ï¿½oï¿½Rï¿½Å“nï¿½ï¿½ï¿½j
+
         if (!game.Initialize(*this)) {
             Logger::Error("Game Initialize failed in Application::Run.");
             return -1;
         }
 
-        // ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½v
+
         while (!m_isQuitRequested) {
             Input::BeginFrame();
 
-            // ï¿½zï¿½ï¿½: bool Window::PumpMessages(); ï¿½ifalse ï¿½ÅIï¿½ï¿½ï¿½j
+
             if (!m_window->PumpMessages()) {
                 break;
             }
@@ -159,22 +164,22 @@ namespace Engine {
             m_time.Tick();
             const float deltaTime = m_time.GetDeltaTime();
 
-            // ï¿½Xï¿½Vï¿½ï¿½ï¿½FGame ï¿½ï¿½ Worldï¿½iï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½\ï¿½ï¿½È‚Ç‚ï¿½ï¿½É‚ï¿½ï¿½ï¿½j
+
             game.Update(deltaTime);
 
             if (m_world) {
                 m_world->Update(deltaTime);
-                m_world->LateUpdate(deltaTime); // Worldï¿½ï¿½ï¿½É–ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Å’ï¿½ï¿½ï¿½
+                m_world->LateUpdate(deltaTime); // 
             }
 
-            // Drawï¿½vï¿½ï¿½ï¿½ï¿½ï¿½W
+            // 
             if (m_world) {
                 m_world->Draw();
             }
             game.Draw();
 
-            // ï¿½ï¿½ï¿½`ï¿½ï¿½iClear ï¿½ï¿½ Queueï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Presentï¿½j
-            // ï¿½zï¿½ï¿½: void RenderSystem::Draw(World& world);
+            // 
+            // 
             m_renderSystem->Draw(*m_world);
         }
 

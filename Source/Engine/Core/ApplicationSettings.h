@@ -11,6 +11,10 @@ namespace Engine {
      * - WinMain から渡す初期値をまとめるための構造体
      * - ここは「設定の入れ物」なので public メンバでOK（ルールに沿って m_ を付ける）
      */
+
+
+	/// @brief Application 起動設定
+	/// @note  設定の入れ物なので public メンバでOK（ルールに沿って m_ を付ける）
     struct ApplicationSettings final {
         // Win32
         HINSTANCE    m_hInstance        = nullptr;                  // インスタンスハンドル

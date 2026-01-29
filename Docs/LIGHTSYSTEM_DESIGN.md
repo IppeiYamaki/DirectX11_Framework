@@ -358,10 +358,10 @@ Source/
 │   │   └── ShaderConstants.h    （更新）PointLight/SpotLight/HDR追加
 │   │
 │   └── Scene/
-│       ├── Light.h              ★ 光源クラスヘッダ
-│       ├── Light.cpp            ★ 光源クラス実装
-│       ├── LightSystem.h        ★ 光源管理システムヘッダ
-│       ├── LightSystem.cpp      ★ 光源管理システム実装
+│       ├── Light.h               光源クラスヘッダ
+│       ├── Light.cpp             光源クラス実装
+│       ├── LightSystem.h         光源管理システムヘッダ
+│       ├── LightSystem.cpp       光源管理システム実装
 │       └── SceneContext.h       （更新）LightSystem追加
 │
 ├── Game/
@@ -371,7 +371,7 @@ Source/
 │       └── GameScene.cpp        （更新）LightSystem使用例
 │
 └── Docs/
-    └── LIGHTSYSTEM_DESIGN.md    ★ 本ドキュメント
+    └── LIGHTSYSTEM_DESIGN.md     本ドキュメント
 ```
 
 ---
