@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Engine/Scene/SceneBase.h"
-#include "Game/Scenes/GameObjectSlot.h"
+#include "Engine/Scene/ObjectSlot.h"
 
 #include <vector>
 
@@ -65,7 +65,7 @@ namespace Game {
         Engine::Button* m_startButton = nullptr;
 
         // GameObject管理
-        std::vector<GameObjectSlot> m_sceneObjects;
+        std::vector<Engine::ObjectSlot> m_sceneObjects;
     };
 
 } // namespace Game
