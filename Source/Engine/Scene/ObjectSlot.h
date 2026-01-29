@@ -38,10 +38,10 @@ namespace Engine {
         /// @return 生存していればtrue
         bool IsAlive() const { return m_object != nullptr; }
 
-        /// @brief GameObjectPrefabを使って生成
-        /// @tparam TPrefab PrefabクラスSpawnObjectを持つ
+        /// @brief GameObjectをPrefab経由で生成
+        /// @tparam TPrefab SceneContext::SpawnObject<TPrefab>で生成可能なPrefabクラス
         /// @param ctx SceneContext
-        /// @param args Prefab::SpawnDescのコンストラクタ引数
+        /// @param args Prefab生成用の引数
         /// @return 生成されたGameObject
         template<class TPrefab, class... Args>
         GameObject* Spawn(SceneContext& ctx, Args&&... args) {
@@ -49,9 +49,10 @@ namespace Engine {
             auto argsTuple = std::make_shared<std::tuple<std::decay_t<Args>...>>(
                 std::forward<Args>(args)...);
 
+            // argsTupleは値でキャプチャ、内側のラムダはapplyの引数のみ参照キャプチャ
             m_respawn = [argsTuple](SceneContext& c) -> GameObject* {
                 return std::apply(
-                    [&](auto&&... a) -> GameObject* {
+                    [&c](auto&&... a) -> GameObject* {
                         return c.SpawnObject<TPrefab>(a...);
                     },
                     *argsTuple);
@@ -111,6 +112,7 @@ namespace Engine {
 
         /// @brief GameObjectを削除
         /// @param object 削除するGameObject
+        /// @note O(n)の計算量。頻繁な追加・削除が必要な場合は別のデータ構造を検討してください
         void Remove(const std::shared_ptr<GameObject>& object) {
             m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
         }

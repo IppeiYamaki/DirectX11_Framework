@@ -23,7 +23,7 @@ namespace Engine {
      * - GameObject管理：全シーンで共通のGameObject管理機能を提供
      * 
      * @note GameObjectの所有権について:
-     *       SceneBaseが管理するm_gameObjectsはshared_ptrを使用しています。
+     *       SceneBaseが管理するm_objectSlotsはshared_ptrを使用しています。
      *       これはSceneBase内での軽量なGameObject管理を目的としており、
      *       複雑なライフサイクル管理が必要な場合はScene::CreateObject()を使用してください。
      */
@@ -55,7 +55,7 @@ namespace Engine {
         /// @note  追加されたGameObjectはUpdateGameObjects/RenderGameObjectsで
         ///        自動的に更新・描画されます
         void AddGameObject(const std::shared_ptr<GameObject>& gameObject) {
-            m_objectSlot.Add(gameObject);
+            m_objectSlots.Add(gameObject);
         }
 
         /// @brief 全GameObjectの更新処理
@@ -75,20 +75,20 @@ namespace Engine {
         /// @brief 全GameObjectをクリア
         /// @note  シーン終了時（Finalize）で呼び出すことを推奨します
         void ClearGameObjects() {
-            m_objectSlot.Clear();
+            m_objectSlots.Clear();
         }
 
         /// @brief 管理しているGameObject数を取得
         /// @return GameObject数
         [[nodiscard]] std::size_t GetGameObjectCount() const {
-            return m_objectSlot.Count();
+            return m_objectSlots.Count();
         }
 
     protected:
         /// @brief SceneBaseが管理するGameObjectコレクション
         /// @note  派生クラスから直接アクセス可能ですが、
         ///        通常はAddGameObject()やClearGameObjects()を使用してください
-        ObjectSlotCollection m_objectSlot;
+        ObjectSlotCollection m_objectSlots;
     };
 
 } // namespace Engine
