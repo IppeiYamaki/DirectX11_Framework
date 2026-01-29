@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/Scene/SceneBase.h"
-#include "Game/Scenes/PrefabSlot.h"
+#include "Game/Scenes/GameObjectSlot.h"
 
 namespace Game {
     /**
@@ -42,11 +42,11 @@ namespace Game {
         Engine::GameObject* m_cameraObject = nullptr;
 
         // "後で触る対象" は Slot に入れて管理する
-        // PrefabSlot m_player;
-        // PrefabSlot m_cameraTarget; // 例：追従対象（playerと別でもOK）
+        // GameObjectSlot m_player;
+        // GameObjectSlot m_cameraTarget; // 例：追従対象（playerと別でもOK）
 
         // 複数に増えるなら vector で管理
-        std::vector<PrefabSlot> m_characters;
+        std::vector<GameObjectSlot> m_characters;
     };
 
 } // namespace Game

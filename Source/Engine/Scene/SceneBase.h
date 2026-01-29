@@ -1,10 +1,15 @@
 #pragma once
 
+#include <memory>
+#include <vector>
+
 namespace Game {
     struct SceneContext;
 }
 
 namespace Engine {
+
+    class GameObject;
 
     using SceneContext = Game::SceneContext;
 
@@ -13,6 +18,12 @@ namespace Engine {
      *
      * - Initialize/Finalize：遷移時の処理
      * - Update/Render：毎フレーム
+     * - GameObject管理：全シーンで共通のGameObject管理機能を提供
+     * 
+     * @note GameObjectの所有権について:
+     *       SceneBaseが管理するm_gameObjectsはshared_ptrを使用しています。
+     *       これはSceneBase内での軽量なGameObject管理を目的としており、
+     *       複雑なライフサイクル管理が必要な場合はScene::CreateObject()を使用してください。
      */
     class SceneBase {
     public:
@@ -32,6 +43,50 @@ namespace Engine {
         /// @brief 毎フレーム描画処理
         /// @param ctx Scene利用コンテキスト情報
         virtual void Render(SceneContext& ctx) = 0;
+
+        //============================================================
+        // GameObject管理機能（全シーン共通）
+        //============================================================
+
+        /// @brief GameObjectを追加
+        /// @param gameObject 追加するGameObject（shared_ptrで所有権を共有）
+        /// @note  追加されたGameObjectはUpdateGameObjects/RenderGameObjectsで
+        ///        自動的に更新・描画されます
+        void AddGameObject(const std::shared_ptr<GameObject>& gameObject) {
+            m_gameObjects.push_back(gameObject);
+        }
+
+        /// @brief 全GameObjectの更新処理
+        /// @param deltaTime 前フレームからの経過時間（秒）
+        /// @note  派生クラスのUpdate()内で呼び出すことで、
+        ///        管理している全てのアクティブなGameObjectを更新します。
+        ///        これはGameObject::Update()を呼び出す軽量な更新処理です。
+        ///        複雑なライフサイクル管理が必要な場合はScene経由での管理を推奨します。
+        void UpdateGameObjects(float deltaTime);
+
+        /// @brief 全GameObjectの描画処理
+        /// @note  派生クラスのRender()内で呼び出すことで、
+        ///        管理している全てのアクティブなGameObjectを描画します。
+        ///        これはGameObject::Render()を呼び出す軽量な描画処理です。
+        void RenderGameObjects();
+
+        /// @brief 全GameObjectをクリア
+        /// @note  シーン終了時（Finalize）で呼び出すことを推奨します
+        void ClearGameObjects() {
+            m_gameObjects.clear();
+        }
+
+        /// @brief 管理しているGameObject数を取得
+        /// @return GameObject数
+        [[nodiscard]] std::size_t GetGameObjectCount() const {
+            return m_gameObjects.size();
+        }
+
+    protected:
+        /// @brief SceneBaseが管理するGameObjectコンテナ
+        /// @note  派生クラスから直接アクセス可能ですが、
+        ///        通常はAddGameObject()やClearGameObjects()を使用してください
+        std::vector<std::shared_ptr<GameObject>> m_gameObjects;
     };
 
 } // namespace Engine

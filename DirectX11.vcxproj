@@ -215,6 +215,7 @@
     <ClCompile Include="Source\Engine\Scene\LightSystem.cpp" />
     <ClCompile Include="Source\Engine\Scene\Scene.cpp" />
     <ClCompile Include="Source\Engine\Scene\SceneManager.cpp" />
+    <ClCompile Include="Source\Engine\Scene\SceneBase.cpp" />
     <ClCompile Include="Source\Engine\Scene\GameObject.cpp" />
     <ClCompile Include="Source\Engine\UI\Canvas.cpp" />
     <ClCompile Include="Source\Engine\UI\UIElement.cpp" />
@@ -309,7 +310,6 @@
     <ClInclude Include="Source\Game\Rendering\DefaultLighting.h" />
     <ClInclude Include="Source\Game\Scenes\GameObjectSlot.h" />
     <ClInclude Include="Source\Game\Scenes\GameScene.h" />
-    <ClInclude Include="Source\Game\Scenes\PrefabSlot.h" />
     <ClInclude Include="Source\Game\Scenes\SampleScene.h" />
     <ClInclude Include="Source\Game\Scripts\SampleRotateComponent.h" />
     <ClInclude Include="Source\Game\Scripts\SelectUI.h" />
