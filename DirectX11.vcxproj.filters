@@ -199,6 +199,9 @@
     <ClCompile Include="Source\Engine\Scene\SceneManager.cpp">
       <Filter>Source\Engine\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\SceneBase.cpp">
+      <Filter>Source\Engine\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Engine\Scene\GameObject.cpp">
       <Filter>Source\Engine\Scene</Filter>
     </ClCompile>
@@ -478,9 +481,6 @@
       <Filter>Source\Game\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Scenes\GameScene.h">
-      <Filter>Source\Game\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Scenes\PrefabSlot.h">
       <Filter>Source\Game\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Scenes\SampleScene.h">

@@ -215,14 +215,14 @@ private:
 | クラス | 責務 |
 |--------|------|
 | **Scene** | GameObjectの生成・管理・破棄、Update/Draw統括 |
-| **SceneBase** | Sceneステート（状態/空間）のインターフェース定義 |
+| **SceneBase** | Sceneステート（状態/空間）のインターフェース定義、共通GameObject管理機能 |
 | **GameObject** | 器として機能、Transform/名前/タグ/コンポーネント保持 |
 | **PlayerObject** | プレイヤー固有ロジック（入力処理、HP管理など） |
 | **EnemyObject** | 敵固有ロジック（AI、状態遷移など） |
 | **Component** | 機能単位の基底クラス、ライフサイクル提供 |
 | **Transform** | 位置/回転/スケール管理 |
 | **Prefab** | GameObjectの初期設定定義、生成ファクトリ |
-| **PrefabSlot/GameObjectSlot** | Prefabインスタンスの管理（再生成/破棄） |
+| **GameObjectSlot** | GameObjectインスタンスの管理（再生成/破棄） |
 
 ### 4.2 依存関係図
 
@@ -383,7 +383,6 @@ Source/
     │
     └── Scenes/
         ├── GameObjectSlot.h          # GameObject管理用Slot
-        ├── PrefabSlot.h              # Prefab管理用Slot
         ├── SampleScene.h/cpp
         └── ...
 ```
