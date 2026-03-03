@@ -14,13 +14,13 @@ namespace Engine {
         /// @brief セマンティック名
         std::string m_semanticName;
         /// @brief セマンティックインデックス
-        UINT m_semanticIndex = 0;
+        UINT m_semanticIndex        = 0;
         /// @brief フォーマット
-        DXGI_FORMAT m_format = DXGI_FORMAT_UNKNOWN;
+        DXGI_FORMAT m_format        = DXGI_FORMAT_UNKNOWN;
         /// @brief 入力スロット
-        UINT m_inputSlot = 0;
+        UINT m_inputSlot            = 0;
         /// @brief バイトオフセット
-        UINT m_alignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+        UINT m_alignedByteOffset    = D3D11_APPEND_ALIGNED_ELEMENT;
         /// @brief 入力分類
         D3D11_INPUT_CLASSIFICATION m_inputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
         /// @brief インスタンスデータステップ
@@ -68,7 +68,7 @@ namespace Engine {
         bool IsLoaded() const;
 
         /// @brief  シェーダーを取得
-        /// @return 頂点シェーダー（借用）
+        /// @return 頂点シェーダー 
         ID3D11VertexShader* GetShader() const;
 
         /// @brief  バイトコード先頭ポインタを取得
@@ -83,9 +83,9 @@ namespace Engine {
         const std::wstring& GetPath() const;
 
     private:
-        std::wstring m_path{};                             ///< 読み込み元パス
-        std::vector<std::uint8_t> m_bytecode;              ///< バイトコード
-        Microsoft::WRL::ComPtr<ID3D11VertexShader> m_shader; ///< 頂点シェーダー
+        std::wstring m_path{};                                  /// 読み込み元パス
+        std::vector<std::uint8_t> m_bytecode;                   /// バイトコード
+        Microsoft::WRL::ComPtr<ID3D11VertexShader> m_shader;    /// 頂点シェーダー
     };
 
     /// @brief ピクセルシェーダーのラッパ
@@ -110,7 +110,7 @@ namespace Engine {
         bool IsLoaded() const;
 
         /// @brief  シェーダーを取得
-        /// @return ピクセルシェーダー（借用）
+        /// @return ピクセルシェーダー
         ID3D11PixelShader* GetShader() const;
 
         /// @brief  読み込み元パスを取得
@@ -118,8 +118,8 @@ namespace Engine {
         const std::wstring& GetPath() const;
 
     private:
-        std::wstring m_path{};                            ///< 読み込み元パス
-        Microsoft::WRL::ComPtr<ID3D11PixelShader> m_shader; ///< ピクセルシェーダー
+        std::wstring m_path{};                              /// 読み込み元パス
+        Microsoft::WRL::ComPtr<ID3D11PixelShader> m_shader; /// ピクセルシェーダー
     };
 
     /// @brief 入力レイアウトのラッパ
@@ -151,11 +151,11 @@ namespace Engine {
         bool IsCreated() const;
 
         /// @brief  入力レイアウトを取得
-        /// @return 入力レイアウト（借用）
+        /// @return 入力レイアウト
         ID3D11InputLayout* GetInputLayout() const;
 
     private:
-        Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout; ///< 入力レイアウト
+        Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout; /// 入力レイアウト
     };
 
 } // namespace Engine

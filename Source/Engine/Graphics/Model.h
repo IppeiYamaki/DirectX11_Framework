@@ -18,9 +18,8 @@ namespace Engine {
         std::shared_ptr<Material> m_material;
     };
 
-    /**
-     * @brief OBJ等の「1メッシュ + 複数Subset」のモデル
-     */
+    /// @brief  モデルクラス
+	/// @note   1つのMeshと複数のSubsetを持ち、Subsetごとに異なるマテリアルを割り当てることができる
     class Model final {
     public:
         Model() = default;

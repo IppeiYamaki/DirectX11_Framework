@@ -6,6 +6,7 @@
 #include "Engine/Core/Assert.h"
 
 #include "Engine/Platform/Input.h"
+#include "Engine/Debug/DebugImGuiSystem.h"
 
 namespace Engine {
 
@@ -42,7 +43,7 @@ namespace Engine {
 
         DWORD style = WS_OVERLAPPEDWINDOW;
         if (!m_isResizable) {
-            // ƒTƒCƒY•ÏX•s‰ÂiÅ‘å‰»•˜g‚ÌƒTƒCƒY•ÏX‚ð–³Œø‰»j
+            // ï¿½Tï¿½Cï¿½Yï¿½ÏXï¿½sï¿½Âiï¿½Å‘å‰»ï¿½ï¿½ï¿½gï¿½ÌƒTï¿½Cï¿½Yï¿½ÏXï¿½ð–³Œï¿½ï¿½ï¿½ï¿½j
             style &= ~WS_THICKFRAME;
             style &= ~WS_MAXIMIZEBOX;
         }
@@ -65,7 +66,7 @@ namespace Engine {
             nullptr,
             nullptr,
             m_hInstance,
-            this // © WndProc ‚Å this ‚ðŽó‚¯Žæ‚éiGWLP_USERDATA‚É•Û‘¶j
+            this // ï¿½ï¿½ WndProc ï¿½ï¿½ this ï¿½ï¿½ï¿½ó‚¯Žï¿½ï¿½iGWLP_USERDATAï¿½É•Û‘ï¿½ï¿½j
         );
 
         if (m_hWnd == nullptr) {
@@ -107,7 +108,7 @@ namespace Engine {
     }
 
     void Window::Reset() {
-        // ¡‚Í‰½‚à‚µ‚È‚¢i•K—v‚É‚È‚Á‚½‚ç’Ç‰Áj
+        // ï¿½ï¿½ï¿½Í‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½iï¿½Kï¿½vï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½j
     }
 
     bool Window::PumpMessages() {
@@ -177,7 +178,7 @@ namespace Engine {
     void Window::UnregisterWindowClass() {
         if (m_hInstance == nullptr) return;
 
-        // Šù‚É‰ðœÏ‚Ý‚Å‚àŽ¸”s‚·‚é‚¾‚¯‚È‚Ì‚Å‹C‚É‚µ‚È‚¢•ûj
+        // ï¿½ï¿½ï¿½É‰ï¿½ï¿½ï¿½ï¿½Ï‚Ý‚Å‚ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½é‚¾ï¿½ï¿½ï¿½È‚Ì‚Å‹Cï¿½É‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½j
         ::UnregisterClassW(kWindowClassName, m_hInstance);
     }
 
@@ -201,7 +202,12 @@ namespace Engine {
     }
 
     LRESULT Window::HandleMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-        // æ‚É Input ‚Ö’†Œpiˆ—Ï‚Ý‚È‚ç‚±‚±‚ÅI—¹j
+        // ImGuiã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è»¢é€ï¼ˆImGuiãŒãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å‡¦ç†ã—ãŸå ´åˆã¯ä»–ã«æ¸¡ã•ãªã„ï¼‰
+        if (DebugImGuiSystem::WndProcHandler(hwnd, msg, wParam, lParam)) {
+            return 0;
+        }
+
+        // æ¬¡ã« Input ã¸ä¸­ç¶™ï¼ˆå‡¦ç†æ¸ˆã¿ãªã‚‰ã“ã“ã§çµ‚äº†ï¼‰
         {
             const auto inputResult = Input::HandleMessage(hwnd, msg, wParam, lParam);
             if (inputResult.m_handled) {
@@ -214,14 +220,14 @@ namespace Engine {
             return 0;
 
         case WM_SIZE: {
-            // ƒNƒ‰ƒCƒAƒ“ƒgƒTƒCƒYXViÅ¬‰»Žž‚Í 0 ‚É‚È‚é‚±‚Æ‚ª‚ ‚éj
+            // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚µã‚¤ã‚ºæ›´æ–°ï¼ˆæœ€å°åŒ–æ™‚ã¯ 0 ã«ãªã‚‹ã“ã¨ãŒã‚ã‚‹ï¼‰
             const int w = LOWORD(lParam);
             const int h = HIWORD(lParam);
 
             m_clientWidth = w;
             m_clientHeight = h;
 
-            // 0‚Í–³Ž‹iÅ¬‰»‚È‚Çj
+            // 0ã¯ç„¡è¦–ï¼ˆæœ€å°åŒ–ãªã©ï¼‰
             if (w > 0 && h > 0) {
                 m_pendingWidth = w;
                 m_pendingHeight = h;

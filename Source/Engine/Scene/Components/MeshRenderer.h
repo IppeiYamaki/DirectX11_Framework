@@ -43,6 +43,14 @@ namespace Engine {
         /// @return マテリアル（借用）
         Material* GetMaterial() const;
 
+        /// @brief  メッシュを取得（デバッグ用）
+        /// @return メッシュ（借用）
+        const Mesh* GetMesh() const;
+
+        /// @brief  メッシュが有効か確認
+        /// @return 有効ならtrue
+        bool IsMeshReady() const;
+
         /// @brief  描画レイヤーを設定
         /// @param  layer 描画レイヤー
         void SetRenderLayer(RenderLayer layer);

@@ -1,5 +1,3 @@
-/// @file   Concepts.h
-/// @brief  C++20 Concepts for type constraints
 #pragma once
 
 #include <concepts>

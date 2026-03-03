@@ -1,5 +1,3 @@
-/// @file   Raycast.cpp
-/// @brief  レイキャスト機能実装
 #include "Raycast.h"
 
 #include "Engine/Physics/Ray.h"

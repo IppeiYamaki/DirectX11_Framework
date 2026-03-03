@@ -3,7 +3,7 @@
 #include "Engine/Core/Logger.h"
 #include "Engine/Core/Assert.h"
 
-// DirectXTex ‚Í D3D11 ƒwƒbƒ_‚ªæ‚É•K—v
+// DirectXTex ï¿½ï¿½ D3D11 ï¿½wï¿½bï¿½_ï¿½ï¿½ï¿½ï¿½É•Kï¿½v
 #include "ThirdParty/DirectXTex/DirectXTex.h"
 
 #include <algorithm>
@@ -43,7 +43,7 @@ namespace Engine {
             return false;
         }
 
-        // Šù‚É“Ç‚İ‚İÏ‚İ‚È‚çˆê’U‰ğ•ú‚µ‚Ä“Ç‚İ’¼‚·•ûj
+        // ï¿½ï¿½ï¿½É“Ç‚İï¿½ï¿½İÏ‚İ‚È‚ï¿½ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä“Ç‚İ’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
         Unload();
 
         m_filePath = filePath;
@@ -53,7 +53,7 @@ namespace Engine {
 
         HRESULT hr = S_OK;
 
-        // Šg’£q‚Å•ªŠòiDDS/TGA/WICj
+        // ï¿½gï¿½ï¿½ï¿½qï¿½Å•ï¿½ï¿½ï¿½iDDS/TGA/WICï¿½j
         if (EndsWithI(filePath, L".dds")) {
             hr = DirectX::LoadFromDDSFile(filePath.c_str(), DirectX::DDS_FLAGS_NONE, &metadata, image);
             if (FAILED(hr)) {
@@ -71,7 +71,7 @@ namespace Engine {
             }
         }
         else {
-            // png/jpg/bmp ‚È‚ÇiWICj
+            // png/jpg/bmp ï¿½È‚ÇiWICï¿½j
             hr = DirectX::LoadFromWICFile(filePath.c_str(), DirectX::WIC_FLAGS_NONE, &metadata, image);
             if (FAILED(hr)) {
                 Engine::Assert::ReportHrFailure(hr, "LoadFromWICFile", __FILE__, __LINE__, __func__);
@@ -79,7 +79,7 @@ namespace Engine {
                 return false;
             }
 
-            // ƒ~ƒbƒv¶¬iWICŒn‚Ì‚Æ‚«‚¾‚¯¶¬‚·‚é‚Ì‚ªˆê”Ê“Ij
+            // ï¿½~ï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½iWICï¿½nï¿½Ì‚Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½Ê“Iï¿½j
             if (options.m_generateMipMaps && metadata.mipLevels <= 1) {
                 DirectX::ScratchImage mipChain{};
                 const DirectX::Image* base = image.GetImage(0, 0, 0);
@@ -90,14 +90,14 @@ namespace Engine {
                         metadata = image.GetMetadata();
                     }
                     else {
-                        // ƒ~ƒbƒv¶¬¸”s‚Å‚à–{‘Ì‚Íg‚¦‚é‚Ì‚Å Warn ‚É—¯‚ß‚é
+                        // ï¿½~ï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Å‚ï¿½ï¿½{ï¿½Ì‚Ígï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ Warn ï¿½É—ï¿½ï¿½ß‚ï¿½
                         Engine::Assert::ReportHrFailure(hr, "GenerateMipMaps", __FILE__, __LINE__, __func__);
                     }
                 }
             }
         }
 
-        // SRVì¬i•K—v‚È‚ç sRGBˆµ‚¢‚ğ§Œäj
+        // SRVï¿½ì¬ï¿½iï¿½Kï¿½vï¿½È‚ï¿½ sRGBï¿½ï¿½ï¿½ï¿½ï¿½ğ§Œï¿½j
         const auto flags = MakeCreateFlags(options);
 
         hr = DirectX::CreateShaderResourceViewEx(
@@ -119,16 +119,20 @@ namespace Engine {
             return false;
         }
 
-        // ƒŠƒ\[ƒX‚àæ“¾‚µ‚Ä‚¨‚­i•K—v‚ÈlŒü‚¯j
+        // ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½iï¿½Kï¿½vï¿½Èlï¿½ï¿½ï¿½ï¿½ï¿½j
         m_srv->GetResource(m_resource.GetAddressOf());
 
-        // î•ñ•Û
+        // ï¿½ï¿½ï¿½Ûï¿½
         m_width = static_cast<int>(metadata.width);
         m_height = static_cast<int>(metadata.height);
         m_mipLevels = static_cast<int>(metadata.mipLevels);
         m_format = metadata.format;
 
-        Logger::Info("Texture loaded.");
+        // Convert wide string to narrow for logging
+        std::string narrowPath(filePath.begin(), filePath.end());
+        Logger::Info("Texture loaded: " + narrowPath + " (" + 
+            std::to_string(m_width) + "x" + std::to_string(m_height) + 
+            "), SRV=" + std::to_string(reinterpret_cast<uintptr_t>(m_srv.Get())));
         return true;
     }
 

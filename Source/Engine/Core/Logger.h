@@ -17,21 +17,35 @@ namespace Engine {
         //============================================================
         // Lifecycle
         //============================================================
+		/// @brief ロガーを初期化する
         static void Initialize();
+		/// @brief ロガーを終了する
         static void Finalize();
 
         //============================================================
         // Settings
         //============================================================
+        /// @brief ログレベルを設定する
+		/// @param level ログレベル
         static void SetLevel(LogLevel level);
+        /// @brief 現在のログレベルを取得する
+		/// @return 現在のログレベル
         static LogLevel GetLevel();
 
         //============================================================
         // Logging
         //============================================================
+		/// @brief トレースログを出力する
+        /// @param message ログメッセージ
         static void Trace(std::string_view message);
+        /// @brief インフォログを出力する
+        /// @param message ログメッセージ
         static void Info(std::string_view message);
+		/// @brief ワーニングログを出力する
+		/// @param message ログメッセージ
         static void Warn(std::string_view message);
+		/// @brief エラーログを出力する
+		/// @param message ログメッセージ
         static void Error(std::string_view message);
 
     private:

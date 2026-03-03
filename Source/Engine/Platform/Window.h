@@ -5,13 +5,8 @@
 
 namespace Engine {
 
-    /**
-     * @brief Win32ウィンドウ管理
-     *
-     * - Initialize() で生成
-     * - PumpMessages() を毎フレーム呼ぶ
-     * - Finalize() は安全に複数回呼べる
-     */
+    /// @brief Win32ウィンドウ管理クラス
+	/// @note  Initialize() で生成、PumpMessages() を毎フレーム呼ぶ、Finalize() は安全に複数回呼べる
     class Window final {
     public:
         Window() = default;
@@ -66,20 +61,20 @@ namespace Engine {
         void UnregisterWindowClass();
 
     private:
-		bool            m_isInitialized     = false;    // 初期化済みフラグ
+		bool            m_isInitialized     = false;    /// 初期化済みフラグ
 
-		HINSTANCE       m_hInstance         = nullptr;  // インスタンスハンドル
-		HWND            m_hWnd              = nullptr;  // ウィンドウハンドル
+		HINSTANCE       m_hInstance         = nullptr;  /// インスタンスハンドル
+		HWND            m_hWnd              = nullptr;  /// ウィンドウハンドル
 
-		std::wstring    m_title{};                      // ウィンドウタイトル
-		bool            m_isResizable       = true;     // リサイズ可能フラグ
+		std::wstring    m_title{};                      /// ウィンドウタイトル
+		bool            m_isResizable       = true;     /// リサイズ可能フラグ
 
-		int             m_clientWidth       = 0;        // クライアント幅
-		int             m_clientHeight      = 0;        // クライアント高さ
+		int             m_clientWidth       = 0;        /// クライアント幅
+		int             m_clientHeight      = 0;        /// クライアント高さ
 
-		bool            m_isResizePending   = false;    // リサイズ保留フラグ
-		int             m_pendingWidth      = 0;        // リサイズ保留幅
-		int             m_pendingHeight     = 0;        // リサイズ保留高さ
+		bool            m_isResizePending   = false;    /// リサイズ保留フラグ
+		int             m_pendingWidth      = 0;        /// リサイズ保留幅
+		int             m_pendingHeight     = 0;        /// リサイズ保留高さ
 
     private:
         static constexpr const wchar_t* kWindowClassName = L"EngineWindowClass";

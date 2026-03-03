@@ -1,9 +1,7 @@
 /// @file   CameraSystem.h
-/// @brief  カメラの生成・管理を統括するクラス
+/// @brief  メインカメラの管理を統括するクラス
+/// @note   カメラの生成はCameraPrefabを使用し、このクラスはメインカメラの管理のみを担当
 #pragma once
-
-#include <memory>
-#include <vector>
 
 #include <DirectXMath.h>
 
@@ -12,11 +10,15 @@
 namespace Engine {
 
     class RenderSystem;
-    class Camera;
+    class CameraComponent;
     class GameObject;
     class Scene;
 
+    // Backward compatibility alias
+    using Camera = CameraComponent;
+
     /// @brief カメラ初期化パラメータ
+    /// @deprecated CameraPrefab::SpawnDescを使用してください
     struct CameraInitParams final {
         Vector3 m_position{ 0.0f, 0.0f, -10.0f };   ///< カメラの初期位置
         float m_yawDeg = 0.0f;                       ///< Yaw角度（度）
@@ -52,8 +54,8 @@ namespace Engine {
         }
     };
 
-    /// @brief カメラの生成・管理を統括するシステム
-    /// @note  複数カメラの管理とメインカメラの切り替えを担当
+    /// @brief メインカメラの管理を統括するシステム
+    /// @note  メインカメラの管理のみを担当。カメラの生成はCameraPrefabを使用
     class CameraSystem final {
     public:
         CameraSystem() = default;
@@ -79,26 +81,13 @@ namespace Engine {
         // Camera Management
         //============================================================
 
-        /// @brief  カメラを生成する
-        /// @param  params カメラ初期化パラメータ
-        /// @return 生成されたカメラへのポインタ
-        Camera* AddCamera(const CameraInitParams& params);
-
-        /// @brief カメラを削除する
-        /// @param camera 削除するカメラ
-        void RemoveCamera(Camera* camera);
-
         /// @brief  メインカメラを設定
         /// @param  camera メインカメラに設定するカメラ
-        void SetMainCamera(Camera* camera);
+        void SetMainCamera(CameraComponent* camera);
 
         /// @brief  メインカメラを取得
         /// @return メインカメラへのポインタ
-        [[nodiscard]] Camera* GetMainCamera() const;
-
-        /// @brief  カメラ数を取得
-        /// @return カメラ数
-        [[nodiscard]] std::size_t GetCameraCount() const;
+        [[nodiscard]] CameraComponent* GetMainCamera() const;
 
         //============================================================
         // Frame
@@ -109,11 +98,10 @@ namespace Engine {
         void Update(float deltaTime);
 
     private:
-        Scene* m_scene = nullptr;                   ///< シーン参照（借用）
-        RenderSystem* m_renderSystem = nullptr;     ///< RenderSystem参照（借用）
-        Camera* m_mainCamera = nullptr;             ///< メインカメラへのポインタ（借用）
-        std::vector<GameObject*> m_cameraObjects;   ///< カメラを持つGameObject群（借用）
-        bool m_isInitialized = false;               ///< 初期化済みフラグ
+        Scene* m_scene = nullptr;                       ///< シーン参照（借用）
+        RenderSystem* m_renderSystem = nullptr;         ///< RenderSystem参照（借用）
+        CameraComponent* m_mainCamera = nullptr;        ///< メインカメラへのポインタ（借用）
+        bool m_isInitialized = false;                   ///< 初期化済みフラグ
     };
 
 } // namespace Engine

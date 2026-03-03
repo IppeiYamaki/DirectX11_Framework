@@ -1,46 +1,886 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Game::SampleCubeMaterial" Collapsed="true">
-    <Position X="2.25" Y="3.75" Width="1.5" />
+  <Class Name="Engine::Application" Collapsed="true">
+    <Position X="21.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\Materials\SampleCubeMaterial.h</FileName>
+      <HashCode>CRAAAAgAABAAHwAAAoAAAABAAAACkBAACAAhhACACAI=</HashCode>
+      <FileName>Source\Engine\Core\Application.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Game::MaterialLibrary" Collapsed="true">
-    <Position X="0.5" Y="3.75" Width="1.5" />
+  <Class Name="Engine::Scene" Collapsed="true">
+    <Position X="28.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAQgAQAAAAAAAAAAAAAAgCAAAAJAAAAAAAA=</HashCode>
-      <FileName>Assets\Materials\MaterialLibrary.h</FileName>
+      <HashCode>gASgQAAAAAAARyICkIAAIgAARAACgwEQAAggBAAQAQU=</HashCode>
+      <FileName>Source\Engine\Scene\Scene.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Engine::Material" Collapsed="true">
-    <Position X="2.25" Y="2.75" Width="1.5" />
+    <Position X="21.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEgKgQAAAAAECQAAAIAABAAAACBIgAAAEAEgBQARABA=</HashCode>
       <FileName>Source\Engine\Graphics\Material.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Engine::AssetManager" Collapsed="true">
-    <Position X="0.5" Y="2.75" Width="1.5" />
+  <Class Name="Engine::Camera" Collapsed="true">
+    <Position X="5.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EAAkCACQAAAABYAAgaAAAAAAAACAgAgCAAAgHAAICAA=</HashCode>
+      <HashCode>AAACAAAAAABAAAAgUAAAIAAgAAAAVRAAAAAAAAAAAEA=</HashCode>
+      <FileName>Source\Engine\Scene\Components\Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Canvas" Collapsed="true">
+    <Position X="26.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQABhAAAIABAQAAAKcACBAgQAICgAAAABIgBAAAAAY=</HashCode>
+      <FileName>Source\Engine\UI\Canvas.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::GameObject" Collapsed="true">
+    <Position X="6.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MhSBQAAIQCCIAQWAEABEJABgAALIAgwAKDjkQoKABIg=</HashCode>
+      <FileName>Source\Engine\Scene\GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::RenderSystem" Collapsed="true">
+    <Position X="23" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAVAIAAAQACAFyAAEcAAIAAAACBAogCQQiAiBAAAKAI=</HashCode>
+      <FileName>Source\Engine\Graphics\RenderSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Button" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQDCIAABEQBAyAYgIEAIQAAAAkABXLAEBAAIIEAABg=</HashCode>
+      <FileName>Source\Engine\UI\Button.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Component" Collapsed="true">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQhABAIQIAAAgAAEAEAKAAAAAAAgAAAAAhgAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\Component.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::EventSystem" Collapsed="true">
+    <Position X="23" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAIBAAOAAAAAAFAACABAAQAAgCAAAAAA=</HashCode>
+      <FileName>Source\Engine\Core\EventSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::EventSubscriptionGuard" Collapsed="true">
+    <Position X="21.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAkAAEAAAAAAAAAAQAAgAIBAAAA=</HashCode>
+      <FileName>Source\Engine\Core\EventSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::IGame" Collapsed="true">
+    <Position X="5.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAACAwAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Core\IGame.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Logger" Collapsed="true">
+    <Position X="19.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAIAAQAAAAAQAAABAAAAgBEAAAAAAEEAAAA=</HashCode>
+      <FileName>Source\Engine\Core\Logger.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Time" Collapsed="true">
+    <Position X="21.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEgAAAAERBQAAIIAAGAAAAAAAgAAAAgAwBUAAQQA=</HashCode>
+      <FileName>Source\Engine\Core\Time.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Input" Collapsed="true">
+    <Position X="26.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEEFAQtAABVAQgEAAAQAiAACAgAAAACAAhAAIADg=</HashCode>
+      <FileName>Source\Engine\Platform\Input.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Window" Collapsed="true">
+    <Position X="26.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABEACIgBwAAA4QIAAAAAQAAgAQAAgAgTEQAAIU=</HashCode>
+      <FileName>Source\Engine\Platform\Window.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::MouseInputManager" Collapsed="true">
+    <Position X="19.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQAAoAAAAAAAAAEAAAAAACAAAAAAAAAAAAgAAAAQAA=</HashCode>
+      <FileName>Source\Engine\Platform\MouseInputManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::ConstantBuffer&lt;T&gt;" Collapsed="true">
+    <Position X="30" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAgQAAAAAAAAAAAgAAAIAAABAAEAAAAAgAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ConstantBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::GraphicsDevice" Collapsed="true">
+    <Position X="24.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAFAAQAiAEBxABAIAAAADQAIAEgIiAACAkDEFCABI=</HashCode>
+      <FileName>Source\Engine\Graphics\GraphicsDevice.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Mesh" Collapsed="true">
+    <Position X="24.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgCAQQAEAAkAQAAgQAAQAAABAAEAAARAgAAAAEAA=</HashCode>
+      <FileName>Source\Engine\Graphics\Mesh.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::MeshFactory" Collapsed="true">
+    <Position X="26.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\MeshFactory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::MeshPrimitives" Collapsed="true">
+    <Position X="28.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEgAAAAAAAAAAAAAAAAAAAAAQQAAAACAgAg=</HashCode>
+      <FileName>Source\Engine\Graphics\MeshPrimitives.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Model" Collapsed="true">
+    <Position X="30" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAADAQAAABgAAEAAAAAAAAAAAAggAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\Model.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::World" Collapsed="true">
+    <Position X="28.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAAAAAABAABwAAAIAAIAAAAAACgAAACAAgBAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\World.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::VertexShader" Collapsed="true">
+    <Position X="24.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMAABCAAAAAAAAIAMAAAAIAAAACAAAAAADgAABAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\Shader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::PixelShader" Collapsed="true">
+    <Position X="28.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAACAAAAAAAAIAIAAABAAAAgCAAAAAABgAABAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\Shader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::InputLayout" Collapsed="true">
+    <Position X="28.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAIAAAAAAAAAAEAAAAAgAgAQACE=</HashCode>
+      <FileName>Source\Engine\Graphics\Shader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::ShaderLibrary" Collapsed="true">
+    <Position X="19.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAABQAAAIAIgAAAAAAAgAgAEAAgGAAAKAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderLibrary.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::SkinnedModel" Collapsed="true">
+    <Position X="21.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgxQAAACCAADgQAAABgQAECAQBAEAIEAAAAgIAEBAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\SkinnedModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::AnimationController" Collapsed="true">
+    <Position X="19.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AjUAABIAAAAACSABAAAUAAAUAAygAAICMAAoCAigQAA=</HashCode>
+      <FileName>Source\Engine\Graphics\AnimationController.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Texture" Collapsed="true">
+    <Position X="28.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAACACAAAhAAJAEAAAABAAgAAAACEABIoCEAAUAA=</HashCode>
+      <FileName>Source\Engine\Graphics\Texture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::AssetManager" Collapsed="true">
+    <Position X="23" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAkCACQAAAABYAAgaAIAAAAAACAgAgCAACgHBAICgA=</HashCode>
       <FileName>Source\Engine\Resources\AssetManager.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Struct Name="Game::VertexPosNormColorUv" Collapsed="true">
-    <Position X="2.25" Y="5" Width="1.5" />
+  <Class Name="Engine::EntityIdentity" Collapsed="true">
+    <Position X="19.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EgAAAAAAQAAAAAUBAAAEAAAAAhBAAAQgAAEgwAIABAA=</HashCode>
+      <FileName>Source\Engine\Scene\EntityId.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::CameraSystem" Collapsed="true">
+    <Position X="24.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASCAAAAAAAAAwBgAIACAAAAAAAAgBEQAAAgEAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\CameraSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Light" Collapsed="true">
+    <Position X="1.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAABAICAQEEAChAAAAAAAACAAAgkACgAARA=</HashCode>
+      <FileName>Source\Engine\Scene\Light.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::DirectionalLightObject" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAJAAAAAAAAAAAAAAIAABAAAgCAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\Light.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::PointLightObject" Collapsed="true">
+    <Position X="2.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAASABBAAAIAAAAAAAAAAQAoABAAgAAAAAAAQ=</HashCode>
+      <FileName>Source\Engine\Scene\Light.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::SpotLightObject" Collapsed="true">
+    <Position X="2.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAJAAAAAkAAAAAAAEIAAABAQAiECAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\Light.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::LightSystem" Collapsed="true">
+    <Position X="30" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAIAAAAgAAQAAIMCABAAAAAAAhBgIIAggBAABGAA=</HashCode>
+      <FileName>Source\Engine\Scene\LightSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::ObjectSlot" Collapsed="true">
+    <Position X="21.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAFAAAEAAAAABABAAAAgAAAAAABAAEA=</HashCode>
+      <FileName>Source\Engine\Scene\ObjectSlot.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::ObjectSlotCollection" Collapsed="true">
+    <Position X="23" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAJECAAAAAAAAAAAgAAABAQAAAAAAAAgAAAAAABAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\ObjectSlot.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::SceneBase" Collapsed="true">
+    <Position X="6.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAZAAAAgAAAABQQAAQAAAAAAAAAAgAAAABAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\SceneBase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::SceneManager" Collapsed="true">
+    <Position X="30" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAQAB0AABIAAAAAAAAAAgAAAABQgAAAAAgQ=</HashCode>
+      <FileName>Source\Engine\Scene\SceneManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Transform" Collapsed="true">
+    <Position X="12.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAACAAcCBAFKSAAgAAIAQAAApEIgIAIAAgEoFgQIA=</HashCode>
+      <FileName>Source\Engine\Scene\Components\Transform.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::AnimationModel" Collapsed="true">
+    <Position X="14.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQBADBAAQCAAgAgUBAICAQQAAAAABKEEAEAGAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\Components\AnimationModel.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Ray" Collapsed="true">
+    <Position X="30" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAABAICAAIAIAAAAAAAAIAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Physics\Ray.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::MeshRenderer" Collapsed="true">
+    <Position X="17" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABRBEABABFAAkAOEAhAAEAgAAAAABAUAAAACAAAAAY=</HashCode>
+      <FileName>Source\Engine\Scene\Components\MeshRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::ScriptComponent" Collapsed="true">
+    <Position X="1.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\Components\ScriptComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::StaticModelRenderer" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgABAAAACAiAAgAAEAAIAAAAAAAAABIAQAAACAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\Components\StaticModelRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::IState&lt;Context&gt;" Collapsed="true">
+    <Position X="8.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAgAAAAAAAAQAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\AI\StateMachine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::StateMachine&lt;Context&gt;" Collapsed="true">
+    <Position X="24.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AURQAIAAACACRAAAAAABQAAgAAIAAABAIAAkAAAAAAA=</HashCode>
+      <FileName>Source\Engine\AI\StateMachine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::LambdaState&lt;Context&gt;" Collapsed="true">
+    <Position X="8.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAQAAgAAoAAAAAAEAQ=</HashCode>
+      <FileName>Source\Engine\AI\StateMachine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::StateMachineBuilder&lt;Context&gt;" Collapsed="true">
+    <Position X="26.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgABAAAAAAAAAAAAAwAgAAAQAAAAAQACAA=</HashCode>
+      <FileName>Source\Engine\AI\StateMachine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::UIElement" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBABAAACAIEQCAAAEIGBBKAAAAAgAQABAgAAISACQ=</HashCode>
+      <FileName>Source\Engine\UI\UIElement.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::TextElement" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwDAAAAAGBAAwFIgIAAIAAAAAAAAAKAABgAKAgAAAg=</HashCode>
+      <FileName>Source\Engine\UI\TextElement.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::RaycastResult" Collapsed="true">
+    <Position X="19.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAABAAAAAAAAAAEAABQAAAAIAAAIgAAABAEABAAA=</HashCode>
+      <FileName>Source\Engine\Physics\Raycast.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::Physics" Collapsed="true">
+    <Position X="26.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAIAIAAAAAAAAAAAAAAACgAAAAA=</HashCode>
+      <FileName>Source\Engine\Physics\Raycast.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::RayManager" Collapsed="true">
+    <Position X="21.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAgAAQAAAIAABAAAAAAAAAAEBAAQIAAAAAAgAAAAAQA=</HashCode>
+      <FileName>Source\Engine\Physics\RayManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::GameMain" Collapsed="true">
+    <Position X="5.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AATAAgAAQAAAAwAAAAAAAAAIAAAAgAIAAKAAABAAAAA=</HashCode>
+      <FileName>Source\Game\GameMain.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::SampleRotateComponent" Collapsed="true">
+    <Position X="8" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Source\Game\Scripts\SampleRotateComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::SelectUI" Collapsed="true">
+    <Position X="10.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAIAAEAECgAAIQAICAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Source\Game\Scripts\SelectUI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::SamplePrefab" Collapsed="true">
+    <Position X="26.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Game\Prefabs\SamplePrefab.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::SkyPrefab" Collapsed="true">
+    <Position X="23" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Game\Prefabs\SkyPrefab.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::EnemyObject" Collapsed="true">
+    <Position X="5.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQURBURAAIABgQCAAAAAowARAAAAgQQAABAAgqACAAI=</HashCode>
+      <FileName>Source\Game\GameObjects\EnemyObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::PlayerObject" Collapsed="true">
+    <Position X="7.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQBAQCAAIAAgQAAAAAAAQAQAAAAAAACABAAgiACAAA=</HashCode>
+      <FileName>Source\Game\GameObjects\PlayerObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::GameScene" Collapsed="true">
+    <Position X="5.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAABAAAAQJAAAAABAAAAIAQgAAAABAIBIAAAAA=</HashCode>
+      <FileName>Source\Game\Scenes\GameScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::SampleScene" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAAAAAAQJgAAAAAAAAQIAAgAAAABAAAAAAAAA=</HashCode>
+      <FileName>Source\Game\Scenes\SampleScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::RoomInstance" Collapsed="true">
+    <Position X="24.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>sAAQKAIBAACAAAAAAAgAAAAgAiAQAAAAACBgQAAABAQ=</HashCode>
+      <FileName>Source\Game\Gameplay\RoomInstance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::TrapInstance" Collapsed="true">
+    <Position X="23" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAMAMAiAAEjLABRAEAAIAAAAAiAgAAAAACJgQAAADgA=</HashCode>
+      <FileName>Source\Game\Gameplay\TrapInstance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::TileCell" Collapsed="true">
+    <Position X="30" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAAQAABJACGAEAAAEAABAAAgAAAAAkEAAkIpEAAAAAA=</HashCode>
+      <FileName>Source\Game\Gameplay\TileCell.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::CharacterInstance" Collapsed="true">
+    <Position X="28.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MRAAACAAACAAgCIAAgAAAQARAiYAJAAAAQBgwiAABEA=</HashCode>
+      <FileName>Source\Game\Gameplay\CharacterInstance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::TileMapBase" Collapsed="true">
+    <Position X="19.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CQgABQAJAAkAEQApAAAAAIBgQAABgAGQAgCkkEJBAAg=</HashCode>
+      <FileName>Source\Game\Gameplay\TileMapBase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game::PhaseManager" Collapsed="true">
+    <Position X="24.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oCQICqACIgAUAAEYAAwEAAIgQDBpQACAABiiwsDJQAA=</HashCode>
+      <FileName>Source\Game\Gameplay\PhaseManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine::MaterialLibrary" Collapsed="true">
+    <Position X="23" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQgAQAAAAAAAAAAAAAAgCAAAAJAAAAAAAA=</HashCode>
+      <FileName>Assets\Materials\MaterialLibrary.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Engine::ApplicationSettings" Collapsed="true">
+    <Position X="19.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAABAAwAAAAAAIAAAACABAAAAAAAAAQ=</HashCode>
+      <FileName>Source\Engine\Core\ApplicationSettings.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::MeshCreateDesc" Collapsed="true">
+    <Position X="23" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAIAAkAIAIAAiBIwAEAAAAAAAAQgCCAAIAAAEAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\MeshFactory.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::VertexPosNormColorUv" Collapsed="true">
+    <Position X="28.25" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAABAAAAAAAAAEgAAAA=</HashCode>
-      <FileName>Assets\Materials\SampleCubeMaterial.cpp</FileName>
+      <FileName>Source\Engine\Graphics\MeshPrimitives.h</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="Game::MaterialBuildContext" Collapsed="true">
-    <Position X="0.5" Y="5" Width="1.5" />
+  <Struct Name="Engine::VertexPosNormTangentBitangentUv" Collapsed="true">
+    <Position X="30" Y="12.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAACAAAAAA=</HashCode>
-      <FileName>Assets\Materials\MaterialBuildContext.h</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAABAAQAAAAAAEAABAA=</HashCode>
+      <FileName>Source\Engine\Graphics\MeshPrimitives.h</FileName>
     </TypeIdentifier>
   </Struct>
+  <Struct Name="Engine::ModelSubset" Collapsed="true">
+    <Position X="24.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAQAAAAEAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\Model.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::RenderItem" Collapsed="true">
+    <Position X="21.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAEAABACAAAAAggAEAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\RenderSystem.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::VertexInputElement" Collapsed="true">
+    <Position X="21.25" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAIAAEAAAAAACEAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\Shader.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::WorldCB" Collapsed="true">
+    <Position X="23" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::ViewCB" Collapsed="true">
+    <Position X="19.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::ProjectionCB" Collapsed="true">
+    <Position X="19.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::MaterialParams" Collapsed="true">
+    <Position X="21.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAUAAEAACIAAAEAAAAAAIAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::MaterialCB" Collapsed="true">
+    <Position X="19.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::DirectionalLight" Collapsed="true">
+    <Position X="26.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAEAAAAAAAAIAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::PointLight" Collapsed="true">
+    <Position X="30" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAUACAAAEAAAAAQgAAAAAEACAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::SpotLight" Collapsed="true">
+    <Position X="23" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAUACAAAEAAAAAQgAAEIAEACAAAAACAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::LightCB" Collapsed="true">
+    <Position X="30" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::ExtendedLightCB" Collapsed="true">
+    <Position X="19.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAgAAAAAAAAAAAAACQAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::HDRSettingsCB" Collapsed="true">
+    <Position X="28.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAIAAAAAAAAAQAABAAgAAAAAAAAAAAAAEgAAAAAg=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::VolumetricLightingCB" Collapsed="true">
+    <Position X="21.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAIQAgCEAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::BonesCB" Collapsed="true">
+    <Position X="21.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\ShaderConstants.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::SkinnedVertex" Collapsed="true">
+    <Position X="21.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAABAAAAAAAAAEgAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\SkinnedModel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::ExtendedSkinnedVertex" Collapsed="true">
+    <Position X="21.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAABAAQAAAAAAEAABAA=</HashCode>
+      <FileName>Source\Engine\Graphics\SkinnedModel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::BoneTransform" Collapsed="true">
+    <Position X="23" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAACAAAAAAAAAAAAAAAIAAAAAAAAEAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\SkinnedModel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::SkinnedSubset" Collapsed="true">
+    <Position X="19.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAEAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\SkinnedModel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::SkinnedNode" Collapsed="true">
+    <Position X="30" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAIAIAAAAQAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\SkinnedModel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::SkinnedChannel" Collapsed="true">
+    <Position X="26.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAEAAEAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\SkinnedModel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::SkinnedClip" Collapsed="true">
+    <Position X="28.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAQAAAAAAAAACAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\SkinnedModel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::SkinnedBone" Collapsed="true">
+    <Position X="24.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\SkinnedModel.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::TextureLoadOptions" Collapsed="true">
+    <Position X="24.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAABAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\Texture.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::NodeBuildResult" Collapsed="true">
+    <Position X="28.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAQAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Resources\SkinnedModelLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::EntityId" Collapsed="true">
+    <Position X="28.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAgAAAAAAAgAAQAAAAQAAAAABAAAAEAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\EntityId.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::EntityIdHash" Collapsed="true">
+    <Position X="30" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\EntityId.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::CameraInitParams" Collapsed="true">
+    <Position X="24.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACQAUAACAAAAAAAAAAAAAAAAAAQAAAABAAAAAEAEA=</HashCode>
+      <FileName>Source\Engine\Scene\CameraSystem.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::Vector2" Collapsed="true">
+    <Position X="28.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAEAAAABAAAAhAAgAQBACQAAAAAAgABgAAAAAIA=</HashCode>
+      <FileName>Source\Engine\Math\Vector2.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::Vector3" Collapsed="true">
+    <Position X="30" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAKgEAAIAAAAAAggAgQQBACQAAAAAAgADgAQAAAIA=</HashCode>
+      <FileName>Source\Engine\Math\Vector3.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::Vector4" Collapsed="true">
+    <Position X="19.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGCAEAAEAAAgAAgAEgAQBADQAAAAAAgAhgARAAAIA=</HashCode>
+      <FileName>Source\Engine\Math\Vector4.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Game::GridPosition" Collapsed="true">
+    <Position X="24.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAQAAABAAAAAAAABgAAAQAAA=</HashCode>
+      <FileName>Source\Game\Gameplay\GridPosition.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::SceneContext" Collapsed="true">
+    <Position X="23" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\SceneContext.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="std::hash&lt;Game::GridPosition&gt;" Collapsed="true">
+    <Position X="26.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Game\Gameplay\GridPosition.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::`anonymous-namespace'::Tri" Collapsed="true">
+    <Position X="26.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAQAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\MeshPrimitives.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::`anonymous-namespace'::VertexPosNormColorUv" Collapsed="true">
+    <Position X="26.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAABAAAAAAAAAEgAAAA=</HashCode>
+      <FileName>Source\Engine\Resources\ObjModelLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::`anonymous-namespace'::MtlInfo" Collapsed="true">
+    <Position X="26.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAIACQAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Resources\ObjModelLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::`anonymous-namespace'::FaceIndex" Collapsed="true">
+    <Position X="23" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Resources\ObjModelLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::`anonymous-namespace'::VertexKey" Collapsed="true">
+    <Position X="23" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAQAAAAAAAAABABAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Resources\ObjModelLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Engine::`anonymous-namespace'::VertexKeyHash" Collapsed="true">
+    <Position X="24.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Resources\ObjModelLoader.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="Engine::MeshType" Collapsed="true">
+    <Position X="23" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAIAQAAAAAAAAAAAAAAAIAAAEAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\MeshFactory.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Engine::RenderLayer" Collapsed="true">
+    <Position X="24.75" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAIEAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Graphics\RenderLayer.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Engine::RenderStateFlags" Collapsed="true">
+    <Position X="26.5" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAgAAABAAAAIAAEAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Source\Engine\Graphics\RenderLayer.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Engine::LightType" Collapsed="true">
+    <Position X="21.25" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Source\Engine\Scene\Light.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Game::RoomType" Collapsed="true">
+    <Position X="28.25" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAABEAAAAAAAQAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Source\Game\Gameplay\RoomInstance.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Game::TrapType" Collapsed="true">
+    <Position X="30" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACgAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAABAA=</HashCode>
+      <FileName>Source\Game\Gameplay\TrapInstance.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Game::GamePhase" Collapsed="true">
+    <Position X="19.5" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAABAAAgAAAAAAAAAQA=</HashCode>
+      <FileName>Source\Game\Gameplay\PhaseManager.h</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Yu Gothic UI" Size="9" />
 </ClassDiagram>

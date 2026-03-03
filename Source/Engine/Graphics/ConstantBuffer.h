@@ -15,6 +15,10 @@ namespace Engine {
      * - Update() で毎フレーム更新
      * - GetBuffer() で借用ポインタ取得
      */
+
+    /// @brief  D3D11 定数バッファクラス
+	/// @tparam T 定数バッファの構造体型
+    /// @note   Create() で作成し、Update() で毎フレーム更新する
     template <class T>
     class ConstantBuffer final {
     public:

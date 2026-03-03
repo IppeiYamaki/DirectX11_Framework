@@ -20,7 +20,7 @@ namespace Engine {
         if (m_isInitialized) return true;
 
 		//============================================================
-		// Initialize subsystems
+		// subsystem �̏�����
         //============================================================
         m_settings = settings;
         if (!m_settings.IsValid()) {
@@ -31,20 +31,20 @@ namespace Engine {
         m_time.Initialize();
 
         //============================================================
-        // Create subsystems
+		// subsystem �̐���
 		//============================================================
-		// ���ԂɈˑ��֌W������̂Œ���
+		// ���ԂɈˑ��֌W������̂Ő������̕ύX�s��
 		// Window -> Input -> GraphicsDevice -> RenderSystem -> World
-        m_window = std::make_unique<Window>();
-        m_graphicsDevice = std::make_unique<GraphicsDevice>();
-        m_renderSystem = std::make_unique<RenderSystem>();
-        m_world = std::make_unique<World>();
+        m_window            = std::make_unique<Window>();
+        m_graphicsDevice    = std::make_unique<GraphicsDevice>();
+        m_renderSystem      = std::make_unique<RenderSystem>();
+        m_world             = std::make_unique<World>();
 
         //============================================================
-		// Initialize subsystems
+		// subsystem �̏�����
         //============================================================
 
-		// Window
+		// window �̏�����
         if (!m_window->Initialize(
             m_settings.m_hInstance,
             m_settings.m_cmdShow,
@@ -58,11 +58,11 @@ namespace Engine {
             return false;
         }
 
-		// Input
+		// input �̏�����
         Input::Initialize(m_window->GetHwnd());
 
 
-		// GraphicsDevice
+		// graphicsDevice �̏�����
         if (!m_graphicsDevice->Initialize(
             m_window->GetHwnd(),
             m_settings.m_width,
@@ -74,22 +74,22 @@ namespace Engine {
             return false;
         }
 
-		// RenderSystem
+		// renderSystem �̏�����
         if (!m_renderSystem->Initialize(*m_graphicsDevice)) {
             Logger::Error("RenderSystem Initialize failed.");
             Finalize();
             return false;
         }
 
-		// World
+		// world �̏�����
         if (!m_world->Initialize()) {
             Logger::Error("World Initialize failed.");
             Finalize();
             return false;
         }
 
-		m_isQuitRequested = false;      // �I���v���t���O�N���A
-		m_isInitialized = true; 		// �������ς݃t���O�Z�b�g
+		m_isQuitRequested = false;      // �I���v���t���O�N���A
+		m_isInitialized = true; 		// �������ς݃t���O�Z�b�g
 
         Logger::Info("Application initialized.");
         return true;
@@ -178,9 +178,13 @@ namespace Engine {
             }
             game.Draw();
 
-            // 
-            // 
-            m_renderSystem->Draw(*m_world);
+            // UI描画はRenderSystem::Draw内で3D描画後、Present前に実行される
+            // フェード描画はUI描画の後、Present前に実行される
+            // デバッグ描画は3Dオブジェクト描画後、UI描画前に実行される（Debug Layerで最上位に表示）
+            // ImGuiデバッグUIはフェード描画後、Present直前に実行される
+            m_renderSystem->Draw(*m_world, game.GetCanvas(), game.GetFadeSystem(),
+                                 game.GetDebugVisualizationSystem(), GetScene(), game.GetLightSystem(),
+                                 game.GetDebugImGuiSystem());
         }
 
         game.Finalize();
@@ -188,7 +192,7 @@ namespace Engine {
     }
 
     //============================================================
-    // Control
+    // �I���v��
     //============================================================
 
     void Application::RequestQuit() {
@@ -204,7 +208,7 @@ namespace Engine {
     }
 
     //============================================================
-    // Getters
+	// Getters
     //============================================================
 
     const ApplicationSettings& Application::GetSettings() const {

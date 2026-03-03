@@ -4,12 +4,8 @@
 
 namespace Engine {
 
-    /**
-     * @brief フレーム時間管理クラス
-     *
-     * - Tick() を毎フレーム呼ぶ
-     * - deltaTime / totalTime / fps を取得できる
-     */
+	/// @brief フレーム時間管理クラス
+	/// @brief Tick() を毎フレーム呼ぶことで、deltaTime / totalTime / fps を取得できる
     class Time final {
     public:
         Time() = default;
@@ -21,23 +17,34 @@ namespace Engine {
         //============================================================
         // Lifecycle
         //============================================================
+		/// @brief Time を初期化する
         void Initialize();
+		/// @brief Time を終了する
         void Finalize();
+        /// @brief Time をリセットする
         void Reset();
 
         //============================================================
         // Frame
         //============================================================
+		/// @brief 毎フレーム呼ぶ。これを呼ぶと deltaTime / totalTime / fps が更新される
         void Tick();
 
         //============================================================
         // Getters (const)
         //============================================================
+		/// @brief 前フレームからの経過時間を取得
         float GetDeltaTime() const;     // 秒
+		/// @brief アプリケーション開始からの経過時間を取得
         double GetTotalTime() const;    // 秒
-        float GetFps() const;           // 直近1秒程度の概算FPS
+		/// @brief 直近1秒程度の概算fpsを取得
+		/// @return fps
+        float GetFps() const;
+		/// @brief フレームカウントを取得
+		/// @return フレームカウント
         std::uint64_t GetFrameCount() const;
 
+		/// @brief Time が初期化されているか確認する
         bool IsInitialized() const;
 
     private:
@@ -58,7 +65,7 @@ namespace Engine {
         float           m_fps           = 0.0f;     // FPS
 
     private:
-        static constexpr double kMaxDeltaTime = 0.25; // ブレーク等で巨大dtになるのを防ぐ(秒)
+        static constexpr double kMaxDeltaTime = 0.25; // break等で巨大dtになるのを防ぐ(秒)
     };
 
 } // namespace Engine

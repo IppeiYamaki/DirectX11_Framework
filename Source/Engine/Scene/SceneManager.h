@@ -7,8 +7,6 @@
 
 namespace Engine {
 
-    using SceneContext = Game::SceneContext;
-
     /**
      * @brief Scene（State）を管理する
      *
@@ -23,12 +21,22 @@ namespace Engine {
         SceneManager(const SceneManager&) = delete;
         SceneManager& operator=(const SceneManager&) = delete;
 
-        void Initialize(SceneContext ctx, std::unique_ptr<SceneBase> firstScene);
+		/// @brief  初期化
+		/// @param  ctx Scene利用コンテキスト情報
+        /// @param  firstScene 最初のシーン
+        /// @return 初期化成功ならtrue
+        bool Initialize(SceneContext ctx, std::unique_ptr<SceneBase> firstScene);
+		/// @brief 終了処理
         void Finalize();
 
+		/// @brief 毎フレーム更新
+		/// @param deltaTime フレーム経過時間
         void Update(float deltaTime);
+		/// @brief 毎フレーム描画
         void Render();
 
+		/// @brief  シーン切替予約
+		/// @param  nextScene 切替先シーン
         void ChangeScene(std::unique_ptr<SceneBase> nextScene);
 
         template<class T, class... Args>
@@ -36,7 +44,12 @@ namespace Engine {
             ChangeScene(std::make_unique<T>(std::forward<Args>(args)...));
         }
 
+		const SceneBase* GetCurrentScene() const { return m_current.get(); }
+
     private:
+
+		/// @brief  予約されたシーンがあれば切替を実行
+		/// @note   Updateの先頭で呼び出すこと
         void ApplyPendingSceneIfNeeded();
 
     private:

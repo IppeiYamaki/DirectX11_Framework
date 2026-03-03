@@ -8,7 +8,7 @@
 
 // Engine Components
 #include "Engine/Scene/Components/Transform.h"
-#include "Engine/Scene/Components/Camera.h"
+#include "Engine/Scene/Components/CameraComponent.h"
 
 // Physics / Ray
 #include "Engine/Physics/Ray.h"
@@ -19,8 +19,9 @@
 #include "Engine/UI/Button.h"
 
 // Prefabs
-#include "Game/Prefabs/SkyPrefab.h"
-#include "Game/Prefabs/SamplePrefab.h"
+#include "Game/Definitions/Prefabs/CameraPrefabs/CameraPrefab_GameSceneMain.h"
+#include "Game/Definitions/Prefabs/SkyPrefab.h"
+#include "Game/Definitions/Prefabs/DebugLight.h"
 
 namespace Game {
 
@@ -98,23 +99,13 @@ namespace Game {
         if (!ctx.m_scene || !ctx.m_renderSystem) return;
 
         //========================
-        // MainCamera 生成（CameraSystemを使用）
+        // MainCamera 生成（CameraPrefabを使用）
         //========================
-        if (ctx.m_cameraSystem) {
-            // 新しいCameraSystem APIを使用してカメラを作成
-            Engine::CameraInitParams cameraParams{};
-            cameraParams.m_position = Engine::Vector3(0, 3, -8);
-            cameraParams.m_yawDeg = 0.0f;
-            cameraParams.m_pitchDeg = -5.0f;
-            cameraParams.m_fovYRad = DirectX::XM_PIDIV4;
-            cameraParams.m_aspect = 16.0f / 9.0f;
-            cameraParams.m_nearZ = 0.1f;
-            cameraParams.m_farZ = 1000.0f;
-            cameraParams.m_isMain = true;
-
-            auto* mainCamera = ctx.m_cameraSystem->AddCamera(cameraParams);
-            ctx.m_cameraSystem->SetMainCamera(mainCamera);
-        }
+        m_cameraObject = ctx.Spawn<Game::CameraPrefab_GameSceneMain>(
+            Engine::Vector3(0, 3, -8),  // position
+            0.0f,    // yaw
+            -5.0f    // pitch
+        );
 
 
         //========================
@@ -142,7 +133,7 @@ namespace Game {
         m_characters.clear();
 
         m_characters.emplace_back();
-        m_characters.back().Spawn<SamplePrefab>(ctx, Engine::Vector3(0, 0, 0), 1.0f, 45.0f);
+        m_characters.back().Spawn<DebugLight>(ctx, Engine::Vector3(0, 0, 0), 1.0f, 45.0f);
     }
 
 } // namespace Game

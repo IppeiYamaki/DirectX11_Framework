@@ -4,7 +4,9 @@
 #include <utility>
 #include <d3d11.h> // ID3D11Device
 
+
 namespace Engine {
+
     class Application;
     class GameObject;
     class Scene;
@@ -14,11 +16,9 @@ namespace Engine {
     class CameraSystem;
     class LightSystem;
     class Canvas;
-}
-
-namespace Game {
-
-    class MaterialLibrary;
+	class MaterialLibrary;
+    class SceneManager;
+    class FadeSystem;
 
     /**
      * @brief Scene利用に最低限のサービスをまとめたコンテキスト
@@ -39,6 +39,9 @@ namespace Game {
         // Canvas UI管理システム
         Engine::Canvas* m_canvas = nullptr;
 
+        // フェードシステム（シーン遷移・演出用）
+        Engine::FadeSystem* m_fadeSystem = nullptr;
+
         // 一部依存：借用D3Dデバイス（借用）
         ID3D11Device* m_device = nullptr;
 
@@ -51,6 +54,9 @@ namespace Game {
         // Material資産管理
         MaterialLibrary* m_materials = nullptr;
 
+        // Scene管理システム（Scene遷移用）
+        SceneManager* m_sceneManager = nullptr;
+
         /// @brief Prefabを生成する（引数は Prefab::SpawnDesc のコンストラクタ引数に転送される）
         /// @tparam TPrefab Prefabクラス
         /// @param args Prefab::SpawnDescのコンストラクタ引数
@@ -60,16 +66,6 @@ namespace Game {
             using Desc = typename TPrefab::SpawnDesc;
             return TPrefab::Spawn(*this, Desc{ std::forward<Args>(args)... });
         }
-
-        /// @brief GameObjectベースのPrefabを生成する（エイリアス）
-        /// @tparam TPrefab GameObjectPrefabクラス
-        /// @param args Prefab::SpawnDescのコンストラクタ引数
-        /// @return 生成されたGameObject
-        template<class TPrefab, class... Args>
-        Engine::GameObject* SpawnObject(Args&&... args) {
-            using Desc = typename TPrefab::SpawnDesc;
-            return TPrefab::SpawnObject(*this, Desc{ std::forward<Args>(args)... });
-        }
     };
 
-} // namespace Game
+} // namespace Engine

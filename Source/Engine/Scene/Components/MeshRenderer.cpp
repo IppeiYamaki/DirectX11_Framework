@@ -38,7 +38,7 @@ namespace Engine {
         item.m_world = tr->GetWorldMatrix();
         item.m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-        // ��Unity��
+        // 
         item.m_layer = m_renderLayer;
         item.m_orderInLayer = m_orderInLayer;
         item.m_stateFlags = m_stateFlags;
@@ -68,6 +68,14 @@ namespace Engine {
 
     Material* MeshRenderer::GetMaterial() const {
         return m_material.get();
+    }
+
+    const Mesh* MeshRenderer::GetMesh() const {
+        return &m_mesh;
+    }
+
+    bool MeshRenderer::IsMeshReady() const {
+        return m_isMeshReady && m_mesh.IsValid();
     }
 
     void MeshRenderer::SetRenderLayer(RenderLayer layer) {

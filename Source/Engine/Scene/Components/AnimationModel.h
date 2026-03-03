@@ -32,7 +32,6 @@ namespace Engine {
 
         bool LoadModel(const std::wstring& path);
 
-        // 旧方式に寄せたAPI（Frame指定 + 2本ブレンド）
         void SetBlend(const std::string& clipA, const std::string& clipB, float blendRate);
         void SetFrames(int frameA, int frameB);
         void SetPlaybackFps(float fps);
@@ -49,7 +48,7 @@ namespace Engine {
 
         std::shared_ptr<SkinnedModel> m_model;
 
-        // ★ここが重要：変数として宣言（() を付けない！）
+        // 変数として宣言
         std::vector<DirectX::XMFLOAT4X4> m_boneMatrices;
 
         std::string m_clipA{};

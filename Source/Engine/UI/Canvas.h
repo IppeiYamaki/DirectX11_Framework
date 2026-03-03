@@ -11,6 +11,7 @@
 namespace Engine {
 
     class RenderSystem;
+    class GameObject;
 
     /// @brief UI要素を管理するCanvas
     /// @note  UnityのCanvasのように、UI要素を画面手前に表示する機能を提供
@@ -135,17 +136,54 @@ namespace Engine {
         /// @return 座標上にあるUI要素（最前面のもの、なければnullptr）
         [[nodiscard]] UIElement* GetElementAt(float mouseX, float mouseY) const;
 
+        //============================================================
+        // UI GameObject Management (Unity-style)
+        //============================================================
+
+        /// @brief UI GameObjectを登録
+        /// @param uiObject 登録するUI GameObject（借用、所有権はScene側）
+        /// @note  UI GameObjectはUIRectTransformコンポーネントを持つ必要がある
+        void AddUIObject(GameObject* uiObject);
+
+        /// @brief UI GameObjectの登録を解除
+        /// @param uiObject 解除するUI GameObject
+        void RemoveUIObject(GameObject* uiObject);
+
+        /// @brief 全UI GameObjectの登録を解除
+        void ClearUIObjects();
+
+        /// @brief  UI GameObject数を取得
+        /// @return UI GameObject数
+        [[nodiscard]] std::size_t GetUIObjectCount() const;
+
+        /// @brief 指定座標にあるUI GameObjectを取得
+        /// @param mouseX マウスX座標
+        /// @param mouseY マウスY座標
+        /// @return 座標上にあるUI GameObject（最前面のもの、なければnullptr）
+        [[nodiscard]] GameObject* GetUIObjectAt(float mouseX, float mouseY) const;
+
+        /// @brief UI GameObjectのマウス入力を処理
+        /// @param mouseX マウスX座標
+        /// @param mouseY マウスY座標
+        /// @param isPressed マウスボタンが押されているか
+        void HandleUIObjectMouseInput(float mouseX, float mouseY, bool isPressed);
+
     private:
         /// @brief 描画順序でUI要素をソート
         void SortElements();
 
+        /// @brief 描画順序でUI GameObjectをソート
+        void SortUIObjects();
+
     private:
-        std::vector<std::unique_ptr<UIElement>> m_elements; ///< UI要素のリスト
+        std::vector<std::unique_ptr<UIElement>> m_elements; ///< UI要素のリスト（Legacy）
+        std::vector<GameObject*> m_uiObjects;               ///< UI GameObjectのリスト（Unity-style、借用）
         float m_screenWidth = 1280.0f;                       ///< 画面幅
         float m_screenHeight = 720.0f;                       ///< 画面高さ
         bool m_isInitialized = false;                        ///< 初期化済みフラグ
         bool m_isEnabled = true;                             ///< 有効フラグ
-        bool m_needsSort = false;                            ///< ソート必要フラグ
+        bool m_needsSort = false;                            ///< ソート必要フラグ（Legacy）
+        bool m_needsUIObjectSort = false;                    ///< ソート必要フラグ（UI GameObject）
     };
 
 } // namespace Engine

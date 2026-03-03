@@ -177,38 +177,50 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Assets\Materials\MaterialLibrary.cpp" />
-    <ClCompile Include="Assets\Materials\SampleCubeMaterial.cpp" />
-    <ClCompile Include="Assets\Materials\SkyMaterial.cpp" />
     <ClCompile Include="Source\Engine\Core\Application.cpp" />
     <ClCompile Include="Source\Engine\Core\Logger.cpp" />
     <ClCompile Include="Source\Engine\Core\Time.cpp" />
+    <ClCompile Include="Source\Engine\Debug\DebugImGuiSystem.cpp" />
     <ClCompile Include="Source\Engine\Graphics\GraphicsDevice.cpp" />
     <ClCompile Include="Source\Engine\Graphics\Material.cpp" />
     <ClCompile Include="Source\Engine\Graphics\Mesh.cpp" />
     <ClCompile Include="Source\Engine\Graphics\MeshFactory.cpp" />
     <ClCompile Include="Source\Engine\Graphics\MeshPrimitives.cpp" />
     <ClCompile Include="Source\Engine\Graphics\Model.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\PlanarReflectionSystem.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\FadeSystem.cpp" />
+    <ClCompile Include="Source\Engine\Debug\DebugVisualizationSystem.cpp" />
+    <ClCompile Include="Source\Engine\Debug\DebugLightMarkerPrefab.cpp" />
     <ClCompile Include="Source\Engine\Graphics\RenderSystem.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\RenderTarget.cpp" />
     <ClCompile Include="Source\Engine\Graphics\Shader.cpp" />
     <ClCompile Include="Source\Engine\Graphics\ShaderLibrary.cpp" />
     <ClCompile Include="Source\Engine\Graphics\SkinnedModel.cpp" />
     <ClCompile Include="Source\Engine\Graphics\AnimationController.cpp" />
     <ClCompile Include="Source\Engine\Graphics\Texture.cpp" />
+    <ClCompile Include="Source\Engine\Materials\MaterialLibrary.cpp" />
+    <ClCompile Include="Source\Engine\Materials\ParticleMaterial.cpp" />
+    <ClCompile Include="Source\Engine\Materials\TerrainBlendMaterial.cpp" />
+    <ClCompile Include="Source\Engine\Math\PerlinNoise.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector2.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector3.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector4.cpp" />
     <ClCompile Include="Source\Engine\Platform\Input.cpp" />
     <ClCompile Include="Source\Engine\Platform\Window.cpp" />
     <ClCompile Include="Source\Engine\Resources\AssetManager.cpp" />
+    <ClCompile Include="Source\Engine\Resources\AssimpModelLoader.cpp" />
     <ClCompile Include="Source\Engine\Resources\ObjModelLoader.cpp" />
     <ClCompile Include="Source\Engine\Resources\SkinnedModelLoader.cpp" />
     <ClCompile Include="Source\Engine\Scene\Component.cpp" />
     <ClCompile Include="Source\Engine\Scene\Components\AnimationModel.cpp" />
-    <ClCompile Include="Source\Engine\Scene\Components\Camera.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Components\CameraComponent.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Components\DebugCameraController.cpp" />
     <ClCompile Include="Source\Engine\Scene\Components\MeshRenderer.cpp" />
     <ClCompile Include="Source\Engine\Scene\Components\StaticModelRenderer.cpp" />
     <ClCompile Include="Source\Engine\Scene\Components\Transform.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Components\WaterSurfaceComponent.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Components\PlanarReflectionComponent.cpp" />
+    <ClCompile Include="Source\Engine\Scene\Components\LightComponent.cpp" />
     <ClCompile Include="Source\Engine\Scene\World.cpp" />
     <ClCompile Include="Source\Engine\Scene\CameraSystem.cpp" />
     <ClCompile Include="Source\Engine\Scene\Light.cpp" />
@@ -218,6 +230,7 @@
     <ClCompile Include="Source\Engine\Scene\SceneBase.cpp" />
     <ClCompile Include="Source\Engine\Scene\GameObject.cpp" />
     <ClCompile Include="Source\Engine\UI\Canvas.cpp" />
+    <ClCompile Include="Source\Engine\UI\UIButtonComponent.cpp" />
     <ClCompile Include="Source\Engine\UI\UIElement.cpp" />
     <ClCompile Include="Source\Engine\UI\TextElement.cpp" />
     <ClCompile Include="Source\Engine\UI\Button.cpp" />
@@ -225,23 +238,71 @@
     <ClCompile Include="Source\Engine\Physics\Raycast.cpp" />
     <ClCompile Include="Source\Engine\Physics\RayManager.cpp" />
     <ClCompile Include="Source\Engine\Platform\MouseInputManager.cpp" />
+    <ClCompile Include="Source\Engine\UI\UIImageComponent.cpp" />
+    <ClCompile Include="Source\Engine\UI\UIRectTransform.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\CameraFollowTarget.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\CameraMouseLook.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\CameraMovementQE.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\CameraMovementWASD.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\CameraRotationArrow.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\FreeLookCameraController.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\FireflyParticleComponent.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\FloatMotionComponent.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\LightComponents\FireFlickerComponent.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\LightComponents\FollowTargetLightComponent.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\LightComponents\SunCycleComponent.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\ParticleRendererComponent.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\SampleRotateComponent.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\SelectUI.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Components\SkyFollowCameraComponent.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Materials\SampleCubeMaterial.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Materials\SkyMaterial.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Materials\SkyMaterial_Title.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Materials\TitleQuadMaterial.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Materials\WaterMaterial.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\CameraPrefabs\CameraPrefab_GameSceneMain.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\CameraPrefabs\CameraPrefab_TitleSceneMain.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\CampfirePrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\EnemyPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\FireflyEmitterPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\FireLightPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\FlashlightLightPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\StreetLampLightPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\SunLightPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\PlayerPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\DebugLight.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\FieldPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\Sample.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\SkyPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\SkyPrefab_Title.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\TitleQuadPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\WaterPlanePrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs.cpp" />
     <ClCompile Include="Source\Game\GameMain.cpp" />
     <ClCompile Include="Source\Game\GameObjects\EnemyObject.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Field.cpp" />
     <ClCompile Include="Source\Game\GameObjects\PlayerObject.cpp" />
-    <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp" />
-    <ClCompile Include="Source\Game\Prefabs\SkyPrefab.cpp" />
+    <ClCompile Include="Source\Game\GamePlay\CharacterInstance.cpp" />
+    <ClCompile Include="Source\Game\GamePlay\PhaseManager.cpp" />
+    <ClCompile Include="Source\Game\GamePlay\RoomInstance.cpp" />
+    <ClCompile Include="Source\Game\GamePlay\Rooms\Room_Corridor.cpp" />
+    <ClCompile Include="Source\Game\GamePlay\TileCell.cpp" />
+    <ClCompile Include="Source\Game\GamePlay\TileMapBase.cpp" />
+    <ClCompile Include="Source\Game\GamePlay\TrapInstance.cpp" />
     <ClCompile Include="Source\Game\Rendering\DefaultLighting.cpp" />
     <ClCompile Include="Source\Game\Scenes\GameScene.cpp" />
     <ClCompile Include="Source\Game\Scenes\SampleScene.cpp" />
-    <ClCompile Include="Source\Game\Scripts\SampleRotateComponent.cpp" />
-    <ClCompile Include="Source\Game\Scripts\SelectUI.cpp" />
+    <ClCompile Include="Source\Game\Scenes\TitleScene.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\ThirdParty\imgui\imgui.cpp" />
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Assets\Materials\MaterialBuildContext.h" />
-    <ClInclude Include="Assets\Materials\MaterialLibrary.h" />
-    <ClInclude Include="Assets\Materials\SampleCubeMaterial.h" />
-    <ClInclude Include="Assets\Materials\SkyMaterial.h" />
     <ClInclude Include="Source\Engine\AI\StateMachine.h" />
     <ClInclude Include="Source\Engine\Core\Application.h" />
     <ClInclude Include="Source\Engine\Core\ApplicationSettings.h" />
@@ -251,6 +312,7 @@
     <ClInclude Include="Source\Engine\Core\IGame.h" />
     <ClInclude Include="Source\Engine\Core\Logger.h" />
     <ClInclude Include="Source\Engine\Core\Time.h" />
+    <ClInclude Include="Source\Engine\Debug\DebugImGuiSystem.h" />
     <ClInclude Include="Source\Engine\Graphics\ConstantBuffer.h" />
     <ClInclude Include="Source\Engine\Graphics\GraphicsDevice.h" />
     <ClInclude Include="Source\Engine\Graphics\Material.h" />
@@ -258,17 +320,27 @@
     <ClInclude Include="Source\Engine\Graphics\MeshFactory.h" />
     <ClInclude Include="Source\Engine\Graphics\MeshPrimitives.h" />
     <ClInclude Include="Source\Engine\Graphics\Model.h" />
+    <ClInclude Include="Source\Engine\Graphics\PlanarReflectionSystem.h" />
     <ClInclude Include="Source\Engine\Graphics\RenderLayer.h" />
+    <ClInclude Include="Source\Engine\Graphics\FadeSystem.h" />
+    <ClInclude Include="Source\Engine\Debug\DebugVisualizationSystem.h" />
+    <ClInclude Include="Source\Engine\Debug\DebugLightMarkerPrefab.h" />
     <ClInclude Include="Source\Engine\Graphics\RenderSystem.h" />
+    <ClInclude Include="Source\Engine\Graphics\RenderTarget.h" />
     <ClInclude Include="Source\Engine\Graphics\Shader.h" />
     <ClInclude Include="Source\Engine\Graphics\ShaderConstants.h" />
     <ClInclude Include="Source\Engine\Graphics\ShaderLibrary.h" />
     <ClInclude Include="Source\Engine\Graphics\SkinnedModel.h" />
     <ClInclude Include="Source\Engine\Graphics\AnimationController.h" />
     <ClInclude Include="Source\Engine\Graphics\Texture.h" />
+    <ClInclude Include="Source\Engine\Materials\MaterialBuildContext.h" />
+    <ClInclude Include="Source\Engine\Materials\MaterialLibrary.h" />
+    <ClInclude Include="Source\Engine\Materials\ParticleMaterial.h" />
+    <ClInclude Include="Source\Engine\Materials\TerrainBlendMaterial.h" />
     <ClInclude Include="Source\Engine\Math\Color.h" />
     <ClInclude Include="Source\Engine\Math\Easing.h" />
     <ClInclude Include="Source\Engine\Math\MathConstants.h" />
+    <ClInclude Include="Source\Engine\Math\PerlinNoise.h" />
     <ClInclude Include="Source\Engine\Math\Vector1.h" />
     <ClInclude Include="Source\Engine\Math\Vector2.h" />
     <ClInclude Include="Source\Engine\Math\Vector3.h" />
@@ -276,15 +348,20 @@
     <ClInclude Include="Source\Engine\Platform\Input.h" />
     <ClInclude Include="Source\Engine\Platform\Window.h" />
     <ClInclude Include="Source\Engine\Resources\AssetManager.h" />
+    <ClInclude Include="Source\Engine\Resources\AssimpModelLoader.h" />
     <ClInclude Include="Source\Engine\Resources\ObjModelLoader.h" />
     <ClInclude Include="Source\Engine\Resources\SkinnedModelLoader.h" />
     <ClInclude Include="Source\Engine\Scene\Component.h" />
     <ClInclude Include="Source\Engine\Scene\Components\AnimationModel.h" />
-    <ClInclude Include="Source\Engine\Scene\Components\Camera.h" />
+    <ClInclude Include="Source\Engine\Scene\Components\CameraComponent.h" />
+    <ClInclude Include="Source\Engine\Scene\Components\DebugCameraController.h" />
     <ClInclude Include="Source\Engine\Scene\Components\MeshRenderer.h" />
     <ClInclude Include="Source\Engine\Scene\Components\ScriptComponent.h" />
     <ClInclude Include="Source\Engine\Scene\Components\StaticModelRenderer.h" />
     <ClInclude Include="Source\Engine\Scene\Components\Transform.h" />
+    <ClInclude Include="Source\Engine\Scene\Components\WaterSurfaceComponent.h" />
+    <ClInclude Include="Source\Engine\Scene\Components\PlanarReflectionComponent.h" />
+    <ClInclude Include="Source\Engine\Scene\Components\LightComponent.h" />
     <ClInclude Include="Source\Engine\Scene\EntityId.h" />
     <ClInclude Include="Source\Engine\Scene\World.h" />
     <ClInclude Include="Source\Engine\Scene\CameraSystem.h" />
@@ -297,28 +374,82 @@
     <ClInclude Include="Source\Engine\Scene\SceneManager.h" />
     <ClInclude Include="Source\Engine\Scene\GameObject.h" />
     <ClInclude Include="Source\Engine\UI\Canvas.h" />
+    <ClInclude Include="Source\Engine\UI\UIButtonComponent.h" />
     <ClInclude Include="Source\Engine\UI\UIElement.h" />
     <ClInclude Include="Source\Engine\UI\TextElement.h" />
     <ClInclude Include="Source\Engine\UI\Button.h" />
     <ClInclude Include="Source\Engine\Physics\Ray.h" />
     <ClInclude Include="Source\Engine\Physics\Raycast.h" />
     <ClInclude Include="Source\Engine\Physics\RayManager.h" />
+    <ClInclude Include="Source\Engine\UI\UIImageComponent.h" />
+    <ClInclude Include="Source\Engine\UI\UIRectTransform.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\CameraFollowTarget.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\CameraMouseLook.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\CameraMovementQE.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\CameraMovementWASD.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\CameraRotationArrow.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\FreeLookCameraController.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\FireflyParticleComponent.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\FloatMotionComponent.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\LightComponents\FireFlickerComponent.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\LightComponents\FollowTargetLightComponent.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\LightComponents\SunCycleComponent.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\ParticleRendererComponent.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\SampleRotateComponent.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\SelectUI.h" />
+    <ClInclude Include="Source\Game\Definitions\Components\SkyFollowCameraComponent.h" />
+    <ClInclude Include="Source\Game\Definitions\Materials\SampleCubeMaterial.h" />
+    <ClInclude Include="Source\Game\Definitions\Materials\SkyMaterial.h" />
+    <ClInclude Include="Source\Game\Definitions\Materials\SkyMaterial_Title.h" />
+    <ClInclude Include="Source\Game\Definitions\Materials\TitleQuadMaterial.h" />
+    <ClInclude Include="Source\Game\Definitions\Materials\WaterMaterial.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\CameraPrefabs\CameraPrefab_GameSceneMain.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\CameraPrefabs\CameraPrefab_TitleSceneMain.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\CampfirePrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\EnemyPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\FireflyEmitterPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\AllLightPrefabs.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\FireLightPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\FlashlightLightPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\StreetLampLightPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\SunLightPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\PlayerPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\DebugLight.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\FieldPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\Sample.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\SkyPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\SkyPrefab_Title.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\TitleQuadPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\WaterPlanePrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs.h" />
     <ClInclude Include="Source\Game\GameMain.h" />
     <ClInclude Include="Source\Game\GameObjects\EnemyObject.h" />
+    <ClInclude Include="Source\Game\GameObjects\Field.h" />
     <ClInclude Include="Source\Game\GameObjects\PlayerObject.h" />
-    <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h" />
-    <ClInclude Include="Source\Game\Prefabs\SkyPrefab.h" />
+    <ClInclude Include="Source\Game\GamePlay\CharacterInstance.h" />
+    <ClInclude Include="Source\Game\GamePlay\GridPosition.h" />
+    <ClInclude Include="Source\Game\GamePlay\PhaseManager.h" />
+    <ClInclude Include="Source\Game\GamePlay\RoomInstance.h" />
+    <ClInclude Include="Source\Game\GamePlay\Rooms\Room_Corridor.h" />
+    <ClInclude Include="Source\Game\GamePlay\TileCell.h" />
+    <ClInclude Include="Source\Game\GamePlay\TileMapBase.h" />
+    <ClInclude Include="Source\Game\GamePlay\TrapInstance.h" />
     <ClInclude Include="Source\Game\Rendering\DefaultLighting.h" />
     <ClInclude Include="Source\Game\Scenes\GameScene.h" />
     <ClInclude Include="Source\Game\Scenes\SampleScene.h" />
-    <ClInclude Include="Source\Game\Scripts\SampleRotateComponent.h" />
-    <ClInclude Include="Source\Game\Scripts\SelectUI.h" />
     <ClInclude Include="Source\Engine\Platform\MouseInputManager.h" />
-    <ClInclude Include="Source\ThirdParty\DirectXTex\DirectXTex.h" />
+    <ClInclude Include="Source\Game\Scenes\TitleScene.h" />
+    <ClInclude Include="Source\ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="Source\ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="Source\ThirdParty\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="Source\ThirdParty\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="Source\ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="Source\ThirdParty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Source\ThirdParty\imgui\imstb_textedit.h" />
+    <ClInclude Include="Source\ThirdParty\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="Source\ThirdParty\DirectXTex\DirectXTex.inl" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\Common\Common.hlsl">
@@ -347,6 +478,30 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="Assets\Shaders\GBuffer\GBufferCommon.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\GBuffer\GBufferPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\GBuffer\GBufferSkinnedVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\GBuffer\GBufferVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Assets\Shaders\SkinnedVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -358,6 +513,154 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\UIVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\UIPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\WaterPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\WaterVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\ParticleVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\ParticlePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\TerrainBlendVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\TerrainBlendPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\OutlineVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\OutlinePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\BillboardVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\BillboardPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\UnlitVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\UnlitPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)Assets\Shaders\Debug\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

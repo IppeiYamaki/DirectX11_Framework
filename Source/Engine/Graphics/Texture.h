@@ -8,9 +8,9 @@ namespace Engine {
 
     /// @brief テクスチャ読み込みオプション
     struct TextureLoadOptions final {
-        bool m_generateMipMaps = true;  ///< ミップマップ生成フラグ
-        bool m_forceSRgb = false;       ///< sRGBとして強制読み込み
-        bool m_ignoreSRgb = false;      ///< sRGB判定を無視
+        bool m_generateMipMaps = true;  /// ミップマップ生成フラグ
+        bool m_forceSRgb = false;       /// sRGBとして強制読み込み
+        bool m_ignoreSRgb = false;      /// sRGB判定を無視
     };
 
     /// @brief  GPUテクスチャ(SRV)のラッパ
@@ -43,10 +43,10 @@ namespace Engine {
         // Getters (borrow)
         //============================================================
         /// @brief  シェーダーリソースビューを取得
-        /// @return SRV（借用）
+        /// @return SRV
         ID3D11ShaderResourceView* GetShaderResourceView() const;
         /// @brief  リソースを取得
-        /// @return リソース（借用）
+        /// @return リソース
         ID3D11Resource* GetResource() const;
 
         /// @brief  幅を取得
@@ -71,15 +71,15 @@ namespace Engine {
         void ResetInfo();
 
     private:
-        std::wstring m_filePath{}; ///< 読み込み元パス
+        std::wstring m_filePath{};                      /// 読み込み元パス
 
-        int         m_width = 0;                    ///< 幅
-        int         m_height = 0;                   ///< 高さ
-        int         m_mipLevels = 0;                ///< ミップレベル数
-        DXGI_FORMAT m_format = DXGI_FORMAT_UNKNOWN; ///< フォーマット
+        int         m_width     = 0;                    /// 幅
+        int         m_height    = 0;                    /// 高さ
+        int         m_mipLevels = 0;                    /// ミップレベル数
+        DXGI_FORMAT m_format    = DXGI_FORMAT_UNKNOWN;  /// フォーマット
 
-        Microsoft::WRL::ComPtr<ID3D11Resource> m_resource;           ///< リソース
-        Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_srv;      ///< SRV
+        Microsoft::WRL::ComPtr<ID3D11Resource> m_resource;           /// リソース
+        Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_srv;      /// SRV
     };
 
 } // namespace Engine

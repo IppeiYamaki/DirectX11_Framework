@@ -4,33 +4,35 @@
 
 namespace Engine {
 
-    /**
-     * @brief Unityの「描画レイヤー」っぽいもの（描画順）
-     * 小さいほど先に描く（背景→通常→透明→UI）
-     */
+    /// @brief RenderLayer
+    /// @brief Background:   Background (Sky, etc.)
+    /// @brief Opaque:       Opaque objects (normal geometry)
+    /// @brief Transparent:  Transparent objects (particles, water, etc.)
+    /// @brief Overlay:      Overlay (UI, etc.)
+    /// @brief Debug:        Debug visualization (outlines, light icons, etc.) - always on top
     enum class RenderLayer : std::uint8_t {
         Background = 0,
         Opaque = 100,
         Transparent = 200,
         Overlay = 250,
+        Debug = 255,
     };
 
-    /**
-     * @brief RenderItem に付ける描画ステート指定（最低限）
-     */
+    /// @brief RenderStateFlags
     enum RenderStateFlags : std::uint32_t {
         kRenderStateNone = 0,
 
         // Depth
-        kRenderStateDepthWriteOff = 1u << 0, // 深度テストはするが書き込みしない（Skyなど）
-        kRenderStateDepthTestOff = 1u << 1, // 深度テスト自体を切る（UIなど）
+        kRenderStateDepthWriteOff   = 1u << 0, // Depth test ON, write OFF (Sky, etc.)
+        kRenderStateDepthTestOff    = 1u << 1, // Depth test OFF (UI, etc.)
 
         // Rasterizer
-        kRenderStateCullFront = 1u << 2, // Skyドーム内側表示向け
-        kRenderStateCullNone = 1u << 3, // 両面表示
+        kRenderStateCullFront       = 1u << 2, // Cull front for sky dome inside
+        kRenderStateCullNone        = 1u << 3, // Double-sided rendering
 
-        // Blend（将来の透明用。今は用意だけ）
-        kRenderStateBlendAlpha = 1u << 4,
+        // Blend
+        kRenderStateBlendAlpha      = 1u << 4, // Alpha blend
+        kRenderStateBlendAdditive   = 1u << 5, // Additive blend (particles)
     };
 
 } // namespace Engine

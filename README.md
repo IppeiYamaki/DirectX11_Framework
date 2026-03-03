@@ -78,13 +78,20 @@ C++20 / DirectX11 でのゲーム制作を効率化するために構築され�
 ### **Camera（カメラ管理システム）**
 
 カメラの生成・利用方法を統一するため、次の仕組みを用意しました：
-- エンジン内で`CameraSystem`を設計し、カメラの生成・削除・設定を統一。
-- メインカメラの切り替え機能を提供し、ゲーム内でメインの視点を動的に切り替えることをサポート。
+- **CameraPrefab**: カメラ機能を持つGameObjectを簡単に生成するためのPrefabクラス
+- **CameraComponent**: カメラ機能を提供するComponentクラス
+- **CameraSystem**: メインカメラの管理を担当（生成はCameraPrefabで行う）
 
 ```cpp
-// カメラの使用例
-Engine::Camera* mainCamera = ctx.m_cameraSystem->AddCamera({position, rotation, fov, nearZ, farZ});
-ctx.m_cameraSystem->SetMainCamera(mainCamera); // メインカメラを設定
+// カメラの使用例（新しいPrefabパターン）
+auto* mainCamera = ctx.Spawn<Engine::CameraPrefab>(
+    Engine::Vector3(0, 5, -10),  // position
+    0.0f,    // yaw
+    -15.0f   // pitch
+);
+
+// CameraComponentを取得する場合
+auto* cameraComponent = Engine::CameraPrefab::GetCameraComponent(mainCamera);
 ```
 
 ### **Light（光源管理システム）**
@@ -150,6 +157,10 @@ Engine/
     CameraSystem.h / CameraSystem.cpp
     LightSystem.h / LightSystem.cpp
     Light.h / Light.cpp
+    Components/
+      CameraComponent.h / CameraComponent.cpp
+  Prefabs/
+    CameraPrefab.h / CameraPrefab.cpp
   UI/
     Canvas.h / Canvas.cpp
     UIElement.h / UIElement.cpp
@@ -161,7 +172,7 @@ Game/
     TitleScene.h / TitleScene.cpp
     GameScene.h / GameScene.cpp
   Prefabs/
-    MainCameraPrefab.h / SamplePrefab.h
+    SamplePrefab.h / SkyPrefab.h
   Scripts/
     PlayerLogic.h / PlayerLogic.cpp
 Docs/

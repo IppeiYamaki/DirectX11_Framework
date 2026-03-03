@@ -1,5 +1,3 @@
-/// @file   RayManager.cpp
-/// @brief  レイの生成と管理を担当するクラス実装
 #include "RayManager.h"
 
 #include <utility>

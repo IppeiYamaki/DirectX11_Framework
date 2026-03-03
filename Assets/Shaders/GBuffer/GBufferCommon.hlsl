@@ -1,8 +1,8 @@
 #ifndef ENGINE_GBUFFER_COMMON_HLSL
 #define ENGINE_GBUFFER_COMMON_HLSL
 
-// row-majorで統一（CPUからXMFLOAT4X4をTransposeなしで扱えるようにする）
-#pragma pack_matrix(row_major)
+// Include common definitions (cbuffers for World/View/Projection, etc.)
+#include "../Common/Common.hlsl"
 
 //==============================
 // GBuffer出力構造体
@@ -50,23 +50,8 @@ struct PS_GBUFFER_IN
 };
 
 //==============================
-// Constant Buffers
+// GBuffer-specific Constant Buffers
 //==============================
-cbuffer WorldBuffer : register(b0)
-{
-    float4x4 g_world;
-}
-
-cbuffer ViewBuffer : register(b1)
-{
-    float4x4 g_view;
-}
-
-cbuffer ProjectionBuffer : register(b2)
-{
-    float4x4 g_projection;
-}
-
 struct PBRMaterialParams
 {
     float4 Albedo;      // RGB: Albedo, A: Alpha

@@ -50,7 +50,7 @@ namespace Engine {
             }
         }
 
-        // IndexBufferi”CˆÓj
+        // IndexBuffer
         if (indexData && indexCount > 0) {
             D3D11_BUFFER_DESC desc{};
             desc.Usage = D3D11_USAGE_IMMUTABLE;

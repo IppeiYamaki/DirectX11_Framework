@@ -5,17 +5,19 @@
 
 namespace Engine {
 
-    /**
-     * @brief 3Dベクトル（DirectXMath連携）
-     *
-     * - 軽量な値型（x,y,z public）
-     * - XMFLOAT3 / XMVECTOR と相互変換
-     * - 主要演算 + Dot/Cross/Normalize を提供
-     */
+    /// @brief 3Dベクトル
     struct Vector3 final {
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
+
+		//成分アクセス
+		float&       X() noexcept       { return x; }
+        const float& X() const noexcept { return x; }
+		float&       Y() noexcept       { return y; }
+		const float& Y() const noexcept { return y; }
+		float&       Z() noexcept       { return z; }
+		const float& Z() const noexcept { return z; }
 
         //============================================================
         // Constructors

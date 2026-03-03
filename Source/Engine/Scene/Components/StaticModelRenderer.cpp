@@ -35,17 +35,19 @@ namespace Engine {
         const auto& subsets = m_model->GetSubsets();
 
         for (const auto& s : subsets) {
-            if (!s.m_material || !s.m_material->IsInitialized()) continue;
+            if (!s.m_material || !s.m_material->IsInitialized()) {
+                Engine::Logger::Warn("StaticModelRenderer::Draw: Material not initialized for " + owner->GetName());
+                continue;
+            }
 
             RenderItem item{};
             item.m_mesh = &mesh;
             item.m_material = s.m_material.get();
             item.m_world = tr->GetWorldMatrix();
             item.m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-
-			item.m_layer = RenderLayer::Opaque; // TODO: �}�e���A��������
-			item.m_orderInLayer = 0;            // TODO: �}�e���A��������
-			item.m_stateFlags = 0;              // TODO: �}�e���A��������
+            item.m_layer = RenderLayer::Opaque;
+            item.m_orderInLayer = 0;
+            item.m_stateFlags = 0;
 
             m_renderSystem->AddRenderItem(item);
         }

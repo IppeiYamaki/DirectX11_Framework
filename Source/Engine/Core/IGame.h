@@ -3,39 +3,53 @@
 namespace Engine {
 
     class Application;
+    class Canvas;
+    class FadeSystem;
+    class DebugVisualizationSystem;
+    class DebugImGuiSystem;
+    class LightSystem;
 
-    /**
-     * @brief ƒQ[ƒ€‘¤iGameSystemj‚Æ EngineiApplicationj‚ğ•ª—£‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX
-     *
-     * - Engine ‚Íu‚Ç‚¤‰ñ‚·‚©v‚ğ’S“–iWindow/Time/Render/World ‚ğ‚Âj
-     * - Game ‚Íu‰½‚ğì‚é‚©v‚ğ’S“–i‰ŠúEntity¶¬AƒV[ƒ“\’zAƒQ[ƒ€isj
-     */
+    /// @brief Gameå´ï¼ˆGameSystemï¼‰ã¨ Engineå´ï¼ˆApplicationï¼‰ã‚’åˆ†é›¢ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
+    /// @brief Engine -> Game ã¸ã®å‘¼å‡º
+	/// @brief Game   -> Application ã‚’é€šã˜ã¦ Engine ã®æ©Ÿèƒ½ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹
     class IGame {
     public:
         virtual ~IGame() = default;
 
-        /**
-         * @brief ƒQ[ƒ€‰Šú‰»
-         * @param app Engine‘¤ƒAƒvƒŠƒP[ƒVƒ‡ƒ“iWorld/Assets“™‚ÖƒAƒNƒZƒX‚·‚é“üŒûj
-         * @return ¬Œ÷‚È‚ç true
-         */
+		/// @brief ã‚²ãƒ¼ãƒ åˆæœŸåŒ–
+		/// @param app Engineå´ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ï¼ˆWorld/Assetsã¸ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹å…¥å£ï¼‰
+        /// @return æˆåŠŸãªã‚‰ true
         virtual bool Initialize(Application& app) = 0;
 
-        /**
-         * @brief ƒQ[ƒ€I—¹ˆ—iˆÀ‘S‚É•¡”‰ñŒÄ‚Î‚ê‚Ä‚à‰ó‚ê‚È‚¢İŒv‚ğ„§j
-         */
+		/// @brief ã‚²ãƒ¼ãƒ çµ‚äº†
         virtual void Finalize() = 0;
 
-        /**
-         * @brief –ˆƒtƒŒ[ƒ€XV
-         * @param deltaTime •b
-         */
+		/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
+        /// @param deltaTime ç§’
         virtual void Update(float deltaTime) = 0;
 
-        /**
-         * @brief –ˆƒtƒŒ[ƒ€•`‰æi•`‰æ—v‹‚Ì‘—oj
-         */
+		/// @brief æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æç”»
         virtual void Draw() = 0;
+
+        /// @brief Canvasã‚’å–å¾—ï¼ˆUIæç”»ã®ãŸã‚ï¼‰
+        /// @return Canvasï¼ˆæœªä½¿ç”¨ã®å ´åˆã¯nullptrï¼‰
+        virtual Canvas* GetCanvas() { return nullptr; }
+
+        /// @brief FadeSystemã‚’å–å¾—ï¼ˆãƒ•ã‚§ãƒ¼ãƒ‰æç”»ã®ãŸã‚ï¼‰
+        /// @return FadeSystemï¼ˆæœªä½¿ç”¨ã®å ´åˆã¯nullptrï¼‰
+        virtual FadeSystem* GetFadeSystem() { return nullptr; }
+
+        /// @brief DebugVisualizationSystemã‚’å–å¾—ï¼ˆãƒ‡ãƒãƒƒã‚°æç”»ã®ãŸã‚ï¼‰
+        /// @return DebugVisualizationSystemï¼ˆæœªä½¿ç”¨ã®å ´åˆã¯nullptrï¼‰
+        virtual DebugVisualizationSystem* GetDebugVisualizationSystem() { return nullptr; }
+
+        /// @brief DebugImGuiSystemã‚’å–å¾—ï¼ˆImGuiãƒ‡ãƒãƒƒã‚°UIæç”»ã®ãŸã‚ï¼‰
+        /// @return DebugImGuiSystemï¼ˆæœªä½¿ç”¨ã®å ´åˆã¯nullptrï¼‰
+        virtual DebugImGuiSystem* GetDebugImGuiSystem() { return nullptr; }
+
+        /// @brief LightSystemã‚’å–å¾—ï¼ˆãƒ‡ãƒãƒƒã‚°æç”»ã®ãŸã‚ï¼‰
+        /// @return LightSystemï¼ˆæœªä½¿ç”¨ã®å ´åˆã¯nullptrï¼‰
+        virtual LightSystem* GetLightSystem() { return nullptr; }
     };
 
 } // namespace Engine

@@ -36,6 +36,9 @@ void main(in VS_SKIN_IN In, out PS_IN Out)
     sn += mul(n, g_bones[In.BoneIndices.z]) * In.BoneWeights.z;
     sn += mul(n, g_bones[In.BoneIndices.w]) * In.BoneWeights.w;
 
+    // Calculate world position for clip plane (to be used in PS)
+    Out.WorldPos = TransformToWorldSpace(sp.xyz);
+
     // output
     Out.Position = TransformPosition(sp.xyz);
     Out.TexCoord = In.TexCoord;

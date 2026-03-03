@@ -39,7 +39,7 @@ namespace Engine {
         bool IsAlive() const { return m_object != nullptr; }
 
         /// @brief GameObjectをPrefab経由で生成
-        /// @tparam TPrefab SceneContext::SpawnObject<TPrefab>で生成可能なPrefabクラス
+        /// @tparam TPrefab SceneContext::Spawn<TPrefab>で生成可能なPrefabクラス
         /// @param ctx SceneContext
         /// @param args Prefab生成用の引数
         /// @return 生成されたGameObject
@@ -53,7 +53,7 @@ namespace Engine {
             m_respawn = [argsTuple](SceneContext& c) -> GameObject* {
                 return std::apply(
                     [&c](auto&&... a) -> GameObject* {
-                        return c.SpawnObject<TPrefab>(a...);
+                        return c.Spawn<TPrefab>(a...);
                     },
                     *argsTuple);
                 };

@@ -19,7 +19,8 @@ namespace Engine {
     }
 
     void AnimationModel::OnStart() {
-        // �������Ȃ��iLoadModel��ɓ����j
+		// 初期状態ではモデルはロードされていないため、特に処理は行わない
+  
     }
 
     bool AnimationModel::LoadModel(const std::wstring& path) {
@@ -34,7 +35,7 @@ namespace Engine {
             return false;
         }
 
-        // �N���b�v�����i�ŏ���1��I�ԁj
+		// モデルのクリップ名を取得して、初期状態のブレンド対象をセット
         const auto names = m_model->GetClipNames();
         if (!names.empty()) {
             m_clipA = names[0];
@@ -76,7 +77,7 @@ namespace Engine {
     void AnimationModel::Update(float deltaTime) {
         if (!m_model) return;
 
-        // �����t���[���i�s�i���R�[�h�� Frame++ �����j
+        // フレームの進行
         m_frameAccA += deltaTime * m_fps;
         m_frameAccB += deltaTime * m_fps;
         m_frameA = static_cast<int>(m_frameAccA);
@@ -97,7 +98,7 @@ namespace Engine {
         );
 
         if (!ok) {
-            // �A�j�������ł��`����悤�� I �����Ă���
+            // 失敗した場合はボーン行列を初期化
             m_boneMatrices.resize(m_model->GetBones().size());
             for (auto& m : m_boneMatrices) {
                 DirectX::XMStoreFloat4x4(&m, DirectX::XMMatrixIdentity());
@@ -127,9 +128,9 @@ namespace Engine {
             item.m_world = tr->GetWorldMatrix();
             item.m_topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-			item.m_layer = RenderLayer::Opaque; // TODO: �}�e���A��������
-			item.m_orderInLayer = 0;            // TODO: �}�e���A��������
-			item.m_stateFlags = 0;              // TODO: �}�e���A��������
+			item.m_layer = RenderLayer::Opaque; // layerを固定しているが、将来的にはマテリアル側で指定できるようにするかも
+			item.m_orderInLayer = 0;            // orderInLayerも固定しているが、将来的にはマテリアル側で指定できるようにするかも
+			item.m_stateFlags = 0;              // 描画ステートフラグは今のところ使用していないが、将来的にはマテリアル側で指定できるようにするかも
 
 
 

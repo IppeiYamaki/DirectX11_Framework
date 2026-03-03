@@ -6,15 +6,15 @@
 namespace Engine {
 
     namespace {
-		// �X�P�[���̍ŏ��l�i0�ȉ���h�����߁j
+		// �X�P�[���̍ŏ��l�i0�ȉ���h�����߁j
         constexpr float kMinScale = 0.0001f;
     }
 
 
     float Transform::NormalizeAngle(float angle){
-		// 0�`360�x�͈̔͂ɐ��K��
+		// 0�`360�x�͈̔͂ɐ��K��
 		angle = std::fmodf(angle, 360.0f);
-		// ���̒l�̏ꍇ��360�x�����Z
+		// ���̒l�̏ꍇ��360�x�����Z
         if (angle < 0.0f) {
             angle += 360.0f;
         }
@@ -62,15 +62,82 @@ namespace Engine {
     }
 
     void Transform::SetWorldPosition(const Vector3& worldPosition){
-        //if(m_parent) return m_parent->T
+        if (m_parent) {
+            // 親のワールド行列の逆行列を使って、ローカル座標に変換
+            using namespace DirectX;
+            const XMFLOAT4X4& parentWorld = m_parent->GetWorldMatrix();
+            XMMATRIX parentMat = XMLoadFloat4x4(&parentWorld);
+            
+            // 行列式をチェックして可逆かどうか確認
+            XMVECTOR det;
+            XMMATRIX parentInv = XMMatrixInverse(&det, parentMat);
+            
+            // 行列式が0に近い場合は、直接ワールド座標を設定
+            if (XMVectorGetX(XMVectorAbs(det)) < 0.0001f) {
+                m_position = worldPosition;
+            } else {
+                XMVECTOR worldPos = worldPosition.ToXMVECTOR(1.0f);
+                XMVECTOR localPos = XMVector3TransformCoord(worldPos, parentInv);
+                m_position = Vector3(localPos);
+            }
+        } else {
+            m_position = worldPosition;
+        }
+        MarkDirty();
     }
 
-    void Transform::SetWorldPosition(float x, float y, float z)
-    {
+    void Transform::SetWorldPosition(float x, float y, float z){
+        SetWorldPosition(Vector3(x, y, z));
     }
 
-    void Transform::AddWorldPosition(const Vector3& deltaWorldPosition)
-    {
+    void Transform::AddWorldPosition(const Vector3& deltaWorldPosition){
+        Vector3 currentWorldPos = GetWorldPosition();
+        SetWorldPosition(currentWorldPos + deltaWorldPosition);
+    }
+
+    const Vector3 Transform::GetWorldPosition() const{
+        using namespace DirectX;
+        RebuildWorldIfDirty();
+        // ワールド行列の位置成分を抽出
+        return Vector3(m_localToWorldMatrix._41, m_localToWorldMatrix._42, m_localToWorldMatrix._43);
+    }
+
+    void Transform::SetParent(Transform* parent) {
+        // 自身を親にすることは禁止（循環参照防止）
+        if (parent == this) {
+            return;
+        }
+        
+        // 循環参照チェック（新しい親が自身の子孫でないことを確認）
+        Transform* current = parent;
+        while (current) {
+            if (current == this) {
+                return; // 循環参照が発生するため設定しない
+            }
+            current = current->m_parent;
+        }
+        
+        // 既存の親から削除
+        if (m_parent) {
+            m_parent->RemoveChild(this);
+        }
+        
+        m_parent = parent;
+        
+        // 新しい親に追加
+        if (m_parent) {
+            m_parent->AddChild(this);
+        }
+        
+        MarkDirty();
+    }
+
+    Transform* Transform::GetParent() const {
+        return m_parent;
+    }
+
+    const std::list<Transform*>& Transform::GetChildren() const {
+        return m_children;
     }
 
     void Transform::SetRotationEulerDegrees(const Vector3& eulerDegrees) {
@@ -88,7 +155,7 @@ namespace Engine {
     }
 
     void Transform::SetYawPitchRollDegrees(float yawDegrees, float pitchDegrees, float rollDegrees) {
-        // ������ x=pitch, y=yaw, z=roll
+        // ������ x=pitch, y=yaw, z=roll
         m_rotation.x = pitchDegrees;
         m_rotation.y = yawDegrees;
         m_rotation.z = rollDegrees;
@@ -153,7 +220,14 @@ namespace Engine {
     }
 
     void Transform::MarkDirty() {
+        if (m_isDirty) return; // 既にdirtyなら子への伝播は不要
         m_isDirty = true;
+        // 子にも伝播
+        for (auto* child : m_children) {
+            if (child) {
+                child->MarkDirty();
+            }
+        }
     }
 
     DirectX::XMVECTOR Transform::MakeRotationQuaternion(const Vector3& eulerDegrees) {
@@ -176,8 +250,16 @@ namespace Engine {
         const XMMATRIX r = XMMatrixRotationQuaternion(q);
         const XMMATRIX t = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
 
-        const XMMATRIX world = s * r * t;
-        XMStoreFloat4x4(&m_localToWorldMatrix, world);
+        XMMATRIX local = s * r * t;
+        
+        // 親がいれば親のワールド行列と合成
+        if (m_parent) {
+            const XMFLOAT4X4& parentWorld = m_parent->GetWorldMatrix();
+            XMMATRIX parentMat = XMLoadFloat4x4(&parentWorld);
+            local = local * parentMat;
+        }
+        
+        XMStoreFloat4x4(&m_localToWorldMatrix, local);
 
         m_isDirty = false;
     }

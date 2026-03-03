@@ -1,5 +1,4 @@
 #include "GBufferCommon.hlsl"
-#include "../Common/Common.hlsl"
 
 // b5 : Bones
 cbuffer BonesBuffer : register(b5)

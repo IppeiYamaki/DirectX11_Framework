@@ -38,11 +38,11 @@ namespace Engine {
     private:
         friend class Physics;
 
-        GameObject* m_hitObject = nullptr;  ///< ヒットしたオブジェクト
-        float m_distance = 0.0f;            ///< ヒットポイントまでの距離
-        Vector3 m_hitPoint;                 ///< ヒットポイント
-        Vector3 m_normal;                   ///< ヒット面の法線
-        bool m_hasHit = false;              ///< ヒットフラグ
+        GameObject* m_hitObject = nullptr;  /// ヒットしたオブジェクト
+        float m_distance = 0.0f;            /// ヒットポイントまでの距離
+        Vector3 m_hitPoint;                 /// ヒットポイント
+        Vector3 m_normal;                   /// ヒット面の法線
+        bool m_hasHit = false;              /// ヒットフラグ
     };
 
     /// @brief 物理演算・レイキャストを担当する静的クラス

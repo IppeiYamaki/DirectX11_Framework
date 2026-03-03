@@ -5,15 +5,8 @@
 
 namespace Engine {
 
-    /**
-     * @brief Application 起動設定
-     *
-     * - WinMain から渡す初期値をまとめるための構造体
-     * - ここは「設定の入れ物」なので public メンバでOK（ルールに沿って m_ を付ける）
-     */
-
-
 	/// @brief Application 起動設定
+    /// @brief WinMain から渡す初期値をまとめるための構造体
 	/// @note  設定の入れ物なので public メンバでOK（ルールに沿って m_ を付ける）
     struct ApplicationSettings final {
         // Win32

@@ -6,9 +6,12 @@
 #include "Engine/Math/Color.h"
 
 #include <functional>
+#include <memory>
 #include <string>
 
 namespace Engine {
+
+    class Texture;
 
     /// @brief ボタンUI要素
     /// @note  Canvas上にクリック可能なボタンを表示するためのUIコンポーネント
@@ -112,6 +115,22 @@ namespace Engine {
         [[nodiscard]] const Color& GetTextColor() const;
 
         //============================================================
+        // Background Texture
+        //============================================================
+
+        /// @brief 背景テクスチャを設定
+        /// @param texture 設定するテクスチャ（nullptrで解除）
+        void SetBackgroundTexture(std::shared_ptr<Texture> texture);
+
+        /// @brief 背景テクスチャを取得
+        /// @return 背景テクスチャ（設定されていない場合はnullptr）
+        [[nodiscard]] std::shared_ptr<Texture> GetBackgroundTexture() const;
+
+        /// @brief 背景テクスチャが設定されているか確認
+        /// @return テクスチャが設定されていればtrue
+        [[nodiscard]] bool HasBackgroundTexture() const;
+
+        //============================================================
         // Interaction
         //============================================================
 
@@ -167,6 +186,8 @@ namespace Engine {
         bool m_wasPressed = false;                                 ///< 前フレームで押下されていたか
 
         ClickCallback m_onClick;                                    ///< クリックイベントハンドラ
+
+        std::shared_ptr<Texture> m_backgroundTexture;              ///< 背景テクスチャ
     };
 
 } // namespace Engine

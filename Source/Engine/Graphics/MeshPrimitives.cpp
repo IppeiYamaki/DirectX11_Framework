@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <cstdint>
 
+#include "Engine/Math/PerlinNoise.h"
+
 namespace Engine {
 
     namespace {
@@ -62,8 +64,8 @@ namespace Engine {
         v[6] = { Vector3(-hx,-hy,-hz), Vector3(0,0,-1), white, Vector2(1,1) };
         v[7] = { Vector3(+hx,-hy,-hz), Vector3(0,0,-1), white, Vector2(0,1) };
         // +X
-        v[8] = { Vector3(+hx,+hy,+hz), Vector3(1,0,0),  white, Vector2(0,0) };
-        v[9] = { Vector3(+hx,+hy,-hz), Vector3(1,0,0),  white, Vector2(1,0) };
+        v[8] =  { Vector3(+hx,+hy,+hz), Vector3(1,0,0),  white, Vector2(0,0) };
+        v[9] =  { Vector3(+hx,+hy,-hz), Vector3(1,0,0),  white, Vector2(1,0) };
         v[10] = { Vector3(+hx,-hy,-hz), Vector3(1,0,0),  white, Vector2(1,1) };
         v[11] = { Vector3(+hx,-hy,+hz), Vector3(1,0,0),  white, Vector2(0,1) };
         // -X
@@ -86,8 +88,9 @@ namespace Engine {
         for (int face = 0; face < 6; ++face) {
             const std::uint32_t baseV = (std::uint32_t)(face * 4);
             const int baseI = face * 6;
-            idx[baseI + 0] = baseV + 0; idx[baseI + 1] = baseV + 1; idx[baseI + 2] = baseV + 2;
-            idx[baseI + 3] = baseV + 0; idx[baseI + 4] = baseV + 2; idx[baseI + 5] = baseV + 3;
+            // Clockwise winding for outside-facing triangles (FrontCounterClockwise = FALSE)
+            idx[baseI + 0] = baseV + 0; idx[baseI + 1] = baseV + 2; idx[baseI + 2] = baseV + 1;
+            idx[baseI + 3] = baseV + 0; idx[baseI + 4] = baseV + 3; idx[baseI + 5] = baseV + 2;
         }
         return outMesh.Create(device, v.data(), sizeof(VertexPosNormColorUv), (std::uint32_t)v.size(),
             idx.data(), (std::uint32_t)idx.size());
@@ -377,6 +380,142 @@ namespace Engine {
 
                 indices.push_back(i0); indices.push_back(i1); indices.push_back(i3);
                 indices.push_back(i0); indices.push_back(i3); indices.push_back(i2);
+            }
+        }
+
+        return outMesh.Create(device, vertices.data(), sizeof(VertexPosNormColorUv),
+            (std::uint32_t)vertices.size(),
+            indices.data(), (std::uint32_t)indices.size());
+    }
+
+    bool MeshPrimitives::CreateFieldGrid(ID3D11Device* device, Mesh& outMesh, float width, float depth, int gridSize,
+                                          float amplitude, float frequency, int octaves, std::uint32_t seed) {
+        gridSize = (std::max)(1, gridSize);
+        octaves = (std::max)(1, (std::min)(8, octaves));  // Clamp octaves to [1, 8]
+
+        const int vx = gridSize + 1;
+        const int vz = gridSize + 1;
+
+        const float halfW = width * 0.5f;
+        const float halfD = depth * 0.5f;
+
+        const Vector4 white(1, 1, 1, 1);
+
+        // Initialize Perlin noise generator with seed
+        PerlinNoise perlin(seed);
+
+        // Generate vertex positions with Perlin noise heights
+        std::vector<VertexPosNormColorUv> vertices;
+        vertices.reserve((size_t)vx * (size_t)vz);
+
+        for (int z = 0; z < vz; ++z) {
+            const float tz = (float)z / (float)gridSize;
+            const float posZ = -halfD + tz * depth;
+
+            for (int x = 0; x < vx; ++x) {
+                const float tx = (float)x / (float)gridSize;
+                const float posX = -halfW + tx * width;
+
+                // Generate height using fractal Perlin noise
+                const double noiseValue = perlin.fractal(tx * width * frequency, tz * depth * frequency, octaves);
+                
+                // Map noise from [0, 1] to [-amplitude, +amplitude]
+                const float height = static_cast<float>((noiseValue * 2.0 - 1.0) * amplitude);
+
+                VertexPosNormColorUv v{};
+                v.m_pos = Vector3(posX, height, posZ);
+                v.m_normal = Vector3(0, 1, 0);  // Will recalculate later
+                v.m_color = white;
+                v.m_uv = Vector2(tx, 1.0f - tz);
+                vertices.push_back(v);
+            }
+        }
+
+        // Calculate proper normals based on adjacent vertices
+        for (int z = 0; z < vz; ++z) {
+            for (int x = 0; x < vx; ++x) {
+                const int idx = z * vx + x;
+                
+                // Get neighboring vertices for normal calculation
+                Vector3 left, right, up, down;
+                
+                if (x > 0) {
+                    left = vertices[idx - 1].m_pos;
+                } else {
+                    // Mirror the adjacent vertex for boundary
+                    const Vector3& current = vertices[idx].m_pos;
+                    const Vector3& neighbor = vertices[idx + 1].m_pos;
+                    left = Vector3(current.x - (neighbor.x - current.x), 
+                                   current.y - (neighbor.y - current.y), 
+                                   current.z);
+                }
+                
+                if (x < vx - 1) {
+                    right = vertices[idx + 1].m_pos;
+                } else {
+                    // Mirror the adjacent vertex for boundary
+                    const Vector3& current = vertices[idx].m_pos;
+                    const Vector3& neighbor = vertices[idx - 1].m_pos;
+                    right = Vector3(current.x + (current.x - neighbor.x), 
+                                    current.y + (current.y - neighbor.y), 
+                                    current.z);
+                }
+                
+                if (z > 0) {
+                    up = vertices[idx - vx].m_pos;
+                } else {
+                    // Mirror the adjacent vertex for boundary
+                    const Vector3& current = vertices[idx].m_pos;
+                    const Vector3& neighbor = vertices[idx + vx].m_pos;
+                    up = Vector3(current.x, 
+                                 current.y - (neighbor.y - current.y), 
+                                 current.z - (neighbor.z - current.z));
+                }
+                
+                if (z < vz - 1) {
+                    down = vertices[idx + vx].m_pos;
+                } else {
+                    // Mirror the adjacent vertex for boundary
+                    const Vector3& current = vertices[idx].m_pos;
+                    const Vector3& neighbor = vertices[idx - vx].m_pos;
+                    down = Vector3(current.x, 
+                                   current.y + (current.y - neighbor.y), 
+                                   current.z + (current.z - neighbor.z));
+                }
+                
+                // Calculate tangent vectors
+                const Vector3 tangentX(right.x - left.x, right.y - left.y, right.z - left.z);
+                const Vector3 tangentZ(down.x - up.x, down.y - up.y, down.z - up.z);
+                
+                // Cross product to get normal
+                Vector3 normal(
+                    tangentX.y * tangentZ.z - tangentX.z * tangentZ.y,
+                    tangentX.z * tangentZ.x - tangentX.x * tangentZ.z,
+                    tangentX.x * tangentZ.y - tangentX.y * tangentZ.x
+                );
+                
+                // Normalize
+                vertices[idx].m_normal = NormalizeSafe(normal);
+            }
+        }
+
+        std::vector<std::uint32_t> indices;
+        indices.reserve((size_t)gridSize * (size_t)gridSize * 6);
+
+        for (int z = 0; z < gridSize; ++z) {
+            for (int x = 0; x < gridSize; ++x) {
+                const std::uint32_t i0 = (std::uint32_t)(z * vx + x);
+                const std::uint32_t i1 = i0 + 1;
+                const std::uint32_t i2 = i0 + (std::uint32_t)vx;
+                const std::uint32_t i3 = i2 + 1;
+
+                indices.push_back(i0);
+                indices.push_back(i2);
+                indices.push_back(i1);
+
+                indices.push_back(i2);
+                indices.push_back(i3);
+                indices.push_back(i1);
             }
         }
 

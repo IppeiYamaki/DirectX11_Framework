@@ -12,6 +12,7 @@ namespace Engine {
         case MeshType::Plane:   return MeshPrimitives::CreatePlaneGrid(device, outMesh, 10.0f, 10.0f, 10, 10);
         case MeshType::Sphere:  return MeshPrimitives::CreateSphereUv(device, outMesh, 0.5f, 32, 16);
         case MeshType::Capsule: return MeshPrimitives::CreateCapsule(device, outMesh, 0.5f, 2.0f, 32, 8, 4);
+        case MeshType::Field:   return MeshPrimitives::CreateFieldGrid(device, outMesh, 100.0f, 100.0f, 10);
         default: break;
         }
         return false;
@@ -36,6 +37,10 @@ namespace Engine {
         case MeshType::Capsule:
             return MeshPrimitives::CreateCapsule(device, outMesh, desc.m_radius, desc.m_capsuleHeight,
                 desc.m_slices, desc.m_stacksHemisphere, desc.m_stacksCylinder);
+
+        case MeshType::Field:
+            return MeshPrimitives::CreateFieldGrid(device, outMesh, desc.m_width, desc.m_depth, desc.m_fieldGridSize,
+                                                    desc.m_fieldAmplitude, desc.m_fieldFrequency, desc.m_fieldOctaves, desc.m_fieldSeed);
 
         default:
             break;

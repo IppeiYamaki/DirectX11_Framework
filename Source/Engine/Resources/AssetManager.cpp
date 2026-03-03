@@ -2,6 +2,7 @@
 
 #include "Engine/Core/Logger.h"
 #include "Engine/Resources/ObjModelLoader.h"
+#include "Engine/Resources/AssimpModelLoader.h"
 
 #include <cwctype>
 #include <filesystem>
@@ -105,6 +106,11 @@ namespace Engine {
 
         const std::wstring resolved = ResolvePath(path);
         const std::wstring key = MakeTextureCacheKey(resolved, options);
+        
+        // Log resolved path for debugging
+        std::string narrowPath(path.begin(), path.end());
+        std::string narrowResolved(resolved.begin(), resolved.end());
+        Logger::Info("AssetManager::LoadTexture: path=" + narrowPath + " -> resolved=" + narrowResolved);
 
         std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -112,6 +118,7 @@ namespace Engine {
             auto it = m_textureCache.find(key);
             if (it != m_textureCache.end()) {
                 if (auto shared = it->second.lock()) {
+                    Logger::Info("AssetManager::LoadTexture: Using cached texture");
                     return shared;
                 }
             }
@@ -119,7 +126,7 @@ namespace Engine {
 
         auto tex = std::make_shared<Texture>();
         if (!tex->LoadFromFile(m_device, resolved, options)) {
-            Logger::Error("AssetManager::LoadTexture failed: Texture load failed.");
+            Logger::Error("AssetManager::LoadTexture failed: Texture load failed for: " + narrowResolved);
             return nullptr;
         }
 
@@ -200,7 +207,7 @@ namespace Engine {
         const std::wstring resolved = ResolvePath(path);
         const std::wstring key = MakeModelCacheKey(resolved);
 
-        // 1) cache checki‚±‚±‚ÍƒƒbƒNj
+        // 1) cache checkï¿½iï¿½ï¿½ï¿½ï¿½ï¿½Íƒï¿½ï¿½bï¿½Nï¿½j
         {
             std::lock_guard<std::mutex> lock(m_mutex);
             auto it = m_modelCache.find(key);
@@ -211,16 +218,21 @@ namespace Engine {
             }
         }
 
-        // 2) loadiƒƒbƒNŠOFLoadTexture‚ª“à•”ƒƒbƒN‚·‚é‚Ì‚ÅƒfƒbƒhƒƒbƒN‰ñ”ğj
+        // 2) loadï¿½iï¿½ï¿½ï¿½bï¿½Nï¿½Oï¿½FLoadTextureï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½Ì‚Åƒfï¿½bï¿½hï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½j
         const std::filesystem::path p(resolved);
         const std::wstring ext = ToLower(p.extension().wstring());
 
         std::shared_ptr<Model> model;
         if (ext == L".obj") {
+            // Use OBJ-specific loader for .obj files (preserves existing behavior)
             model = LoadObjModel(m_device, *this, resolved);
         }
+        else if (IsSupportedModelFormat(resolved)) {
+            // Use Assimp for FBX, GLTF, DAE, etc.
+            model = LoadAssimpModel(m_device, *this, resolved);
+        }
         else {
-            Logger::Error("AssetManager::LoadModel failed: unsupported extension (only .obj).");
+            Logger::Error("AssetManager::LoadModel failed: unsupported extension.");
             return nullptr;
         }
 
@@ -292,7 +304,7 @@ namespace Engine {
     }
 
     std::wstring AssetManager::MakeModelCacheKey(const std::wstring& resolvedPath) const {
-        // ¡‚ÍƒIƒvƒVƒ‡ƒ“–³‚µ‚È‚Ì‚ÅƒpƒX‚¾‚¯
+        // ï¿½ï¿½ï¿½ÍƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚Ì‚Åƒpï¿½Xï¿½ï¿½ï¿½ï¿½
         return ToLower(NormalizeSlashes(resolvedPath));
     }
 

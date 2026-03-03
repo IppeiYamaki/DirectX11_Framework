@@ -4,6 +4,7 @@
 
 #include "Engine/Core/Logger.h"
 #include "Engine/Graphics/RenderSystem.h"
+#include "Engine/Graphics/Texture.h"
 
 namespace Engine {
 
@@ -44,6 +45,7 @@ namespace Engine {
         UIElement::OnDestroy();
         m_text.clear();
         m_onClick = nullptr;
+        m_backgroundTexture.reset();
     }
 
     //============================================================
@@ -110,6 +112,22 @@ namespace Engine {
 
     const Color& Button::GetTextColor() const {
         return m_textColor;
+    }
+
+    //============================================================
+    // Background Texture
+    //============================================================
+
+    void Button::SetBackgroundTexture(std::shared_ptr<Texture> texture) {
+        m_backgroundTexture = std::move(texture);
+    }
+
+    std::shared_ptr<Texture> Button::GetBackgroundTexture() const {
+        return m_backgroundTexture;
+    }
+
+    bool Button::HasBackgroundTexture() const {
+        return m_backgroundTexture != nullptr && m_backgroundTexture->IsLoaded();
     }
 
     //============================================================

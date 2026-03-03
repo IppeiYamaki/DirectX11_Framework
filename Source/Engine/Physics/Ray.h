@@ -1,5 +1,3 @@
-/// @file   Ray.h
-/// @brief  レイ（光線）クラス - 原点と方向を持つ3D光線
 #pragma once
 
 #include "Engine/Math/Vector3.h"
@@ -55,8 +53,8 @@ namespace Engine {
         [[nodiscard]] Vector3 GetPoint(float distance) const;
 
     private:
-        Vector3 m_origin;       ///< レイの原点
-        Vector3 m_direction;    ///< レイの方向（正規化済み）
+        Vector3 m_origin;       /// レイの原点
+        Vector3 m_direction;    /// レイの方向（正規化済み）
     };
 
 } // namespace Engine

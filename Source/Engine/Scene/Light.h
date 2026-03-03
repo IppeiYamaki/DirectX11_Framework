@@ -95,11 +95,11 @@ namespace Engine {
         [[nodiscard]] Vector3 GetAmbient() const;
 
     protected:
-        Vector3 m_color{1.0f, 1.0f, 1.0f};    ///< ライトカラー（RGB）
-        float m_intensity = 1.0f;              ///< 光の強さ
-        bool m_isEnabled = true;               ///< 有効フラグ
-        bool m_castShadow = false;             ///< シャドウ生成フラグ
-        Vector3 m_ambient{0.1f, 0.1f, 0.1f};   ///< 環境光色
+        Vector3 m_color{1.0f, 1.0f, 1.0f};    /// ライトカラー（RGB）
+        float m_intensity = 1.0f;              /// 光の強さ
+        bool m_isEnabled = true;               /// 有効フラグ
+        bool m_castShadow = false;             /// シャドウ生成フラグ
+        Vector3 m_ambient{0.1f, 0.1f, 0.1f};   /// 環境光色
     };
 
     /// @brief 方向性ライト（太陽光のような無限遠からの光）
@@ -125,7 +125,7 @@ namespace Engine {
         [[nodiscard]] Vector3 GetDirection() const;
 
     private:
-        Vector3 m_direction{0.0f, -1.0f, 0.0f}; ///< 光の方向（正規化済み）
+        Vector3 m_direction{0.0f, -1.0f, 0.0f}; /// 光の方向（正規化済み）
     };
 
     /// @brief 点光源（全方向に放射される光）

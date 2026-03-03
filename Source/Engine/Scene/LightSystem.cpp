@@ -176,8 +176,15 @@ namespace Engine {
     void LightSystem::ApplyToRenderSystem() {
         if (!m_isInitialized || !m_renderSystem) return;
 
-        // 最初の有効な方向性ライトをRenderSystemに適用
-        // (既存のDirectionalLight APIとの互換性維持)
+        // 拡張ライトデータを構築
+        ExtendedLightCB extendedLightData{};
+        std::uint32_t dirLightCount = 0;
+        std::uint32_t pointLightCount = 0;
+        std::uint32_t spotLightCount = 0;
+
+        // 最初の有効な方向性ライトをRenderSystemに適用（レガシーAPI互換）
+        bool firstDirLightApplied = false;
+
         for (const auto& light : m_lights) {
             if (!light->IsEnabled()) continue;
 
@@ -198,10 +205,91 @@ namespace Engine {
                 Vector3 ambient = dirLight->GetAmbient();
                 shaderLight.m_ambient = Vector4(ambient.x, ambient.y, ambient.z, 1.0f);
 
-                m_renderSystem->SetLight(shaderLight);
-                break;  // 最初の有効なDirectionalLightのみを適用
+                // レガシーAPI: 最初の方向性ライトを設定
+                if (!firstDirLightApplied) {
+                    m_renderSystem->SetLight(shaderLight);
+                    firstDirLightApplied = true;
+                }
+
+                // 拡張ライト配列に追加
+                if (dirLightCount < kMaxDirectionalLights) {
+                    extendedLightData.g_directionalLights[dirLightCount] = shaderLight;
+                    ++dirLightCount;
+                }
+            }
+            else if (light->GetLightType() == LightType::Point) {
+                if (pointLightCount >= kMaxPointLights) continue;
+
+                auto* pointLight = static_cast<PointLightObject*>(light.get());
+
+                PointLight shaderLight{};
+                Vector3 pos = pointLight->GetPosition();
+                shaderLight.m_positionX = pos.x;
+                shaderLight.m_positionY = pos.y;
+                shaderLight.m_positionZ = pos.z;
+                shaderLight.m_range = pointLight->GetRange();
+
+                Vector3 color = pointLight->GetColor();
+                float intensity = pointLight->GetIntensity();
+                shaderLight.m_diffuse = Vector4(color.x * intensity, color.y * intensity, color.z * intensity, intensity);
+
+                float constant, linear, quadratic;
+                pointLight->GetAttenuation(constant, linear, quadratic);
+                shaderLight.m_constantAtten = constant;
+                shaderLight.m_linearAtten = linear;
+                shaderLight.m_quadraticAtten = quadratic;
+                shaderLight.m_flags = kLightFlagEnabled;
+
+                extendedLightData.g_pointLights[pointLightCount] = shaderLight;
+                ++pointLightCount;
+            }
+            else if (light->GetLightType() == LightType::Spot) {
+                if (spotLightCount >= kMaxSpotLights) continue;
+
+                auto* spotLight = static_cast<SpotLightObject*>(light.get());
+
+                SpotLight shaderLight{};
+                Vector3 pos = spotLight->GetPosition();
+                shaderLight.m_positionX = pos.x;
+                shaderLight.m_positionY = pos.y;
+                shaderLight.m_positionZ = pos.z;
+                shaderLight.m_range = spotLight->GetRange();
+
+                Vector3 dir = spotLight->GetDirection();
+                shaderLight.m_directionX = dir.x;
+                shaderLight.m_directionY = dir.y;
+                shaderLight.m_directionZ = dir.z;
+
+                shaderLight.m_innerCosAngle = spotLight->GetInnerCosAngle();
+                shaderLight.m_outerCosAngle = spotLight->GetOuterCosAngle();
+
+                Vector3 color = spotLight->GetColor();
+                float intensity = spotLight->GetIntensity();
+                shaderLight.m_diffuse = Vector4(color.x * intensity, color.y * intensity, color.z * intensity, intensity);
+
+                float constant, linear, quadratic;
+                spotLight->GetAttenuation(constant, linear, quadratic);
+                shaderLight.m_constantAtten = constant;
+                shaderLight.m_linearAtten = linear;
+                shaderLight.m_quadraticAtten = quadratic;
+                shaderLight.m_flags = kLightFlagEnabled;
+
+                extendedLightData.g_spotLights[spotLightCount] = shaderLight;
+                ++spotLightCount;
             }
         }
+
+        // ライト数を設定
+        extendedLightData.g_directionalLightCount = dirLightCount;
+        extendedLightData.g_pointLightCount = pointLightCount;
+        extendedLightData.g_spotLightCount = spotLightCount;
+
+        // 拡張ライトデータをRenderSystemに設定
+        m_renderSystem->SetExtendedLights(extendedLightData);
+
+        // 拡張ライティングを有効化（ポイントライトやスポットライトがある場合）
+        bool hasExtendedLights = (pointLightCount > 0) || (spotLightCount > 0) || (dirLightCount > 0);
+        m_renderSystem->SetExtendedLightingEnabled(hasExtendedLights);
     }
 
     //============================================================

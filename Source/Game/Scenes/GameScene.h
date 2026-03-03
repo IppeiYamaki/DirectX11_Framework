@@ -5,7 +5,9 @@
 #include "Engine/Scene/SceneBase.h"
 #include "Engine/Scene/ObjectSlot.h"
 
+#include "Game/GamePlay/TileMapBase.h"
 #include <vector>
+#include <memory>
 
 namespace Engine { 
     class Button;
@@ -37,6 +39,8 @@ namespace Game {
         /// @param ctx Scene利用コンテキスト情報
         void Render(Engine::SceneContext& ctx) override;
 
+
+
     private:
         /// @brief シーン用ライティング設定を適用
         /// @param ctx Scene利用コンテキスト情報
@@ -54,9 +58,19 @@ namespace Game {
         /// @param ctx Scene利用コンテキスト情報
         void HandleMouseInput(Engine::SceneContext& ctx);
 
+        /// @brief タイルマップを設定
+        /// @param ctx Scene利用コンテキスト情報
+        void SetupTileMap(Engine::SceneContext& ctx);
+
+        /// @brief タイルマップのビジュアルを更新（マップ原点変更時）
+        void UpdateTileMapVisuals();
+
     private:
         // カメラGameObject（シーン切替時に破棄するため保持）
         Engine::GameObject* m_cameraObject = nullptr;
+
+        // 地形GameObject（Sceneが管理）
+        Engine::GameObject* m_fieldObject = nullptr;
 
         // 選択中のオブジェクト
         Engine::GameObject* m_selectedObject = nullptr;
@@ -66,6 +80,9 @@ namespace Game {
 
         // GameObject管理
         std::vector<Engine::ObjectSlot> m_sceneObjects;
+
+        // タイルマップ
+        std::unique_ptr<TileMapBase> m_tileMap;
     };
 
 } // namespace Game

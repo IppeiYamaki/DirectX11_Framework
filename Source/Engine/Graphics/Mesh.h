@@ -69,12 +69,12 @@ namespace Engine {
         std::uint32_t GetVertexStride() const;
 
     private:
-        std::uint32_t m_vertexStride = 0; ///< 頂点ストライド
-        std::uint32_t m_vertexCount = 0;  ///< 頂点数
-        std::uint32_t m_indexCount = 0;   ///< インデックス数
+        std::uint32_t m_vertexStride = 0; /// 頂点ストライド
+        std::uint32_t m_vertexCount = 0;  /// 頂点数
+        std::uint32_t m_indexCount = 0;   /// インデックス数
 
-        Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer; ///< 頂点バッファ
-        Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;  ///< インデックスバッファ
+        Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer; /// 頂点バッファ
+        Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;  /// インデックスバッファ
     };
 
 } // namespace Engine

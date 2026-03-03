@@ -15,6 +15,7 @@
 
 namespace Engine {
 
+    /// @brief スキニング頂点（位置、法線、色、UV、ボーンインデックス/ウェイト）
     struct SkinnedVertex final {
         DirectX::XMFLOAT3 m_position{};
         DirectX::XMFLOAT3 m_normal{};
@@ -25,9 +26,7 @@ namespace Engine {
         float m_boneWeights[4]{ 0,0,0,0 };
     };
 
-    /**
-     * @brief 拡張スキニング頂点（PBR対応：Tangent/Bitangent含む）
-     */
+	/// @brief スキニング頂点（位置、法線、タンジェント、ビタジェント、UV、ボーンインデックス/ウェイト）
     struct ExtendedSkinnedVertex final {
         DirectX::XMFLOAT3 m_position{};
         DirectX::XMFLOAT3 m_normal{};
@@ -39,9 +38,7 @@ namespace Engine {
         float m_boneWeights[4]{ 0,0,0,0 };
     };
 
-    /**
-     * @brief ボーン変換データ（位置、回転、スケール）
-     */
+	/// @brief ボーン変換（位置、回転、スケール）
     struct BoneTransform final {
         DirectX::XMFLOAT3 m_position{ 0,0,0 };
         DirectX::XMFLOAT4 m_rotation{ 0,0,0,1 }; // quaternion
@@ -51,12 +48,14 @@ namespace Engine {
         DirectX::XMMATRIX ToMatrix() const;
     };
 
+	/// @brief サブセット（インデックスの範囲とマテリアル）
     struct SkinnedSubset final {
         std::uint32_t m_startIndex = 0;
         std::uint32_t m_indexCount = 0;
         std::shared_ptr<Material> m_material;
     };
 
+	/// @brief ノード（階層構造とデフォルトローカル行列）
     struct SkinnedNode final {
         std::string m_name{};
         int m_parent = -1;
@@ -64,6 +63,7 @@ namespace Engine {
         DirectX::XMFLOAT4X4 m_defaultLocal{};
     };
 
+	/// @brief チャンネル（位置/回転/スケールのキーフレーム）
     struct SkinnedChannel final {
         std::vector<DirectX::XMFLOAT3> m_positions;
         std::vector<DirectX::XMFLOAT4> m_rotations; // quaternion(x,y,z,w)
@@ -78,6 +78,7 @@ namespace Engine {
         }
     };
 
+	/// @brief クリップ（複数のチャンネルと再生情報）
     struct SkinnedClip final {
         // key: nodeIndex
         std::unordered_map<int, SkinnedChannel> m_channels;
@@ -95,12 +96,15 @@ namespace Engine {
         }
     };
 
+	/// @brief ボーン（ノードへの参照とオフセット行列）
     struct SkinnedBone final {
         std::string m_name{};
         int m_nodeIndex = -1;
         DirectX::XMFLOAT4X4 m_offset{};
     };
 
+	/// @brief スキニングモデル（メッシュ、サブセット、ノード、ボーン、クリップを管理）
+	/// @note クリップはノードインデックスをキーとするチャンネルの集合で、各チャンネルは位置/回転/スケールのキーフレームを持つ
     class SkinnedModel final {
     public:
         SkinnedModel() = default;
@@ -125,31 +129,59 @@ namespace Engine {
         Mesh& GetMesh();
         const Mesh& GetMesh() const;
 
-        const std::vector<SkinnedSubset>& GetSubsets() const;
-        const std::vector<SkinnedBone>& GetBones() const;
-        const std::vector<SkinnedNode>& GetNodes() const;
+		/// @brief サブセットを取得
+		/// @return サブセットのベクターへのconst参照
+        const std::vector<SkinnedSubset>&   GetSubsets() const;
+		/// @brief ボーンを取得
+		/// @return ボーンのベクターへのconst参照
+        const std::vector<SkinnedBone>&     GetBones() const;
+		/// @brief ノードを取得
+		/// @return ノードのベクターへのconst参照
+        const std::vector<SkinnedNode>&     GetNodes() const;
 
-        std::vector<std::string> GetClipNames() const;
+		/// @brief クリップ名のリストを取得
+		/// @return クリップ名のベクター
+        std::vector<std::string>            GetClipNames() const;
 
         /// @brief クリップのフレーム数を取得
+		/// @param clipName クリップ名
+		/// @return フレーム数（クリップが存在しない場合は0）
         int GetClipFrameCount(const std::string& clipName) const;
 
         /// @brief クリップを取得（存在しない場合はnullptr）
+		/// @param clipName クリップ名
+        /// @return クリップへのconstポインタ（存在しない場合はnullptr）
         const SkinnedClip* GetClip(const std::string& clipName) const;
 
-        // 別アニメファイル対応：外からクリップ追加できるようにする
+        /// @brief 別アニメファイル対応：外からクリップ追加できるようにする
+		/// @param clipName クリップ名
+        /// @param clip 追加するクリップ
+        /// @return 成功した場合はtrue、失敗した場合はfalse
         bool AddClip(const std::string& clipName, SkinnedClip&& clip);
 
-        // 別アニメファイルからnodeをマッピングするために使う
+        /// @brief 別アニメファイルからnodeをマッピングするために使う
+		/// @param nodeName ノード名
+        /// @return ノードのインデックス（存在しない場合は-1）
         int FindNodeIndexByName(const std::string& nodeName) const;
 
         /// @brief 時間ベースのアニメーション評価（補間あり）
+		/// @param clipName クリップ名
+        /// @param timeInSeconds 評価する時間（秒）
+        /// @param outBoneMatrices 評価結果のボーン行列
+        /// @return 成功した場合はtrue、失敗した場合はfalse
         bool EvaluateTime(
             const std::string& clipName, float timeInSeconds,
             std::vector<DirectX::XMFLOAT4X4>& outBoneMatrices
         ) const;
 
         /// @brief 2つのクリップ間の時間ベースブレンド評価
+		/// @param clipA クリップAの名前
+		/// @param timeA クリップAの評価時間（秒）
+		/// @param clipB クリップBの名前
+		/// @param timeB クリップBの評価時間（秒）
+        /// @param blendRate ブレンド率
+        /// @param outBoneMatrices 評価結果のボーン行列
+        /// @return 成功した場合はtrue、失敗した場合はfalse
         bool EvaluateBlendTime(
             const std::string& clipA, float timeA,
             const std::string& clipB, float timeB,
@@ -157,6 +189,14 @@ namespace Engine {
             std::vector<DirectX::XMFLOAT4X4>& outBoneMatrices
         ) const;
 
+		/// @brief フレームベースのアニメーション評価（補間なし）
+		/// @param clipA クリップAの名前
+        /// @param frameA フレーム番号
+		/// @param clipB クリップBの名前
+        /// @param frameB フレーム番号
+        /// @param blendRate ブレンド率
+        /// @param outBoneMatrices 評価結果のボーン行列
+        /// @return 成功した場合はtrue、失敗した場合はfalse
         bool EvaluateBlendFrames(
             const std::string& clipA, int frameA,
             const std::string& clipB, int frameB,
@@ -164,12 +204,22 @@ namespace Engine {
             std::vector<DirectX::XMFLOAT4X4>& outBoneMatrices
         ) const;
 
+		/// @brief フレームベースのアニメーション評価（補間なし）
+		/// @param clipName クリップ名
+        /// @param frame フレーム番号
+        /// @param outBoneMatrices 評価結果のボーン行列
+        /// @return 成功した場合はtrue、失敗した場合はfalse
         bool EvaluateFrames(
             const std::string& clipName, int frame,
             std::vector<DirectX::XMFLOAT4X4>& outBoneMatrices
         ) const;
 
     private:
+		/// @brief ローカル変換（スケール、回転、位置）からローカル行列を構築
+		/// @param scale スケール
+        /// @param rotation 回転
+        /// @param position 位置
+        /// @return ローカル行列
         DirectX::XMMATRIX BuildLocalMatrix(
             const DirectX::XMFLOAT3& scale,
             const DirectX::XMFLOAT4& rotation,
@@ -177,18 +227,18 @@ namespace Engine {
         ) const;
 
     private:
-        Mesh m_mesh;
-        std::vector<SkinnedSubset> m_subsets;
+		Mesh m_mesh;                            /// メッシュ（頂点バッファ、インデックスバッファを管理）
+		std::vector<SkinnedSubset>  m_subsets;  /// サブセット（インデックスの範囲とマテリアルを管理）
 
-        std::vector<SkinnedNode> m_nodes;
-        std::vector<SkinnedBone> m_bones;
+		std::vector<SkinnedNode>    m_nodes;    /// ノード（階層構造とデフォルトローカル行列を管理）
+		std::vector<SkinnedBone>    m_bones;    /// ボーン（ノードへの参照とオフセット行列を管理）
 
-        std::unordered_map<std::string, SkinnedClip> m_clips;
+		std::unordered_map<std::string, SkinnedClip> m_clips;   /// クリップ（複数のチャンネルと再生情報を管理）
 
-        // ��node����index�i�ǉ��A�j����荞�݂ŕK�v�j
-        std::unordered_map<std::string, int> m_nodeNameToIndex;
+		// ノード名からインデックスへのマッピング（外部からのアクセス用）
+		std::unordered_map<std::string, int> m_nodeNameToIndex; /// ノード名からインデックスへのマッピング
 
-        int m_rootNodeIndex = 0;
+		int m_rootNodeIndex = 0;                /// ルートノードのインデックス
     };
 
 } // namespace Engine

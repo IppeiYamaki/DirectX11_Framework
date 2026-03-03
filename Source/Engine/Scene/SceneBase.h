@@ -13,8 +13,6 @@ namespace Engine {
 
     class GameObject;
 
-    using SceneContext = Game::SceneContext;
-
     /**
      * @brief Scene = State（状態/空間）
      *

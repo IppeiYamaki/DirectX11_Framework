@@ -56,20 +56,20 @@ namespace Engine {
         // Getters (borrow)
         //============================================================
         /// @brief  D3D11デバイスを取得
-        /// @return D3D11デバイス（借用）
+        /// @return D3D11デバイス
         ID3D11Device* GetDevice() const;
         /// @brief  D3D11コンテキストを取得
-        /// @return D3D11デバイスコンテキスト（借用）
+        /// @return D3D11デバイスコンテキスト
         ID3D11DeviceContext* GetContext() const;
         /// @brief  スワップチェーンを取得
-        /// @return スワップチェーン（借用）
+        /// @return スワップチェーン
         IDXGISwapChain* GetSwapChain() const;
 
         /// @brief  レンダーターゲットビューを取得
-        /// @return レンダーターゲットビュー（借用）
+        /// @return レンダーターゲットビュー
         ID3D11RenderTargetView* GetRenderTargetView() const;
         /// @brief  深度ステンシルビューを取得
-        /// @return 深度ステンシルビュー（借用）
+        /// @return 深度ステンシルビュー
         ID3D11DepthStencilView* GetDepthStencilView() const;
 
         /// @brief  バックバッファ幅を取得
@@ -98,24 +98,24 @@ namespace Engine {
         void BindDefaultTargetsAndViewport(int width, int height);
 
     private:
-        bool m_isInitialized = false;  ///< 初期化済みフラグ
+        bool m_isInitialized = false;  /// 初期化済みフラグ
 
-        HWND m_hWnd = nullptr;         ///< ウィンドウハンドル
-        int  m_width = 0;              ///< 幅
-        int  m_height = 0;             ///< 高さ
-        bool m_isVSyncEnabled = true;  ///< VSync有効フラグ
+        HWND m_hWnd = nullptr;         /// ウィンドウハンドル
+        int  m_width = 0;              /// 幅
+        int  m_height = 0;             /// 高さ
+        bool m_isVSyncEnabled = true;  /// VSync有効フラグ
 
-        Microsoft::WRL::ComPtr<ID3D11Device> m_device;          ///< D3D11デバイス
-        Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_context;  ///< D3D11デバイスコンテキスト
-        Microsoft::WRL::ComPtr<IDXGISwapChain> m_swapChain;     ///< スワップチェーン
+        Microsoft::WRL::ComPtr<ID3D11Device> m_device;          /// D3D11デバイス
+        Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_context;  /// D3D11デバイスコンテキスト
+        Microsoft::WRL::ComPtr<IDXGISwapChain> m_swapChain;     /// スワップチェーン
 
-        Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_rtv;         ///< レンダーターゲットビュー
-        Microsoft::WRL::ComPtr<ID3D11Texture2D> m_depthBuffer;        ///< 深度バッファ
-        Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_dsv;         ///< 深度ステンシルビュー
+        Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_rtv;   /// レンダーターゲットビュー
+        Microsoft::WRL::ComPtr<ID3D11Texture2D> m_depthBuffer;  /// 深度バッファ
+        Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_dsv;   /// 深度ステンシルビュー
 
     private:
-        static constexpr DXGI_FORMAT kBackBufferFormat  = DXGI_FORMAT_R8G8B8A8_UNORM;
-        static constexpr DXGI_FORMAT kDepthFormat       = DXGI_FORMAT_D24_UNORM_S8_UINT;
+        static constexpr DXGI_FORMAT kBackBufferFormat  = DXGI_FORMAT_R8G8B8A8_UNORM;       /// バックバッファのフォーマット
+        static constexpr DXGI_FORMAT kDepthFormat       = DXGI_FORMAT_D24_UNORM_S8_UINT;    /// 深度バッファのフォーマット
     };
 
 } // namespace Engine

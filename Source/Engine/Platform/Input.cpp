@@ -44,7 +44,7 @@ namespace Engine {
     void Input::Reset() {
         ClearAllStates();
 
-        // ‰Šú‚Ìƒ}ƒEƒXÀ•W‚ğæ“¾i‰Â”\‚È‚çƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚Ö•ÏŠ·j
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ}ï¿½Eï¿½Xï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½æ“¾ï¿½iï¿½Â”\ï¿½È‚ï¿½Nï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Wï¿½Ö•ÏŠï¿½ï¿½j
         POINT p{};
         if (::GetCursorPos(&p) && s_hwnd != nullptr) {
             ::ScreenToClient(s_hwnd, &p);
@@ -77,7 +77,7 @@ namespace Engine {
             return {};
         }
 
-        // hwnd ‚Í Window ‘¤‚©‚ç“n‚³‚ê‚é‚à‚Ì‚ğ—DæiˆÀ‘Sj
+        // hwnd ï¿½ï¿½ Window ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½Dï¿½ï¿½iï¿½ï¿½ï¿½Sï¿½j
         if (hwnd != nullptr) {
             s_hwnd = hwnd;
         }
@@ -128,10 +128,10 @@ namespace Engine {
             handleKeyUp(static_cast<int>(wParam) & 0xFF);
             return { true, 0 };
 
-            // ƒtƒH[ƒJƒX‚ğ¸‚Á‚½‚ç‰Ÿ‚µ‚Á‚Ï‚È‚µ‚ğƒŠƒZƒbƒgiAlt+Tab ‚È‚Çj
+            // ï¿½tï¿½Hï¿½[ï¿½Jï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‰Ÿï¿½ï¿½ï¿½ï¿½ï¿½Ï‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½iAlt+Tab ï¿½È‚Çj
         case WM_KILLFOCUS:
             ClearAllStates();
-            return { false, 0 }; // Window ‘¤‚ÌŠù’èˆ—‚É”C‚¹‚Ä‚àOK
+            return { false, 0 }; // Window ï¿½ï¿½ï¿½ÌŠï¿½ï¿½èˆï¿½ï¿½ï¿½É”Cï¿½ï¿½ï¿½Ä‚ï¿½OK
 
             // --- Mouse move ---
         case WM_MOUSEMOVE: {
@@ -170,7 +170,7 @@ namespace Engine {
             const WORD xbtn = HIWORD(wParam);
             if (xbtn == XBUTTON1) handleMouseDown(MouseButton::X1);
             if (xbtn == XBUTTON2) handleMouseDown(MouseButton::X2);
-            return { true, TRUE }; // WM_XBUTTON* ‚Í TRUE ‚ğ•Ô‚·‚Ì‚ª„§
+            return { true, TRUE }; // WM_XBUTTON* ï¿½ï¿½ TRUE ï¿½ï¿½Ô‚ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½
         }
         case WM_XBUTTONUP: {
             const WORD xbtn = HIWORD(wParam);
@@ -183,7 +183,7 @@ namespace Engine {
         case WM_MOUSEWHEEL: {
             s_wheelDelta += GET_WHEEL_DELTA_WPARAM(wParam);
 
-            // lParam ‚ÍƒXƒNƒŠ[ƒ“À•W‚È‚Ì‚ÅƒNƒ‰ƒCƒAƒ“ƒg‚Ö
+            // lParam ï¿½ÍƒXï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½È‚Ì‚ÅƒNï¿½ï¿½ï¿½Cï¿½Aï¿½ï¿½ï¿½gï¿½ï¿½
             POINT p{ GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
             if (s_hwnd != nullptr) {
                 ::ScreenToClient(s_hwnd, &p);
@@ -191,6 +191,20 @@ namespace Engine {
             s_mousePos = p;
 
             return { true, 0 };
+        }
+
+            // --- Window Size Change ---
+            // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºå¤‰æ›´æ™‚ã«ãƒã‚¦ã‚¹åº§æ¨™ã‚’å†å–å¾—ã—ã¦æ­£ã—ã„åº§æ¨™ç³»ã«æ›´æ–°
+        case WM_SIZE:
+        case WM_EXITSIZEMOVE: {
+            // ç¾åœ¨ã®ãƒã‚¦ã‚¹ä½ç½®ã‚’ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã§å–å¾—ã—ã€æ–°ã—ã„ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆåº§æ¨™ã«å¤‰æ›
+            POINT p{};
+            if (::GetCursorPos(&p) && s_hwnd != nullptr && ::ScreenToClient(s_hwnd, &p)) {
+                s_mousePos = p;
+                // ã‚µã‚¤ã‚ºå¤‰æ›´æ™‚ã¯ãƒ‡ãƒ«ã‚¿ã‚’ãƒªã‚»ãƒƒãƒˆï¼ˆæ€¥æ¿€ãªå¤‰åŒ–ã‚’é˜²ãï¼‰
+                s_mouseDelta = { 0, 0 };
+            }
+            return { false, 0 }; // Windowå´ã®å‡¦ç†ã‚‚ç¶™ç¶šã•ã›ã‚‹
         }
 
         default:

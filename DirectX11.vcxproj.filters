@@ -31,12 +31,6 @@
     <Filter Include="Source\Game">
       <UniqueIdentifier>{dcb99c6e-c42a-4710-9e3f-5d3eaad9961e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Game\Scripts">
-      <UniqueIdentifier>{b7dccdd1-0f7d-4add-8b2f-b1b24069b367}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Game\Prefabs">
-      <UniqueIdentifier>{a1739fff-bfd9-4a7e-84de-4704b07bbc1b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Game\Rendering">
       <UniqueIdentifier>{ed196f9c-3869-41d5-80fc-a1bc2555ac0f}</UniqueIdentifier>
     </Filter>
@@ -48,18 +42,6 @@
     </Filter>
     <Filter Include="Assets\Shaders\Common">
       <UniqueIdentifier>{596dcf62-2d2b-4c42-b86e-0d2d7791897e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Materials">
-      <UniqueIdentifier>{e3ec30db-8447-4d0c-a325-3d85bde7fc93}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Assets\Materials\Base">
-      <UniqueIdentifier>{171ef8b8-d9a9-4927-ac17-b2a7695f44c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ThirdParty">
-      <UniqueIdentifier>{73e00c83-426b-4e96-bac5-3b5f1b737f86}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ThirdParty\DirectXTex">
-      <UniqueIdentifier>{5e051f36-0c08-4fda-a0f3-8272b5e09513}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Engine\AI">
       <UniqueIdentifier>{f86cd35d-dbbc-46fe-8d1c-aad322614aaa}</UniqueIdentifier>
@@ -75,6 +57,54 @@
     </Filter>
     <Filter Include="Source\Game\Scenes">
       <UniqueIdentifier>{102ecf98-c8ed-4a24-a64c-cd41de25ef95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\GamePlay">
+      <UniqueIdentifier>{eaa0025d-5982-4c2f-a2cf-fb1d70ccbdfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\GamePlay\Rooms">
+      <UniqueIdentifier>{f8da2827-25b1-47c8-a617-e16789a2731f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders\GBuffer">
+      <UniqueIdentifier>{f74445f2-9e2a-4100-b04b-0f58f80ef3ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Materials">
+      <UniqueIdentifier>{0271737b-7497-41c0-8a6f-0aedac3a912c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Definitions">
+      <UniqueIdentifier>{e15f2e62-f170-49a1-98de-b89067122c1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Definitions\Materials">
+      <UniqueIdentifier>{af14db90-562f-42fc-9af3-9c78682f08a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Definitions\Components">
+      <UniqueIdentifier>{8cc125c1-e7f6-40de-b0c6-340b66d7f6d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Definitions\Components\CameraComponents">
+      <UniqueIdentifier>{0fc96fe9-50dc-4d01-a166-88ff89297a18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Definitions\Prefabs">
+      <UniqueIdentifier>{196a0342-01a5-4c83-8ecc-59ba6cbd4768}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Definitions\Prefabs\CameraPrefabs">
+      <UniqueIdentifier>{af617ad3-e32c-4e8c-afe1-e9b1ed894561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Definitions\Components\LightComponents">
+      <UniqueIdentifier>{06e1b509-d0a0-4a77-81b8-73408ad5cca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Definitions\Prefabs\LightPrefab">
+      <UniqueIdentifier>{ea3f1d2b-873e-40d7-b40a-7e820a486be8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Debug">
+      <UniqueIdentifier>{d1e2f3a4-b5c6-7890-1234-567890abcdef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders\Debug">
+      <UniqueIdentifier>{a2b3c4d5-e6f7-8901-2345-678901fedcba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty">
+      <UniqueIdentifier>{15043778-a66f-40d1-85c2-1164592de9f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty\imgui">
+      <UniqueIdentifier>{29249b9e-b757-4bd9-a685-df41d1a71c3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +123,9 @@
     <ClCompile Include="Source\Engine\Graphics\GraphicsDevice.cpp">
       <Filter>Source\Engine\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Engine\Graphics\FadeSystem.cpp">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Engine\Graphics\RenderSystem.cpp">
       <Filter>Source\Engine\Graphics</Filter>
     </ClCompile>
@@ -104,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Scene\Components\Transform.cpp">
       <Filter>Source\Engine\Scene\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Math\PerlinNoise.cpp">
+      <Filter>Source\Engine\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Math\Vector3.cpp">
       <Filter>Source\Engine\Math</Filter>
@@ -144,20 +180,8 @@
     <ClCompile Include="Source\Engine\Scene\Components\MeshRenderer.cpp">
       <Filter>Source\Engine\Scene\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Assets\Materials\SampleCubeMaterial.cpp">
-      <Filter>Assets\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Scripts\SampleRotateComponent.cpp">
-      <Filter>Source\Game\Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Prefabs\SamplePrefab.cpp">
-      <Filter>Source\Game\Prefabs</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Engine\Platform\Input.cpp">
       <Filter>Source\Engine\Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="Assets\Materials\MaterialLibrary.cpp">
-      <Filter>Assets\Materials\Base</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Rendering\DefaultLighting.cpp">
       <Filter>Source\Game\Rendering</Filter>
@@ -169,6 +193,9 @@
       <Filter>Source\Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Resources\ObjModelLoader.cpp">
+      <Filter>Source\Engine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Resources\AssimpModelLoader.cpp">
       <Filter>Source\Engine\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Source\Main.cpp" />
@@ -184,14 +211,11 @@
     <ClCompile Include="Source\Engine\Scene\Components\AnimationModel.cpp">
       <Filter>Source\Engine\Scene\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Engine\Scene\Components\Camera.cpp">
+    <ClCompile Include="Source\Engine\Scene\Components\CameraComponent.cpp">
       <Filter>Source\Engine\Scene\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Prefabs\SkyPrefab.cpp">
-      <Filter>Source\Game\Prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="Assets\Materials\SkyMaterial.cpp">
-      <Filter>Assets\Materials</Filter>
+    <ClCompile Include="Source\Engine\Scene\Components\DebugCameraController.cpp">
+      <Filter>Source\Engine\Scene\Components</Filter>
     </ClCompile>
     <ClCompile Include="Source\Engine\Scene\Scene.cpp">
       <Filter>Source\Engine\Scene</Filter>
@@ -238,8 +262,32 @@
     <ClCompile Include="Source\Engine\Platform\MouseInputManager.cpp">
       <Filter>Source\Engine\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Scripts\SelectUI.cpp">
-      <Filter>Source\Game\Scripts</Filter>
+    <ClCompile Include="Source\Game\Scenes\GameScene.cpp">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Scenes\SampleScene.cpp">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GamePlay\CharacterInstance.cpp">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GamePlay\PhaseManager.cpp">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GamePlay\RoomInstance.cpp">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GamePlay\TileCell.cpp">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GamePlay\TileMapBase.cpp">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GamePlay\TrapInstance.cpp">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GamePlay\Rooms\Room_Corridor.cpp">
+      <Filter>Source\Game\GamePlay\Rooms</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GameObjects\EnemyObject.cpp">
       <Filter>Source\Game\GameObjects</Filter>
@@ -247,11 +295,186 @@
     <ClCompile Include="Source\Game\GameObjects\PlayerObject.cpp">
       <Filter>Source\Game\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Scenes\GameScene.cpp">
+    <ClCompile Include="Source\Game\Scenes\TitleScene.cpp">
       <Filter>Source\Game\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Scenes\SampleScene.cpp">
-      <Filter>Source\Game\Scenes</Filter>
+    <ClCompile Include="Source\Engine\UI\UIButtonComponent.cpp">
+      <Filter>Source\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\UI\UIImageComponent.cpp">
+      <Filter>Source\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\UI\UIRectTransform.cpp">
+      <Filter>Source\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Graphics\PlanarReflectionSystem.cpp">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Graphics\RenderTarget.cpp">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\Components\WaterSurfaceComponent.cpp">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\Components\PlanarReflectionComponent.cpp">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Scene\Components\LightComponent.cpp">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Materials\MaterialLibrary.cpp">
+      <Filter>Source\Engine\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Materials\ParticleMaterial.cpp">
+      <Filter>Source\Engine\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Materials\SampleCubeMaterial.cpp">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Materials\SkyMaterial.cpp">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Materials\SkyMaterial_Title.cpp">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Materials\TitleQuadMaterial.cpp">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Materials\WaterMaterial.cpp">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\FireflyParticleComponent.cpp">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\FloatMotionComponent.cpp">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\ParticleRendererComponent.cpp">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\SampleRotateComponent.cpp">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\SelectUI.cpp">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\CameraFollowTarget.cpp">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\CameraMouseLook.cpp">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\CameraMovementQE.cpp">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\CameraMovementWASD.cpp">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\CameraRotationArrow.cpp">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\EnemyPrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\CampfirePrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\FireflyEmitterPrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\PlayerPrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\FieldPrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\SkyPrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\SkyPrefab_Title.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\TitleQuadPrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\WaterPlanePrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\CameraPrefabs\CameraPrefab_GameSceneMain.cpp">
+      <Filter>Source\Game\Definitions\Prefabs\CameraPrefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\CameraPrefabs\CameraPrefab_TitleSceneMain.cpp">
+      <Filter>Source\Game\Definitions\Prefabs\CameraPrefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\LightComponents\FireFlickerComponent.cpp">
+      <Filter>Source\Game\Definitions\Components\LightComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\LightComponents\FollowTargetLightComponent.cpp">
+      <Filter>Source\Game\Definitions\Components\LightComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\LightComponents\SunCycleComponent.cpp">
+      <Filter>Source\Game\Definitions\Components\LightComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\FireLightPrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs\LightPrefab</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\FlashlightLightPrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs\LightPrefab</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\StreetLampLightPrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs\LightPrefab</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\SunLightPrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs\LightPrefab</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Debug\DebugVisualizationSystem.cpp">
+      <Filter>Source\Engine\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Debug\DebugLightMarkerPrefab.cpp">
+      <Filter>Source\Engine\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\imgui\imgui.cpp">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_demo.cpp">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_draw.cpp">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_impl_dx11.cpp">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_impl_win32.cpp">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_tables.cpp">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\imgui\imgui_widgets.cpp">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Debug\DebugImGuiSystem.cpp">
+      <Filter>Source\Engine\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\DebugLight.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\Sample.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Materials\TerrainBlendMaterial.cpp">
+      <Filter>Source\Engine\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\SkyFollowCameraComponent.cpp">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameObjects\Field.cpp">
+      <Filter>Source\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\FreeLookCameraController.cpp">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -279,6 +502,9 @@
     <ClInclude Include="Source\Engine\Graphics\GraphicsDevice.h">
       <Filter>Source\Engine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Engine\Graphics\FadeSystem.h">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Engine\Graphics\RenderSystem.h">
       <Filter>Source\Engine\Graphics</Filter>
     </ClInclude>
@@ -287,6 +513,9 @@
     </ClInclude>
     <ClInclude Include="Source\Engine\Scene\Component.h">
       <Filter>Source\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Math\PerlinNoise.h">
+      <Filter>Source\Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Scene\Components\Transform.h">
       <Filter>Source\Engine\Scene\Components</Filter>
@@ -299,9 +528,6 @@
     </ClInclude>
     <ClInclude Include="Source\Game\GameMain.h">
       <Filter>Source\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\DirectXTex\DirectXTex.h">
-      <Filter>ThirdParty\DirectXTex</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Graphics\Texture.h">
       <Filter>Source\Engine\Graphics</Filter>
@@ -351,23 +577,8 @@
     <ClInclude Include="Source\Engine\Scene\Components\MeshRenderer.h">
       <Filter>Source\Engine\Scene\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Materials\SampleCubeMaterial.h">
-      <Filter>Assets\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Scripts\SampleRotateComponent.h">
-      <Filter>Source\Game\Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Prefabs\SamplePrefab.h">
-      <Filter>Source\Game\Prefabs</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Engine\Platform\Input.h">
       <Filter>Source\Engine\Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets\Materials\MaterialBuildContext.h">
-      <Filter>Assets\Materials\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets\Materials\MaterialLibrary.h">
-      <Filter>Assets\Materials\Base</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Rendering\DefaultLighting.h">
       <Filter>Source\Game\Rendering</Filter>
@@ -379,6 +590,9 @@
       <Filter>Source\Engine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Resources\ObjModelLoader.h">
+      <Filter>Source\Engine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Resources\AssimpModelLoader.h">
       <Filter>Source\Engine\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Graphics\SkinnedModel.h">
@@ -393,17 +607,14 @@
     <ClInclude Include="Source\Engine\Scene\Components\AnimationModel.h">
       <Filter>Source\Engine\Scene\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Engine\Scene\Components\Camera.h">
+    <ClInclude Include="Source\Engine\Scene\Components\CameraComponent.h">
       <Filter>Source\Engine\Scene\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Prefabs\SkyPrefab.h">
-      <Filter>Source\Game\Prefabs</Filter>
+    <ClInclude Include="Source\Engine\Scene\Components\DebugCameraController.h">
+      <Filter>Source\Engine\Scene\Components</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Graphics\RenderLayer.h">
       <Filter>Source\Engine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets\Materials\SkyMaterial.h">
-      <Filter>Assets\Materials</Filter>
     </ClInclude>
     <ClInclude Include="Source\Engine\Core\Concepts.h">
       <Filter>Source\Engine\Core</Filter>
@@ -471,8 +682,35 @@
     <ClInclude Include="Source\Engine\Platform\MouseInputManager.h">
       <Filter>Source\Engine\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Scripts\SelectUI.h">
-      <Filter>Source\Game\Scripts</Filter>
+    <ClInclude Include="Source\Game\Scenes\GameScene.h">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\SampleScene.h">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GamePlay\CharacterInstance.h">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GamePlay\GridPosition.h">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GamePlay\PhaseManager.h">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GamePlay\RoomInstance.h">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GamePlay\TileCell.h">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GamePlay\TileMapBase.h">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GamePlay\TrapInstance.h">
+      <Filter>Source\Game\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GamePlay\Rooms\Room_Corridor.h">
+      <Filter>Source\Game\GamePlay\Rooms</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\EnemyObject.h">
       <Filter>Source\Game\GameObjects</Filter>
@@ -480,17 +718,198 @@
     <ClInclude Include="Source\Game\GameObjects\PlayerObject.h">
       <Filter>Source\Game\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Scenes\GameScene.h">
+    <ClInclude Include="Source\Game\Scenes\TitleScene.h">
       <Filter>Source\Game\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Scenes\SampleScene.h">
-      <Filter>Source\Game\Scenes</Filter>
+    <ClInclude Include="Source\Engine\UI\UIButtonComponent.h">
+      <Filter>Source\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\UI\UIImageComponent.h">
+      <Filter>Source\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\UI\UIRectTransform.h">
+      <Filter>Source\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphics\PlanarReflectionSystem.h">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Graphics\RenderTarget.h">
+      <Filter>Source\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\Components\WaterSurfaceComponent.h">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\Components\PlanarReflectionComponent.h">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Scene\Components\LightComponent.h">
+      <Filter>Source\Engine\Scene\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Materials\MaterialBuildContext.h">
+      <Filter>Source\Engine\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Materials\MaterialLibrary.h">
+      <Filter>Source\Engine\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Materials\ParticleMaterial.h">
+      <Filter>Source\Engine\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Materials\SampleCubeMaterial.h">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Materials\SkyMaterial.h">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Materials\SkyMaterial_Title.h">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Materials\TitleQuadMaterial.h">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Materials\WaterMaterial.h">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\FireflyParticleComponent.h">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\FloatMotionComponent.h">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\ParticleRendererComponent.h">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\SampleRotateComponent.h">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\SelectUI.h">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\CameraFollowTarget.h">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\CameraMouseLook.h">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\CameraMovementQE.h">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\CameraMovementWASD.h">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\CameraRotationArrow.h">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\EnemyPrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\CampfirePrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\FireflyEmitterPrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\PlayerPrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\FieldPrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\SkyPrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\SkyPrefab_Title.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\TitleQuadPrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\WaterPlanePrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\CameraPrefabs\CameraPrefab_GameSceneMain.h">
+      <Filter>Source\Game\Definitions\Prefabs\CameraPrefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\CameraPrefabs\CameraPrefab_TitleSceneMain.h">
+      <Filter>Source\Game\Definitions\Prefabs\CameraPrefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\LightComponents\FireFlickerComponent.h">
+      <Filter>Source\Game\Definitions\Components\LightComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\LightComponents\FollowTargetLightComponent.h">
+      <Filter>Source\Game\Definitions\Components\LightComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\LightComponents\SunCycleComponent.h">
+      <Filter>Source\Game\Definitions\Components\LightComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\AllLightPrefabs.h">
+      <Filter>Source\Game\Definitions\Prefabs\LightPrefab</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\FireLightPrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs\LightPrefab</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\FlashlightLightPrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs\LightPrefab</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\StreetLampLightPrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs\LightPrefab</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\SunLightPrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs\LightPrefab</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Debug\DebugVisualizationSystem.h">
+      <Filter>Source\Engine\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Debug\DebugLightMarkerPrefab.h">
+      <Filter>Source\Engine\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\imgui\imconfig.h">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\imgui\imgui.h">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\imgui\imgui_impl_dx11.h">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\imgui\imgui_impl_win32.h">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\imgui\imgui_internal.h">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\imgui\imstb_rectpack.h">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\imgui\imstb_textedit.h">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\imgui\imstb_truetype.h">
+      <Filter>Source\ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Debug\DebugImGuiSystem.h">
+      <Filter>Source\Engine\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\DebugLight.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\Sample.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Materials\TerrainBlendMaterial.h">
+      <Filter>Source\Engine\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\SkyFollowCameraComponent.h">
+      <Filter>Source\Game\Definitions\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameObjects\Field.h">
+      <Filter>Source\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\FreeLookCameraController.h">
+      <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\ThirdParty\DirectXTex\DirectXTex.inl">
-      <Filter>ThirdParty\DirectXTex</Filter>
-    </None>
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
@@ -508,6 +927,60 @@
     </FxCompile>
     <FxCompile Include="Assets\Shaders\SkyPS.hlsl">
       <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\UIVS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\UIPS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\WaterPS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\WaterVS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\ParticleVS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\ParticlePS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\TerrainBlendVS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\TerrainBlendPS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\GBuffer\GBufferCommon.hlsl">
+      <Filter>Assets\Shaders\GBuffer</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\GBuffer\GBufferPS.hlsl">
+      <Filter>Assets\Shaders\GBuffer</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\GBuffer\GBufferSkinnedVS.hlsl">
+      <Filter>Assets\Shaders\GBuffer</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\GBuffer\GBufferVS.hlsl">
+      <Filter>Assets\Shaders\GBuffer</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\OutlineVS.hlsl">
+      <Filter>Assets\Shaders\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\OutlinePS.hlsl">
+      <Filter>Assets\Shaders\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\BillboardVS.hlsl">
+      <Filter>Assets\Shaders\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\BillboardPS.hlsl">
+      <Filter>Assets\Shaders\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\UnlitVS.hlsl">
+      <Filter>Assets\Shaders\Debug</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\Debug\UnlitPS.hlsl">
+      <Filter>Assets\Shaders\Debug</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
