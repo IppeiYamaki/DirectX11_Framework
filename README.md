@@ -140,6 +140,64 @@ canvas->AddElement(std::move(button));
 canvas->Render();
 ```
 
+### **Physics（物理演算システム）**
+
+簡易的な物理演算とコリジョン検出システムを実装しています：
+
+#### コライダーの種類
+- **AABBCollider**: 軸並行境界ボックス（Cubeや箱型オブジェクト用）
+- **SphereCollider**: 球体コライダー
+- **CapsuleCollider**: カプセルコライダー（プレイヤーキャラクター用）
+- **HeightfieldCollider**: ハイトフィールドコライダー（地形用）
+
+#### 物理パラメータ（ColliderDesc）
+```cpp
+struct ColliderDesc {
+    float mass = 1.0f;          // 質量
+    bool isMovable = true;      // 動的オブジェクトか
+    bool enableGravity = true;  // 重力を受けるか
+    bool isTrigger = false;     // トリガーモード（押し戻ししない）
+    float restitution = 0.0f;   // 反発係数
+    float friction = 0.5f;      // 摩擦係数
+};
+```
+
+#### 使用例
+```cpp
+// 物理演算対応Cubeの生成
+auto* cube = ctx.Spawn<PhysicsCubePrefab>(
+    Engine::Vector3(0.0f, 20.0f, 0.0f),  // 高い位置から落下
+    1.0f,                                 // スケール
+    5.0f                                  // 質量
+);
+
+// 物理演算対応Sphereの生成
+auto* sphere = ctx.Spawn<PhysicsSpherePrefab>(
+    Engine::Vector3(-3.0f, 25.0f, 3.0f), // 位置
+    0.5f,                                 // 半径
+    2.0f                                  // 質量
+);
+
+// 静的オブジェクト（動かない）
+auto* staticCube = ctx.Spawn<PhysicsCubePrefab>(
+    PhysicsCubePrefab::SpawnDesc::Static(
+        Engine::Vector3(0.0f, 0.0f, 0.0f),
+        2.0f
+    )
+);
+
+// GameObjectにコライダーを追加（手動）
+auto* collider = obj->AddComponent<Engine::AABBColliderComponent>();
+collider->SetDesc(Engine::ColliderDesc::Dynamic(5.0f));
+collider->SetHalfExtents(Engine::Vector3(0.5f, 0.5f, 0.5f));
+```
+
+#### PhysicsSystemの動作
+- 毎フレームWorld::Update内で自動的に実行
+- 重力適用 → 速度積分 → 衝突検出 → 衝突解決の順で処理
+- 質量に応じた押し戻し量の分配
+- 地形法線を使用した斜面処理
+
 ---
 
 ## ディレクトリ構成
@@ -151,9 +209,19 @@ Engine/
   Platform/
   Graphics/
   Resources/
+  Physics/
+    ColliderTypes.h
+    ColliderComponent.h / ColliderComponent.cpp
+    AABBColliderComponent.h / AABBColliderComponent.cpp
+    SphereColliderComponent.h / SphereColliderComponent.cpp
+    CapsuleColliderComponent.h / CapsuleColliderComponent.cpp
+    HeightfieldColliderComponent.h / HeightfieldColliderComponent.cpp
+    FieldColliderHelper.h / FieldColliderHelper.cpp
+    PhysicsSystem.h / PhysicsSystem.cpp
   Scene/
     SceneBase.h / SceneBase.cpp
     GameObject.h / GameObject.cpp
+    World.h / World.cpp
     CameraSystem.h / CameraSystem.cpp
     LightSystem.h / LightSystem.cpp
     Light.h / Light.cpp
@@ -171,8 +239,12 @@ Game/
   Scenes/
     TitleScene.h / TitleScene.cpp
     GameScene.h / GameScene.cpp
-  Prefabs/
-    SamplePrefab.h / SkyPrefab.h
+  Definitions/
+    Prefabs/
+      PhysicsCubePrefab.h / PhysicsCubePrefab.cpp
+      PhysicsSpherePrefab.h / PhysicsSpherePrefab.cpp
+      PlayerPrefabs/
+        PlayerPrefab_Duck.h / PlayerPrefab_Duck.cpp
   Scripts/
     PlayerLogic.h / PlayerLogic.cpp
 Docs/

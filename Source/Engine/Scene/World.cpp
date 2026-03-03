@@ -3,6 +3,7 @@
 #include "World.h"
 
 #include "Engine/Core/Logger.h"
+#include "Engine/Physics/PhysicsSystem.h"
 
 namespace Engine {
 
@@ -24,6 +25,14 @@ namespace Engine {
             return false;
         }
 
+        // PhysicsSystem の初期化
+        m_physicsSystem = std::make_unique<PhysicsSystem>();
+        if (!m_physicsSystem->Initialize()) {
+            Logger::Error("World::Initialize failed: PhysicsSystem initialize failed.");
+            Finalize();
+            return false;
+        }
+
         m_isInitialized = true;
         Logger::Info("World initialized.");
         return true;
@@ -31,9 +40,15 @@ namespace Engine {
 
     void World::Finalize() {
         if (!m_isInitialized) {
+            m_physicsSystem.reset();
             m_scene.reset();
             return;
         }
+
+        if (m_physicsSystem) {
+            m_physicsSystem->Finalize();
+        }
+        m_physicsSystem.reset();
 
         if (m_scene) {
             m_scene->Finalize();
@@ -61,6 +76,11 @@ namespace Engine {
 
         if (m_scene) {
             m_scene->Update(deltaTime);
+        }
+
+        // 物理更新（Scene更新後、LateUpdate前に実行）
+        if (m_physicsSystem && m_scene) {
+            m_physicsSystem->Update(m_scene.get(), deltaTime);
         }
     }
 
@@ -94,6 +114,14 @@ namespace Engine {
 
     const Scene* World::GetScene() const {
         return m_scene.get();
+    }
+
+    PhysicsSystem* World::GetPhysicsSystem() {
+        return m_physicsSystem.get();
+    }
+
+    const PhysicsSystem* World::GetPhysicsSystem() const {
+        return m_physicsSystem.get();
     }
 
 } // namespace Engine

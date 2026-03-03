@@ -1,0 +1,11 @@
+newmtl rubber_duck_toy
+Ka 1.000000 1.000000 1.000000
+Ks 0.666600 0.666600 0.666600
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd ../../../Textures/Characters/Duck/rubber_duck_toy_diff_4k.jpg
+map_Ns ../../../Textures/Characters/Duck/rubber_duck_toy_rough_4k.exr
+map_refl ../../../Textures/Characters/Duck/rubber_duck_toy_metal_4k.exr
+map_Bump -bm 1.000000 ../../../Textures/Characters/Duck/rubber_duck_toy_nor_gl_4k.exr

@@ -1,11 +1,14 @@
 # Prerequisites
 *.d
 
-# Compiled Object files
+# Compiled Object files (not 3D models)
 *.slo
 *.lo
 *.o
 *.obj
+
+# 3D Model files (allow OBJ files in Assets folder)
+!Assets/**/*.obj
 
 # Precompiled Headers
 *.gch

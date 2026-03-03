@@ -31,7 +31,11 @@
 #include "Game/Definitions/Prefabs/LightPrefabs/AllLightPrefabs.h"
 #include "Game/Definitions/Prefabs/FieldPrefab.h"
 #include "Game/Definitions/Prefabs/Sample.h"
-#include "Game/Definitions/Prefabs/CampfirePrefab.h"
+#include "Game/Definitions/Prefabs/PlayerPrefabs/PlayerPrefab_Duck.h"
+
+// Physics Prefabs
+#include "Game/Definitions/Prefabs/PhysicsCubePrefab.h"
+#include "Game/Definitions/Prefabs/PhysicsSpherePrefab.h"
 
 // Gameplay
 #include "Game/Gameplay/GridPosition.h"
@@ -65,6 +69,11 @@ namespace Game {
             slot.Destroy(ctx);
         }
         m_sceneObjects.clear();
+
+        // プレイヤー破棄（SceneのGameObjectとして管理されているが、参照をクリア）
+        // Note: SceneのFinalize時に自動的に破棄されるため、
+        //       ここでは参照のみクリアする
+        m_playerObject = nullptr;
 
         // フィールド破棄（SceneのGameObjectとして管理されているが、参照をクリア）
         // Note: SceneのFinalize時に自動的に破棄されるため、
@@ -111,7 +120,7 @@ namespace Game {
             {
                 SunLightPrefab::SpawnDesc sunDesc;
                 sunDesc.m_position = Engine::Vector3(0.0f, 100.0f, 0.0f);
-                sunDesc.m_direction = Engine::Vector3(45.0f, 180.0f, 45.0f).Normalized();
+                sunDesc.m_direction = Engine::Vector3(45.0f, 180.0f, 0.0f).Normalized();
                 sunDesc.m_enableCycle = false;
 
                 auto* sunObj = ctx.Spawn<SunLightPrefab>(sunDesc);
@@ -221,18 +230,62 @@ namespace Game {
         }
 
         //========================
-        // Campfire の生成
+        // 物理テストオブジェクト生成（Physics System デモ）
         //========================
         {
-            CampfirePrefab::SpawnDesc campfireDesc;
-            campfireDesc.m_position = Engine::Vector3(0.0f, 2.0f, 0.0f);
-            campfireDesc.m_fireHeight = 1.0f;
-			campfireDesc.m_intensityFlickerRange = 0.5f;
-			campfireDesc.m_positionFlickerRange = 0.2f;
-            campfireDesc.m_flickerSpeed = 5.0f;
-            ctx.Spawn<CampfirePrefab>(campfireDesc);
-		}
+            Engine::Logger::Info("GameScene: Spawning physics test objects...");
 
+            // 重い箱（mass=5.0）- 地形の上に落下
+            ctx.Spawn<PhysicsCubePrefab>(
+                Engine::Vector3(0.0f, 20.0f, 0.0f),  // 高い位置から落下
+                1.0f,                                 // スケール
+                5.0f                                  // 質量（重い）
+            );
+
+            // 軽い箱（mass=1.0）- 地形の上に落下
+            ctx.Spawn<PhysicsCubePrefab>(
+                Engine::Vector3(3.0f, 22.0f, 0.0f),  // 高い位置から落下
+                0.8f,                                 // スケール
+                1.0f                                  // 質量（軽い）
+            );
+
+            // 球（mass=2.0）- 地形の上に落下して転がる
+            ctx.Spawn<PhysicsSpherePrefab>(
+                Engine::Vector3(-3.0f, 25.0f, 3.0f), // 高い位置から落下
+                0.5f,                                 // 半径
+                2.0f                                  // 質量
+            );
+
+            // 静的な箱（地面に固定）
+            ctx.Spawn<PhysicsCubePrefab>(
+                PhysicsCubePrefab::SpawnDesc::Static(
+                    Engine::Vector3(6.0f, 10.0f, 0.0f), // 地面付近
+                    2.0f                                 // 大きめ
+                )
+            );
+
+            Engine::Logger::Info("GameScene: Physics test objects spawned.");
+        }
+
+        //========================
+        // Player（アヒル）生成
+        //========================
+        {
+            // フィールド上にプレイヤーをスポーン
+            m_playerObject = ctx.Spawn<PlayerPrefab_Duck>(
+                Engine::Vector3(4.5f, 14.0f, 5.0f),  // 位置
+                1.5f,                                  // スケール
+                5.0f,                                  // 移動速度
+                100.0f,                                // HP
+                "Player(Duck)"                         // オブジェクト名
+            );
+
+            if (m_playerObject) {
+                Engine::Logger::Info("GameScene: Player (Duck) spawned successfully.");
+            } else {
+                Engine::Logger::Warn("GameScene: Failed to spawn Player (Duck).");
+            }
+        }
     }
 
     void GameScene::SetupUI(Engine::SceneContext& ctx) {

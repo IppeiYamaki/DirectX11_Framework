@@ -21,6 +21,10 @@
 #include "Engine/Materials/TerrainBlendMaterial.h"
 #include "Engine/Math/MathConstants.h"
 
+// Physics
+#include "Engine/Physics/HeightfieldColliderComponent.h"
+#include "Engine/Physics/FieldColliderHelper.h"
+
 #include "Game/GameObjects/Field.h"
 #include "Game/Definitions/Materials/SampleCubeMaterial.h"
 
@@ -248,6 +252,28 @@ namespace Game {
 
         // タグ設定
         obj->SetTag("Field");
+
+        //============================================================
+        // 物理コライダー追加（HeightfieldCollider）
+        //============================================================
+        {
+            // FieldColliderHelperを追加して高さ関数を設定
+            auto* helper = obj->AddComponent<Engine::FieldColliderHelper>();
+            if (helper) {
+                helper->SetFieldParams(
+                    desc.m_width, desc.m_depth,
+                    desc.m_terrainAmplitude, desc.m_terrainFrequency,
+                    desc.m_terrainOctaves, desc.m_terrainSeed
+                );
+
+                // HeightfieldColliderComponentを追加
+                auto* collider = obj->AddComponent<Engine::HeightfieldColliderComponent>();
+                if (collider) {
+                    helper->SetupHeightfieldCollider(collider);
+                    Engine::Logger::Info("FieldPrefab: HeightfieldCollider added successfully.");
+                }
+            }
+        }
 
         Engine::Logger::Info("FieldPrefab::SpawnWithMeshRenderer succeeded: Field created at (" +
             std::to_string(desc.m_position.x) + ", " +

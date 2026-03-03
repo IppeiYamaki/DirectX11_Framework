@@ -6,7 +6,11 @@
 
 #include "Engine/Scene/Scene.h"
 
+#include "Engine/Physics/Physics.h"
+
 namespace Engine {
+
+    //class PhysicsSystem;
 
     /// @brief Scene群を統括するWorld
     /// @note  Application側でUpdate/Draw呼び出しを統括する
@@ -63,9 +67,18 @@ namespace Engine {
         /// @return Sceneへのconstポインタ
         [[nodiscard]] const Scene* GetScene() const;
 
+        /// @brief  PhysicsSystemを取得
+        /// @return PhysicsSystemへのポインタ
+        [[nodiscard]] PhysicsSystem* GetPhysicsSystem();
+
+        /// @brief  PhysicsSystemを取得（const版）
+        /// @return PhysicsSystemへのconstポインタ
+        [[nodiscard]] const PhysicsSystem* GetPhysicsSystem() const;
+
     private:
-        bool m_isInitialized = false;                   ///< 初期化済みフラグ
-        std::unique_ptr<Scene> m_scene;                 ///< Scene（所有）
+        bool m_isInitialized = false;                       ///< 初期化済みフラグ
+        std::unique_ptr<Scene> m_scene;                     ///< Scene（所有）
+        std::unique_ptr<PhysicsSystem> m_physicsSystem;     ///< PhysicsSystem（所有）
     };
 
 } // namespace Engine

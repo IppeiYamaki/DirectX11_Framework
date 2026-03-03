@@ -69,6 +69,9 @@ namespace Game {
         // カメラGameObject（シーン切替時に破棄するため保持）
         Engine::GameObject* m_cameraObject = nullptr;
 
+        // プレイヤーGameObject（アヒル）
+        Engine::GameObject* m_playerObject = nullptr;
+
         // 地形GameObject（Sceneが管理）
         Engine::GameObject* m_fieldObject = nullptr;
 

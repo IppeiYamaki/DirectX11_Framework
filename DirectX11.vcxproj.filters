@@ -88,6 +88,9 @@
     <Filter Include="Source\Game\Definitions\Prefabs\CameraPrefabs">
       <UniqueIdentifier>{af617ad3-e32c-4e8c-afe1-e9b1ed894561}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Game\Definitions\Prefabs\PlayerPrefabs">
+      <UniqueIdentifier>{b1c2d3e4-f5a6-7890-abcd-ef1234567890}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source\Game\Definitions\Components\LightComponents">
       <UniqueIdentifier>{06e1b509-d0a0-4a77-81b8-73408ad5cca0}</UniqueIdentifier>
     </Filter>
@@ -105,6 +108,9 @@
     </Filter>
     <Filter Include="Source\ThirdParty\imgui">
       <UniqueIdentifier>{29249b9e-b757-4bd9-a685-df41d1a71c3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Definitions\Materials\Characters">
+      <UniqueIdentifier>{8ca4d6cb-5278-4ae3-8267-186975c9c448}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -385,6 +391,9 @@
     <ClCompile Include="Source\Game\Definitions\Prefabs\PlayerPrefab.cpp">
       <Filter>Source\Game\Definitions\Prefabs</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\PlayerPrefabs\PlayerPrefab_Duck.cpp">
+      <Filter>Source\Game\Definitions\Prefabs\PlayerPrefabs</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Game\Definitions\Prefabs\FieldPrefab.cpp">
       <Filter>Source\Game\Definitions\Prefabs</Filter>
     </ClCompile>
@@ -475,6 +484,36 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Definitions\Components\CameraComponents\FreeLookCameraController.cpp">
       <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Materials\Characters\PlayerMaterial_Duck.cpp">
+      <Filter>Source\Game\Definitions\Materials\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Physics\AABBColliderComponent.cpp">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Physics\CapsuleColliderComponent.cpp">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Physics\ColliderComponent.cpp">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Physics\FieldColliderHelper.cpp">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Physics\HeightfieldColliderComponent.cpp">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Physics\PhysicsSystem.cpp">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Physics\SphereColliderComponent.cpp">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\PhysicsCubePrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\PhysicsSpherePrefab.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -811,6 +850,9 @@
     <ClInclude Include="Source\Game\Definitions\Prefabs\PlayerPrefab.h">
       <Filter>Source\Game\Definitions\Prefabs</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\PlayerPrefabs\PlayerPrefab_Duck.h">
+      <Filter>Source\Game\Definitions\Prefabs\PlayerPrefabs</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Game\Definitions\Prefabs\FieldPrefab.h">
       <Filter>Source\Game\Definitions\Prefabs</Filter>
     </ClInclude>
@@ -908,6 +950,42 @@
     <ClInclude Include="Source\Game\Definitions\Components\CameraComponents\FreeLookCameraController.h">
       <Filter>Source\Game\Definitions\Components\CameraComponents</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Materials\Characters\PlayerMaterial_Duck.h">
+      <Filter>Source\Game\Definitions\Materials\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\AABBColliderComponent.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\CapsuleColliderComponent.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\ColliderComponent.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\ColliderTypes.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\FieldColliderHelper.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\HeightfieldColliderComponent.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\Physics.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\PhysicsSystem.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Physics\SphereColliderComponent.h">
+      <Filter>Source\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\PhysicsCubePrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\PhysicsSpherePrefab.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -950,6 +1028,12 @@
       <Filter>Assets\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Assets\Shaders\TerrainBlendPS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\DuckPBRPS.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\DuckPBRVS.hlsl">
       <Filter>Assets\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Assets\Shaders\GBuffer\GBufferCommon.hlsl">

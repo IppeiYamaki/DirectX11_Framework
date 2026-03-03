@@ -205,6 +205,13 @@
     <ClCompile Include="Source\Engine\Math\Vector2.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector3.cpp" />
     <ClCompile Include="Source\Engine\Math\Vector4.cpp" />
+    <ClCompile Include="Source\Engine\Physics\AABBColliderComponent.cpp" />
+    <ClCompile Include="Source\Engine\Physics\CapsuleColliderComponent.cpp" />
+    <ClCompile Include="Source\Engine\Physics\ColliderComponent.cpp" />
+    <ClCompile Include="Source\Engine\Physics\FieldColliderHelper.cpp" />
+    <ClCompile Include="Source\Engine\Physics\HeightfieldColliderComponent.cpp" />
+    <ClCompile Include="Source\Engine\Physics\PhysicsSystem.cpp" />
+    <ClCompile Include="Source\Engine\Physics\SphereColliderComponent.cpp" />
     <ClCompile Include="Source\Engine\Platform\Input.cpp" />
     <ClCompile Include="Source\Engine\Platform\Window.cpp" />
     <ClCompile Include="Source\Engine\Resources\AssetManager.cpp" />
@@ -255,6 +262,7 @@
     <ClCompile Include="Source\Game\Definitions\Components\SampleRotateComponent.cpp" />
     <ClCompile Include="Source\Game\Definitions\Components\SelectUI.cpp" />
     <ClCompile Include="Source\Game\Definitions\Components\SkyFollowCameraComponent.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Materials\Characters\PlayerMaterial_Duck.cpp" />
     <ClCompile Include="Source\Game\Definitions\Materials\SampleCubeMaterial.cpp" />
     <ClCompile Include="Source\Game\Definitions\Materials\SkyMaterial.cpp" />
     <ClCompile Include="Source\Game\Definitions\Materials\SkyMaterial_Title.cpp" />
@@ -269,7 +277,10 @@
     <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\FlashlightLightPrefab.cpp" />
     <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\StreetLampLightPrefab.cpp" />
     <ClCompile Include="Source\Game\Definitions\Prefabs\LightPrefabs\SunLightPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\PhysicsCubePrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\PhysicsSpherePrefab.cpp" />
     <ClCompile Include="Source\Game\Definitions\Prefabs\PlayerPrefab.cpp" />
+    <ClCompile Include="Source\Game\Definitions\Prefabs\PlayerPrefabs\PlayerPrefab_Duck.cpp" />
     <ClCompile Include="Source\Game\Definitions\Prefabs\DebugLight.cpp" />
     <ClCompile Include="Source\Game\Definitions\Prefabs\FieldPrefab.cpp" />
     <ClCompile Include="Source\Game\Definitions\Prefabs\Sample.cpp" />
@@ -345,6 +356,15 @@
     <ClInclude Include="Source\Engine\Math\Vector2.h" />
     <ClInclude Include="Source\Engine\Math\Vector3.h" />
     <ClInclude Include="Source\Engine\Math\Vector4.h" />
+    <ClInclude Include="Source\Engine\Physics\AABBColliderComponent.h" />
+    <ClInclude Include="Source\Engine\Physics\CapsuleColliderComponent.h" />
+    <ClInclude Include="Source\Engine\Physics\ColliderComponent.h" />
+    <ClInclude Include="Source\Engine\Physics\ColliderTypes.h" />
+    <ClInclude Include="Source\Engine\Physics\FieldColliderHelper.h" />
+    <ClInclude Include="Source\Engine\Physics\HeightfieldColliderComponent.h" />
+    <ClInclude Include="Source\Engine\Physics\Physics.h" />
+    <ClInclude Include="Source\Engine\Physics\PhysicsSystem.h" />
+    <ClInclude Include="Source\Engine\Physics\SphereColliderComponent.h" />
     <ClInclude Include="Source\Engine\Platform\Input.h" />
     <ClInclude Include="Source\Engine\Platform\Window.h" />
     <ClInclude Include="Source\Engine\Resources\AssetManager.h" />
@@ -398,6 +418,7 @@
     <ClInclude Include="Source\Game\Definitions\Components\SampleRotateComponent.h" />
     <ClInclude Include="Source\Game\Definitions\Components\SelectUI.h" />
     <ClInclude Include="Source\Game\Definitions\Components\SkyFollowCameraComponent.h" />
+    <ClInclude Include="Source\Game\Definitions\Materials\Characters\PlayerMaterial_Duck.h" />
     <ClInclude Include="Source\Game\Definitions\Materials\SampleCubeMaterial.h" />
     <ClInclude Include="Source\Game\Definitions\Materials\SkyMaterial.h" />
     <ClInclude Include="Source\Game\Definitions\Materials\SkyMaterial_Title.h" />
@@ -413,7 +434,10 @@
     <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\FlashlightLightPrefab.h" />
     <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\StreetLampLightPrefab.h" />
     <ClInclude Include="Source\Game\Definitions\Prefabs\LightPrefabs\SunLightPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\PhysicsCubePrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\PhysicsSpherePrefab.h" />
     <ClInclude Include="Source\Game\Definitions\Prefabs\PlayerPrefab.h" />
+    <ClInclude Include="Source\Game\Definitions\Prefabs\PlayerPrefabs\PlayerPrefab_Duck.h" />
     <ClInclude Include="Source\Game\Definitions\Prefabs\DebugLight.h" />
     <ClInclude Include="Source\Game\Definitions\Prefabs\FieldPrefab.h" />
     <ClInclude Include="Source\Game\Definitions\Prefabs\Sample.h" />
@@ -469,6 +493,26 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Assets\Shaders\DefaultVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\DuckPBRPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\DuckPBRVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
