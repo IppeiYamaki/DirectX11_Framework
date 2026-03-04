@@ -52,6 +52,7 @@
 
 // Scenes
 #include "Game/Scenes/GameScene.h"
+#include "Game/Scenes/MazeCollectScene.h"
 
 // Platform (Input)
 #include "Engine/Platform/Input.h"
@@ -491,7 +492,7 @@ namespace Game {
                 buttonComp->SetOnClick([sceneManager]() {
                     Engine::Logger::Info("TitleScene: SelectButton (UI GameObject) clicked! Transitioning to GameScene...");
                     if (sceneManager) {
-                        sceneManager->ChangeSceneTo<Game::GameScene>();
+                        sceneManager->ChangeSceneTo<Game::MazeCollectScene>();
                     }
                     else {
                         Engine::Logger::Error("TitleScene: SceneManager is null, cannot change scene.");

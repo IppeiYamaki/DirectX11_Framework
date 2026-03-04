@@ -112,6 +112,9 @@
     <Filter Include="Source\Game\Definitions\Materials\Characters">
       <UniqueIdentifier>{8ca4d6cb-5278-4ae3-8267-186975c9c448}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Game\Gameplay\Maze">
+      <UniqueIdentifier>{d2e3f4a5-b6c7-8901-2345-678901abcdef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Engine\Core\Logger.cpp">
@@ -271,6 +274,9 @@
     <ClCompile Include="Source\Game\Scenes\GameScene.cpp">
       <Filter>Source\Game\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Scenes\MazeCollectScene.cpp">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Game\Scenes\SampleScene.cpp">
       <Filter>Source\Game\Scenes</Filter>
     </ClCompile>
@@ -291,6 +297,18 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GamePlay\TrapInstance.cpp">
       <Filter>Source\Game\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Gameplay\Maze\MazeGrid.cpp">
+      <Filter>Source\Game\Gameplay\Maze</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Gameplay\Maze\FirstPersonPlayerController.cpp">
+      <Filter>Source\Game\Gameplay\Maze</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Gameplay\Maze\CollectibleBallComponent.cpp">
+      <Filter>Source\Game\Gameplay\Maze</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Gameplay\Maze\MazeGameManager.cpp">
+      <Filter>Source\Game\Gameplay\Maze</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\GamePlay\Rooms\Room_Corridor.cpp">
       <Filter>Source\Game\GamePlay\Rooms</Filter>
@@ -515,6 +533,15 @@
     <ClCompile Include="Source\Game\Definitions\Prefabs\PhysicsSpherePrefab.cpp">
       <Filter>Source\Game\Definitions\Prefabs</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Materials\SkyMaterial_Night.cpp">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Definitions\Prefabs\SkyPrefab_Night.cpp">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GamePlay\Maze\CollectibleParticleComponent.cpp">
+      <Filter>Source\Game\Gameplay\Maze</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Core\Logger.h">
@@ -724,6 +751,9 @@
     <ClInclude Include="Source\Game\Scenes\GameScene.h">
       <Filter>Source\Game\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Scenes\MazeCollectScene.h">
+      <Filter>Source\Game\Scenes</Filter>
+    </ClInclude>
     <ClInclude Include="Source\Game\Scenes\SampleScene.h">
       <Filter>Source\Game\Scenes</Filter>
     </ClInclude>
@@ -747,6 +777,18 @@
     </ClInclude>
     <ClInclude Include="Source\Game\GamePlay\TrapInstance.h">
       <Filter>Source\Game\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Gameplay\Maze\MazeGrid.h">
+      <Filter>Source\Game\Gameplay\Maze</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Gameplay\Maze\FirstPersonPlayerController.h">
+      <Filter>Source\Game\Gameplay\Maze</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Gameplay\Maze\CollectibleBallComponent.h">
+      <Filter>Source\Game\Gameplay\Maze</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Gameplay\Maze\MazeGameManager.h">
+      <Filter>Source\Game\Gameplay\Maze</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GamePlay\Rooms\Room_Corridor.h">
       <Filter>Source\Game\GamePlay\Rooms</Filter>
@@ -985,6 +1027,15 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Definitions\Prefabs\PhysicsSpherePrefab.h">
       <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Materials\SkyMaterial_Night.h">
+      <Filter>Source\Game\Definitions\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Definitions\Prefabs\SkyPrefab_Night.h">
+      <Filter>Source\Game\Definitions\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GamePlay\Maze\CollectibleParticleComponent.h">
+      <Filter>Source\Game\Gameplay\Maze</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

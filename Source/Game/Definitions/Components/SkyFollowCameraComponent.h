@@ -6,7 +6,7 @@
 namespace Game {
 
     /**
-     * @brief サンプル：回転し続けるコンポーネント
+	 * @brief　Sky が常にカメラを追従するためのコンポーネント
      */
     class SkyFollowCameraComponent final : public Engine::Component {
     public:

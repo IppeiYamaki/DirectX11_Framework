@@ -18,6 +18,7 @@
 #include "Game/Scenes/SampleScene.h"
 #include "Game/Scenes/GameScene.h"
 #include "Game/Scenes/TitleScene.h"
+#include "Game/Scenes/MazeCollectScene.h"
 
 // Material資産
 #include "Engine/Materials/MaterialBuildContext.h"
@@ -134,7 +135,7 @@ namespace Game {
         // Scene遷移のためにSceneManagerを渡す
         ctx.m_sceneManager = &m_sceneManager;
 
-        // 最初の空間
+        // 最初の空間 - TitleSceneを起動
         m_sceneManager.Initialize(ctx, std::make_unique<Game::TitleScene>());
 
         return true;
